@@ -1,0 +1,16 @@
+﻿  SYDEMapRPG.cpp
+g:\github repos\map-of-the-syde\map of the syde\include\consolewindow.h(297): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\include\consolewindow.h(299): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\include\consolewindow.h(300): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\include\settings.h(12): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\include\defaults.h(15): warning C4091: 'static ': ignored on left of 'SYDEDefaults' when no variable is declared
+LINK : warning C4727: PCH named g:\github repos\custom-console\drawableconsole\release\sydeengine.pch with same timestamp found in g:\github repos\custom-console\drawableconsole\release\vector2.obj and g:\github repos\custom-console\drawableconsole\release\sydetime.obj.  Using first PCH.
+LINK : warning C4727: PCH named g:\github repos\custom-console\drawableconsole\release\sydeengine.pch with same timestamp found in g:\github repos\custom-console\drawableconsole\release\customasset.obj and g:\github repos\custom-console\drawableconsole\release\defaults.obj.  Using first PCH.
+LINK : warning C4727: PCH named g:\github repos\custom-console\drawableconsole\release\sydeengine.pch with same timestamp found in g:\github repos\custom-console\drawableconsole\release\sydekeycode.obj and g:\github repos\custom-console\drawableconsole\release\sydekey.obj.  Using first PCH.
+LINK : warning C4727: PCH named g:\github repos\custom-console\drawableconsole\release\sydeengine.pch with same timestamp found in g:\github repos\custom-console\drawableconsole\release\textitem.obj and g:\github repos\custom-console\drawableconsole\release\sydetime.obj.  Using first PCH.
+  Generating code
+  1 of 1112 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Map Of The SYDE.vcxproj -> G:\Github Repos\Map-Of-The-SYDE\Map Of The SYDE\Release\Map Of The SYDE.exe
