@@ -1,5 +1,19 @@
 #pragma once
 #include "SYDEstdafx.h"
+
+class WildFightAttachment {
+public:
+	WildFightAttachment() {}
+	WildFightAttachment(Vector2 _point, string _wildfightarg);
+	virtual ~WildFightAttachment() {}
+
+	string getWildFightArg() { return m_WILD_FIGHT_ARG; }
+private:
+	string m_WILD_FIGHT_ARG = "";
+	Vector2 m_Point = Vector2(0);
+};
+
+
 class SYDEMapGame : public SYDEWindowGame {
 public:
 	SYDEMapGame();
@@ -8,6 +22,10 @@ public:
 	ConsoleWindow Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	ConsoleWindow Main_Menu(ConsoleWindow window, int windowWidth, int windowHeight);
+
+	ConsoleWindow Orc_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
+
+	void AddAttachmentWildFight(Vector2 m_Point, string _arg);
 private:
 	string _STATE = "MainMenu";
 	CustomAsset m_bg;
@@ -21,4 +39,11 @@ private:
 	CustomAnimationAsset m_MainMenu_BG;
 	float time_passed = 0.0f;
 	SYDEMenu _Options;
+
+	vector<WildFightAttachment> _list_fight_cases;
+
+	//FIGHT
+	int enemy_Health = 100;
+	int enemy_Damage = 2;
+	int enemy_exp_gained = 50;
  };

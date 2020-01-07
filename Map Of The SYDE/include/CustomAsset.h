@@ -19,7 +19,7 @@ public:
 	void setAsset(vector<vector<TextItem>> asset) { AssetVector = asset; }
 
 	void setCharAtPoint(Vector2 Point, char m_Text);
-
+	void setColourAtPoint(Vector2 Point, int m_Colour);
 private:
 	vector<vector<TextItem>> AssetVector;
 

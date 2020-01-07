@@ -7,6 +7,7 @@ public:
 	virtual ~TextItem() {}
 
 	void setChar(char text) { m_char = text; }
+	void setColour(int color) { m_colour = color; }
 
 	char getChar() { return m_char; }
 	int getColour() { return m_colour; }

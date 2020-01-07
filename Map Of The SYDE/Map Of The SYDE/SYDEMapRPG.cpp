@@ -1,12 +1,39 @@
 #include "pch.h"
 #include "SYDEMapRPG.h"
 
+WildFightAttachment::WildFightAttachment(Vector2 _point, string _wildfightarg)
+{
+	m_WILD_FIGHT_ARG = _wildfightarg;
+	m_Point = _point;
+}
+
+void SYDEMapGame::AddAttachmentWildFight(Vector2 m_Point, string _arg)
+{
+	_LevelAsset.setCharAtPoint(m_Point, 'V');
+	_LevelAsset.setColourAtPoint(m_Point, 32);
+	_list_fight_cases.push_back(WildFightAttachment(m_Point, _arg));
+}
+
 SYDEMapGame::SYDEMapGame()
 {
+	_list_fight_cases = vector<WildFightAttachment>();
 	m_bg = CustomAsset(60, 30, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\bg.bmp", 30, 30));
 	_LevelAsset = CustomAsset(2048, 768, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Level_SYDE.bmp", 1024, 768));
 	camera_Pos = Vector2(280,200);
 
+	//ORC WILD FIGHT 1
+	AddAttachmentWildFight(Vector2(280, 199), "ORC_TEST");
+	AddAttachmentWildFight(Vector2(280, 198), "ORC_TEST");
+	AddAttachmentWildFight(Vector2(280, 197), "ORC_TEST");
+	AddAttachmentWildFight(Vector2(281, 199), "ORC_TEST");
+	AddAttachmentWildFight(Vector2(281, 198), "ORC_TEST");
+	AddAttachmentWildFight(Vector2(281, 197), "ORC_TEST");
+	AddAttachmentWildFight(Vector2(282, 199), "ORC_TEST");
+	AddAttachmentWildFight(Vector2(282, 198), "ORC_TEST");
+	AddAttachmentWildFight(Vector2(282, 197), "ORC_TEST");
+	AddAttachmentWildFight(Vector2(283, 199), "ORC_TEST");
+	AddAttachmentWildFight(Vector2(283, 198), "ORC_TEST");
+	AddAttachmentWildFight(Vector2(283, 197), "ORC_TEST");
 
 	//MAIN MENU VARS
 	_Options = SYDEMenu(vector<SYDEButton> {	
@@ -43,6 +70,10 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 	{
 		window = Main_Menu(window, windowWidth, windowHeight);
 	}
+	if (_STATE == "ORC_TEST")
+	{
+
+	}
 	return window;
 }
 
@@ -62,6 +93,9 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		{
 			camera_Pos.addY(1);
 		}
+		//CASES FOR WILDFIGHT
+		//ENGINE NEEDS TO BE UPDATED TO CHECK IF THE POINT OF THE ASSET IS A 'V'
+		//ADD GETCHAR AT POINT AND GET COLOUR AT POINT IN CUSTOMASSET
 	}
 	if (SYDEKeyCode::get('D')._CompareState(KEY))
 	{
@@ -140,5 +174,18 @@ ConsoleWindow SYDEMapGame::Main_Menu(ConsoleWindow window, int windowWidth, int 
 		{
 		}
 	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
+		}
+	}
+	window.setTextAtPoint(Vector2(0, 1), "ORC_FIGHT", BLACK_WHITE_BG);
 	return window;
 }
