@@ -26,7 +26,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(256,	0), Vector2(511,	95) , "Almon Island"), // THANKS ME
 		_Town_Square(Vector2(512,	0), Vector2(767,	95) , "Blankis Island"), // THANKS ME
 		_Town_Square(Vector2(768,	0), Vector2(1023,	95) , "Aliran Island"), // SUCK SHIT ALI
-		_Town_Square(Vector2(1024,	0), Vector2(1279,	95) , "Hidden Ocean"),
+		_Town_Square(Vector2(1024,	0), Vector2(1279,	95) , "Daggo Coast"), // FUCK YOU LEGO YODA
 		_Town_Square(Vector2(1280,	0), Vector2(1535,	95) , "Hidden Ocean"),
 		_Town_Square(Vector2(1536,	0), Vector2(1791,	95) , "Taumatawhaka"), // THANKS LEGO YODA (DISCORD)
 		_Town_Square(Vector2(1792,	0), Vector2(2047,	95) , "Hidden Ocean"),
@@ -42,9 +42,9 @@ SYDEMapGame::SYDEMapGame()
 
 		_Town_Square(Vector2(0,		192), Vector2(255,	287), "Hidden Ocean"),
 		_Town_Square(Vector2(256,	192), Vector2(511,	287), "Beached Butthole"), // THANKS TRICKS
-		_Town_Square(Vector2(512,	192), Vector2(767,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(512,	192), Vector2(767,	287), "Arcoomer"), // THANKS ARCANA
 		_Town_Square(Vector2(768,	192), Vector2(1023,	287), "Hidden Ocean"),
-		_Town_Square(Vector2(1024,	192), Vector2(1279,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(1024,	192), Vector2(1279,	287), "Thrustbowl"), // THANKS TRICKS
 		_Town_Square(Vector2(1280,	192), Vector2(1535,	287), "Jonestown"), // THANKS LINDSAY
 		_Town_Square(Vector2(1536,	192), Vector2(1791,	287), "Swan Lake"), // THANKS PETE
 		_Town_Square(Vector2(1792,	192), Vector2(2047,	287), "Hidden Ocean"),
@@ -52,7 +52,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(0,		288), Vector2(255,	383), "Hidden Ocean"),
 		_Town_Square(Vector2(256,	288), Vector2(511,	383), "Hidden Ocean"),
 		_Town_Square(Vector2(512,	288), Vector2(767,	383), "Hidden Ocean"),
-		_Town_Square(Vector2(768,	288), Vector2(1023,	383), "Hidden Ocean"),
+		_Town_Square(Vector2(768,	288), Vector2(1023,	383), "Loot Lake"), //MORE LEGO YODA
 		_Town_Square(Vector2(1024,	288), Vector2(1279,	383), "Hidden Ocean"),
 		_Town_Square(Vector2(1280,	288), Vector2(1535,	383), "Hidden Ocean"),
 		_Town_Square(Vector2(1536,	288), Vector2(1791,	383), "Hidden Ocean"),
@@ -64,14 +64,14 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(768,	384), Vector2(1023,	479), "Hidden Ocean"),
 		_Town_Square(Vector2(1024,	384), Vector2(1279,	479), "Hidden Ocean"),
 		_Town_Square(Vector2(1280,	384), Vector2(1535,	479), "Hidden Ocean"),
-		_Town_Square(Vector2(1536,	384), Vector2(1791,	479), "Hidden Ocean"),
-		_Town_Square(Vector2(1792,	384), Vector2(2047,	479), "Hidden Ocean"),
+		_Town_Square(Vector2(1536,	384), Vector2(1791,	479), "CRT Coast"), //FUCK YOU LEGO YODA
+		_Town_Square(Vector2(1792,	384), Vector2(2047,	479), "CRT Island"), //FUCK YOU LEGO YODA
 
 		_Town_Square(Vector2(0,		480), Vector2(255,	575), "Hidden Ocean"),
 		_Town_Square(Vector2(256,	480), Vector2(511,	575), "Hidden Ocean"),
 		_Town_Square(Vector2(512,	480), Vector2(767,	575), "Hidden Ocean"),
 		_Town_Square(Vector2(768,	480), Vector2(1023,	575), "Hidden Ocean"),
-		_Town_Square(Vector2(1024,	480), Vector2(1279,	575), "Hidden Ocean"),
+		_Town_Square(Vector2(1024,	480), Vector2(1279,	575), "Denton"), // THANKS LUKE
 		_Town_Square(Vector2(1280,	480), Vector2(1535,	575), "Hidden Ocean"),
 		_Town_Square(Vector2(1536,	480), Vector2(1791,	575), "Hidden Ocean"),
 		_Town_Square(Vector2(1792,	480), Vector2(2047,	575), "Hidden Ocean"),
