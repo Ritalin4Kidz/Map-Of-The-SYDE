@@ -28,7 +28,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(768,	0), Vector2(1023,	95) , "Aliran Island"), // SUCK SHIT ALI
 		_Town_Square(Vector2(1024,	0), Vector2(1279,	95) , "Hidden Ocean"),
 		_Town_Square(Vector2(1280,	0), Vector2(1535,	95) , "Hidden Ocean"),
-		_Town_Square(Vector2(1536,	0), Vector2(1791,	95) , "Eastern Offshore"),
+		_Town_Square(Vector2(1536,	0), Vector2(1791,	95) , "Taumatawhaka"), // THANKS LEGO YODA (DISCORD)
 		_Town_Square(Vector2(1792,	0), Vector2(2047,	95) , "Hidden Ocean"),
 
 		_Town_Square(Vector2(0,		96), Vector2(255,	191), "Toplefia Beach"),
@@ -56,7 +56,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1024,	288), Vector2(1279,	383), "Hidden Ocean"),
 		_Town_Square(Vector2(1280,	288), Vector2(1535,	383), "Hidden Ocean"),
 		_Town_Square(Vector2(1536,	288), Vector2(1791,	383), "Hidden Ocean"),
-		_Town_Square(Vector2(1792,	288), Vector2(2047,	383), "32x Tile Sea"),
+		_Town_Square(Vector2(1792,	288), Vector2(2047,	383), "32x Tile Sea"), // THANKS LEGO YODA (DISCORD)
 
 		_Town_Square(Vector2(0,		384), Vector2(255,	479), "Baffled Coast"), // THANKS ANDREW
 		_Town_Square(Vector2(256,	384), Vector2(511,	479), "Zengina"), // THANKS ANDREW
@@ -81,7 +81,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(512,	576), Vector2(767,	671), "Hidden Ocean"),
 		_Town_Square(Vector2(768,	576), Vector2(1023,	671), "Hidden Ocean"),
 		_Town_Square(Vector2(1024,	576), Vector2(1279,	671), "Hidden Ocean"),
-		_Town_Square(Vector2(1280,	576), Vector2(1535,	671), "Hidden Ocean"),
+		_Town_Square(Vector2(1280,	576), Vector2(1535,	671), "Cyprux"), // THANKS DOM
 		_Town_Square(Vector2(1536,	576), Vector2(1791,	671), "Hidden Ocean"),
 		_Town_Square(Vector2(1792,	576), Vector2(2047,	671), "Hidden Ocean"),
 
