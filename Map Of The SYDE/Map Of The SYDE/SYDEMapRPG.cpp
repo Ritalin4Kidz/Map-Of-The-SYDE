@@ -27,18 +27,18 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(512,	0), Vector2(767,	95) , "Blankis Island"), // THANKS ME
 		_Town_Square(Vector2(768,	0), Vector2(1023,	95) , "Aliran Island"), // SUCK SHIT ALI
 		_Town_Square(Vector2(1024,	0), Vector2(1279,	95) , "Daggo Coast"), // FUCK YOU LEGO YODA
-		_Town_Square(Vector2(1280,	0), Vector2(1535,	95) , "Hidden Ocean"),
+		_Town_Square(Vector2(1280,	0), Vector2(1535,	95) , "SYDE Coast"), // THANKS ME
 		_Town_Square(Vector2(1536,	0), Vector2(1791,	95) , "Taumatawhaka"), // THANKS LEGO YODA (DISCORD)
-		_Town_Square(Vector2(1792,	0), Vector2(2047,	95) , "Hidden Ocean"),
+		_Town_Square(Vector2(1792,	0), Vector2(2047,	95) , "Taumata Beach"), // THANKS ME
 
-		_Town_Square(Vector2(0,		96), Vector2(255,	191), "Toplefia Beach"),
+		_Town_Square(Vector2(0,		96), Vector2(255,	191), "Toplefia Place"), // THANKS ME
 		_Town_Square(Vector2(256,	96), Vector2(511,	191), "North Muric Coast"), // ALI FUCK YOU
 		_Town_Square(Vector2(512,	96), Vector2(767,	191), "Ballistica"), // THANKS ALI
-		_Town_Square(Vector2(768,	96), Vector2(1023,	191), "Broken Coast"),
-		_Town_Square(Vector2(1024,	96), Vector2(1279,	191), "Broken Coast"),
-		_Town_Square(Vector2(1280,	96), Vector2(1535,	191), "Repaired Coast"),
-		_Town_Square(Vector2(1536,	96), Vector2(1791,	191), "Eastern Titia Isle"),
-		_Town_Square(Vector2(1792,	96), Vector2(2047,	191), "Meow Coast"), // THANKS ASHIE
+		_Town_Square(Vector2(768,	96), Vector2(1023,	191), "Broken Coast West"), // THANKS ME
+		_Town_Square(Vector2(1024,	96), Vector2(1279,	191), "Broken Coast East"), // THANKS ME
+		_Town_Square(Vector2(1280,	96), Vector2(1535,	191), "Repaired Coast"), // THANKS ME
+		_Town_Square(Vector2(1536,	96), Vector2(1791,	191), "Western Meow Coast"), // THANKS ASHIE
+		_Town_Square(Vector2(1792,	96), Vector2(2047,	191), "Eastern Meow Coast"), // THANKS ASHIE
 
 		_Town_Square(Vector2(0,		192), Vector2(255,	287), "Hidden Ocean"),
 		_Town_Square(Vector2(256,	192), Vector2(511,	287), "Beached Butthole"), // THANKS TRICKS
@@ -73,7 +73,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(768,	480), Vector2(1023,	575), "Hidden Ocean"),
 		_Town_Square(Vector2(1024,	480), Vector2(1279,	575), "Denton"), // THANKS LUKE
 		_Town_Square(Vector2(1280,	480), Vector2(1535,	575), "Hidden Ocean"),
-		_Town_Square(Vector2(1536,	480), Vector2(1791,	575), "Hidden Ocean"),
+		_Town_Square(Vector2(1536,	480), Vector2(1791,	575), "Jeff Coast"), // THANKS SIMON
 		_Town_Square(Vector2(1792,	480), Vector2(2047,	575), "Hidden Ocean"),
 
 		_Town_Square(Vector2(0,		576), Vector2(255,	671), "Hidden Ocean"),
