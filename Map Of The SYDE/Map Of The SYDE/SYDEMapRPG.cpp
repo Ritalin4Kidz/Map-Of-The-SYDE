@@ -22,31 +22,31 @@ SYDEMapGame::SYDEMapGame()
 	camera_Pos = Vector2(280,200);
 
 	vecTowns = vector<_Town_Square>{
-		_Town_Square(Vector2(0,		0), Vector2(255,	95) , "Hidden Ocean"),
-		_Town_Square(Vector2(256,	0), Vector2(511,	95) , "Offshore Isles"),
-		_Town_Square(Vector2(512,	0), Vector2(767,	95) , "Offshore Isles"),
-		_Town_Square(Vector2(768,	0), Vector2(1023,	95) , "Tiki Island"),
+		_Town_Square(Vector2(0,		0), Vector2(255,	95) , "Dissonant Waved Ocean"), // THANKS ME TRICKS AND DOM
+		_Town_Square(Vector2(256,	0), Vector2(511,	95) , "Almon Island"), // THANKS ME
+		_Town_Square(Vector2(512,	0), Vector2(767,	95) , "Blankis Island"), // THANKS ME
+		_Town_Square(Vector2(768,	0), Vector2(1023,	95) , "Aliran Island"), // SUCK SHIT ALI
 		_Town_Square(Vector2(1024,	0), Vector2(1279,	95) , "Hidden Ocean"),
 		_Town_Square(Vector2(1280,	0), Vector2(1535,	95) , "Hidden Ocean"),
 		_Town_Square(Vector2(1536,	0), Vector2(1791,	95) , "Eastern Offshore"),
 		_Town_Square(Vector2(1792,	0), Vector2(2047,	95) , "Hidden Ocean"),
 
 		_Town_Square(Vector2(0,		96), Vector2(255,	191), "Toplefia Beach"),
-		_Town_Square(Vector2(256,	96), Vector2(511,	191), "Toplefia Beach"),
-		_Town_Square(Vector2(512,	96), Vector2(767,	191), "Broken Coast"),
+		_Town_Square(Vector2(256,	96), Vector2(511,	191), "North Muric Coast"), // ALI FUCK YOU
+		_Town_Square(Vector2(512,	96), Vector2(767,	191), "Ballistica"), // THANKS ALI
 		_Town_Square(Vector2(768,	96), Vector2(1023,	191), "Broken Coast"),
 		_Town_Square(Vector2(1024,	96), Vector2(1279,	191), "Broken Coast"),
-		_Town_Square(Vector2(1280,	96), Vector2(1535,	191), "Broken Coast"),
-		_Town_Square(Vector2(1536,	96), Vector2(1791,	191), "Repaired Coast"),
-		_Town_Square(Vector2(1792,	96), Vector2(2047,	191), "Hidden Ocean"),
+		_Town_Square(Vector2(1280,	96), Vector2(1535,	191), "Repaired Coast"),
+		_Town_Square(Vector2(1536,	96), Vector2(1791,	191), "Eastern Titia Isle"),
+		_Town_Square(Vector2(1792,	96), Vector2(2047,	191), "Meow Coast"), // THANKS ASHIE
 
 		_Town_Square(Vector2(0,		192), Vector2(255,	287), "Hidden Ocean"),
-		_Town_Square(Vector2(256,	192), Vector2(511,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(256,	192), Vector2(511,	287), "Beached Butthole"), // THANKS TRICKS
 		_Town_Square(Vector2(512,	192), Vector2(767,	287), "Hidden Ocean"),
 		_Town_Square(Vector2(768,	192), Vector2(1023,	287), "Hidden Ocean"),
 		_Town_Square(Vector2(1024,	192), Vector2(1279,	287), "Hidden Ocean"),
-		_Town_Square(Vector2(1280,	192), Vector2(1535,	287), "Hidden Ocean"),
-		_Town_Square(Vector2(1536,	192), Vector2(1791,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(1280,	192), Vector2(1535,	287), "Jonestown"), // THANKS LINDSAY
+		_Town_Square(Vector2(1536,	192), Vector2(1791,	287), "Swan Lake"), // THANKS PETE
 		_Town_Square(Vector2(1792,	192), Vector2(2047,	287), "Hidden Ocean"),
 
 		_Town_Square(Vector2(0,		288), Vector2(255,	383), "Hidden Ocean"),
@@ -56,10 +56,10 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1024,	288), Vector2(1279,	383), "Hidden Ocean"),
 		_Town_Square(Vector2(1280,	288), Vector2(1535,	383), "Hidden Ocean"),
 		_Town_Square(Vector2(1536,	288), Vector2(1791,	383), "Hidden Ocean"),
-		_Town_Square(Vector2(1792,	288), Vector2(2047,	383), "Hidden Ocean"),
+		_Town_Square(Vector2(1792,	288), Vector2(2047,	383), "32x Tile Sea"),
 
-		_Town_Square(Vector2(0,		384), Vector2(255,	479), "Hidden Ocean"),
-		_Town_Square(Vector2(256,	384), Vector2(511,	479), "Hidden Ocean"),
+		_Town_Square(Vector2(0,		384), Vector2(255,	479), "Baffled Coast"), // THANKS ANDREW
+		_Town_Square(Vector2(256,	384), Vector2(511,	479), "Zengina"), // THANKS ANDREW
 		_Town_Square(Vector2(512,	384), Vector2(767,	479), "Hidden Ocean"),
 		_Town_Square(Vector2(768,	384), Vector2(1023,	479), "Hidden Ocean"),
 		_Town_Square(Vector2(1024,	384), Vector2(1279,	479), "Hidden Ocean"),
@@ -330,6 +330,7 @@ ConsoleWindow SYDEMapGame::Main_Menu(ConsoleWindow window, int windowWidth, int 
 		}
 		else if (_Options.getSelected().m_Label == "2")
 		{
+			exit(NULL);
 		}
 	}
 	return window;
@@ -358,6 +359,7 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 	{
 		if (_FightOptions.getSelected().m_Label == "0")
 		{
+			//FIGHT SEQUENCE
 		}
 		else if (_FightOptions.getSelected().m_Label == "1")
 		{
