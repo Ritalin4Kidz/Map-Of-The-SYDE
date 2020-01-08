@@ -40,22 +40,22 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1536,	96), Vector2(1791,	191), "Western Meow Coast"), // THANKS ASHIE
 		_Town_Square(Vector2(1792,	96), Vector2(2047,	191), "Eastern Meow Coast"), // THANKS ASHIE
 
-		_Town_Square(Vector2(0,		192), Vector2(255,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(0,		192), Vector2(255,	287), "Northen SYDE Coast"), // THANKS ME
 		_Town_Square(Vector2(256,	192), Vector2(511,	287), "Beached Butthole"), // THANKS TRICKS
 		_Town_Square(Vector2(512,	192), Vector2(767,	287), "Arcoomer"), // THANKS ARCANA
-		_Town_Square(Vector2(768,	192), Vector2(1023,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(768,	192), Vector2(1023,	287), "Djungelskog"), // THANKS JACKSON
 		_Town_Square(Vector2(1024,	192), Vector2(1279,	287), "Thrustbowl"), // THANKS TRICKS
 		_Town_Square(Vector2(1280,	192), Vector2(1535,	287), "Jonestown"), // THANKS LINDSAY
 		_Town_Square(Vector2(1536,	192), Vector2(1791,	287), "Swan Lake"), // THANKS PETE
-		_Town_Square(Vector2(1792,	192), Vector2(2047,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(1792,	192), Vector2(2047,	287), "Meow Coast Beach"), //THANKS ASHIE
 
-		_Town_Square(Vector2(0,		288), Vector2(255,	383), "Hidden Ocean"),
+		_Town_Square(Vector2(0,		288), Vector2(255,	383), "Southern SYDE Coast"), // THANKS ME
 		_Town_Square(Vector2(256,	288), Vector2(511,	383), "Hidden Ocean"),
 		_Town_Square(Vector2(512,	288), Vector2(767,	383), "Hidden Ocean"),
 		_Town_Square(Vector2(768,	288), Vector2(1023,	383), "Loot Lake"), //MORE LEGO YODA
 		_Town_Square(Vector2(1024,	288), Vector2(1279,	383), "Hidden Ocean"),
 		_Town_Square(Vector2(1280,	288), Vector2(1535,	383), "Hidden Ocean"),
-		_Town_Square(Vector2(1536,	288), Vector2(1791,	383), "Hidden Ocean"),
+		_Town_Square(Vector2(1536,	288), Vector2(1791,	383), "Faraway"), // THANKS ME
 		_Town_Square(Vector2(1792,	288), Vector2(2047,	383), "32x Tile Sea"), // THANKS LEGO YODA (DISCORD)
 
 		_Town_Square(Vector2(0,		384), Vector2(255,	479), "Baffled Coast"), // THANKS ANDREW
@@ -74,25 +74,25 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1024,	480), Vector2(1279,	575), "Denton"), // THANKS LUKE
 		_Town_Square(Vector2(1280,	480), Vector2(1535,	575), "Hidden Ocean"),
 		_Town_Square(Vector2(1536,	480), Vector2(1791,	575), "Jeff Coast"), // THANKS SIMON
-		_Town_Square(Vector2(1792,	480), Vector2(2047,	575), "Hidden Ocean"),
+		_Town_Square(Vector2(1792,	480), Vector2(2047,	575), "Uncharted Territory"), // THANKS ME
 
-		_Town_Square(Vector2(0,		576), Vector2(255,	671), "Hidden Ocean"),
-		_Town_Square(Vector2(256,	576), Vector2(511,	671), "Hidden Ocean"),
+		_Town_Square(Vector2(0,		576), Vector2(255,	671), "Uncharted Territory"), // THANKS ME
+		_Town_Square(Vector2(256,	576), Vector2(511,	671), "New SYDE Town"), // THANKS ME
 		_Town_Square(Vector2(512,	576), Vector2(767,	671), "Hidden Ocean"),
 		_Town_Square(Vector2(768,	576), Vector2(1023,	671), "Hidden Ocean"),
 		_Town_Square(Vector2(1024,	576), Vector2(1279,	671), "Hidden Ocean"),
 		_Town_Square(Vector2(1280,	576), Vector2(1535,	671), "Cyprux"), // THANKS DOM
-		_Town_Square(Vector2(1536,	576), Vector2(1791,	671), "Hidden Ocean"),
-		_Town_Square(Vector2(1792,	576), Vector2(2047,	671), "Hidden Ocean"),
+		_Town_Square(Vector2(1536,	576), Vector2(1791,	671), "Xylsdia Coast"), // FUCK YOU ME
+		_Town_Square(Vector2(1792,	576), Vector2(2047,	671), "Useless Sea"), // THANKS ME
 
-		_Town_Square(Vector2(0,		672), Vector2(255,	767), "Hidden Ocean"),
-		_Town_Square(Vector2(256,	672), Vector2(511,	767), "Hidden Ocean"),
-		_Town_Square(Vector2(512,	672), Vector2(767,	767), "Hidden Ocean"),
-		_Town_Square(Vector2(768,	672), Vector2(1023,	767), "Hidden Ocean"),
-		_Town_Square(Vector2(1024,	672), Vector2(1279,	767), "Hidden Ocean"),
-		_Town_Square(Vector2(1280,	672), Vector2(1535,	767), "Hidden Ocean"),
-		_Town_Square(Vector2(1536,	672), Vector2(1791,	767), "Hidden Ocean"),
-		_Town_Square(Vector2(1792,	672), Vector2(2047,	767), "Hidden Ocean"),
+		_Town_Square(Vector2(0,		672), Vector2(255,	767), "Uncharted Territory"), // THANKS ME
+		_Town_Square(Vector2(256,	672), Vector2(511,	767), "Edgecliffe"), // THANKS ME
+		_Town_Square(Vector2(512,	672), Vector2(767,	767), "Eastcliffe"), // THANKS ME
+		_Town_Square(Vector2(768,	672), Vector2(1023,	767), "Broken Beach"), // THANKS ME
+		_Town_Square(Vector2(1024,	672), Vector2(1279,	767), "Southern Coast"), // THANKS ME
+		_Town_Square(Vector2(1280,	672), Vector2(1535,	767), "Cyprux Beach"), // THANKS DOM
+		_Town_Square(Vector2(1536,	672), Vector2(1791,	767), "Haven's Corner"), // THANKS ME
+		_Town_Square(Vector2(1792,	672), Vector2(2047,	767), "South East Ocean"), // THANKS ME
 	};
 
 	//ORC WILD FIGHT 1
