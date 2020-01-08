@@ -58,6 +58,10 @@ SYDEMapGame::SYDEMapGame()
 	{
 		_Options[i].setHighLight(RED);
 	}
+
+	//ENEMY ANIMATIONS
+	m_ORC.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\UIAnimations\\TestEnemy.bmp", astVars, 100, 30, 10, 10, 0, 27));
+	m_ORC.setLooping(true);
 }
 
 ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidth, int windowHeight)
@@ -72,7 +76,16 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 	}
 	if (_STATE == "ORC_TEST")
 	{
-
+		//window = Orc_Fight(window, windowWidth, windowHeight);
+		//GENERATE ORC FIGHT
+		enemy_Damage = 2;
+		enemy_exp_gained = 50;
+		enemy_Health = 100;
+		_STATE = "ORC_FIGHT";
+	}
+	if (_STATE == "ORC_FIGHT")
+	{
+		window = Orc_Fight(window, windowWidth, windowHeight);
 	}
 	return window;
 }
@@ -88,14 +101,24 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 11)));
 		window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
-		//CASES FOR MOVEMENT NOT ALLOWED
-		if (temp.compare("17") != 0 && temp.compare("16") != 0)
+		
+		// CASES FOR WILDFIGHT
+		// ADD RANDOM CHANCE
+		char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		if (tempChar == 'V')
+		{
+			if (true)
+			{
+				//change to if random number, then make fight happen
+				_STATE = "ORC_TEST";
+			}
+		}
+		
+		// CASES FOR MOVEMENT NOT ALLOWED
+		else if (temp.compare("17") != 0 && temp.compare("16") != 0)
 		{
 			camera_Pos.addY(1);
 		}
-		//CASES FOR WILDFIGHT
-		//ENGINE NEEDS TO BE UPDATED TO CHECK IF THE POINT OF THE ASSET IS A 'V'
-		//ADD GETCHAR AT POINT AND GET COLOUR AT POINT IN CUSTOMASSET
 	}
 	if (SYDEKeyCode::get('D')._CompareState(KEY))
 	{
@@ -187,5 +210,8 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 		}
 	}
 	window.setTextAtPoint(Vector2(0, 1), "ORC_FIGHT", BLACK_WHITE_BG);
+	window = m_ORC.draw_asset(window, Vector2(20, 1));
+
+	window.setTextAtPoint(Vector2(20, 11), "    Health: " + std::to_string(enemy_Health) + "     ", BLACK_WHITE_BG);
 	return window;
 }

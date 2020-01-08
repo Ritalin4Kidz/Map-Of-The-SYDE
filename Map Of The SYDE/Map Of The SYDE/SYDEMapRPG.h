@@ -46,4 +46,7 @@ private:
 	int enemy_Health = 100;
 	int enemy_Damage = 2;
 	int enemy_exp_gained = 50;
+
+	//ENEMY ANIMATIONS
+	CustomAnimationAsset m_ORC;
  };
