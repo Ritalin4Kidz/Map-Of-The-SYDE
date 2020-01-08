@@ -21,6 +21,80 @@ SYDEMapGame::SYDEMapGame()
 	_LevelAsset = CustomAsset(2048, 768, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Level_SYDE.bmp", 1024, 768));
 	camera_Pos = Vector2(280,200);
 
+	vecTowns = vector<_Town_Square>{
+		_Town_Square(Vector2(0,		0), Vector2(255,	95) , "Hidden Ocean"),
+		_Town_Square(Vector2(256,	0), Vector2(511,	95) , "Offshore Isles"),
+		_Town_Square(Vector2(512,	0), Vector2(767,	95) , "Offshore Isles"),
+		_Town_Square(Vector2(768,	0), Vector2(1023,	95) , "Tiki Island"),
+		_Town_Square(Vector2(1024,	0), Vector2(1279,	95) , "Hidden Ocean"),
+		_Town_Square(Vector2(1280,	0), Vector2(1535,	95) , "Hidden Ocean"),
+		_Town_Square(Vector2(1536,	0), Vector2(1791,	95) , "Eastern Offshore"),
+		_Town_Square(Vector2(1792,	0), Vector2(2047,	95) , "Hidden Ocean"),
+
+		_Town_Square(Vector2(0,		96), Vector2(255,	191), "Toplefia Beach"),
+		_Town_Square(Vector2(256,	96), Vector2(511,	191), "Toplefia Beach"),
+		_Town_Square(Vector2(512,	96), Vector2(767,	191), "Broken Coast"),
+		_Town_Square(Vector2(768,	96), Vector2(1023,	191), "Broken Coast"),
+		_Town_Square(Vector2(1024,	96), Vector2(1279,	191), "Broken Coast"),
+		_Town_Square(Vector2(1280,	96), Vector2(1535,	191), "Broken Coast"),
+		_Town_Square(Vector2(1536,	96), Vector2(1791,	191), "Repaired Coast"),
+		_Town_Square(Vector2(1792,	96), Vector2(2047,	191), "Hidden Ocean"),
+
+		_Town_Square(Vector2(0,		192), Vector2(255,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(256,	192), Vector2(511,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(512,	192), Vector2(767,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(768,	192), Vector2(1023,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(1024,	192), Vector2(1279,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(1280,	192), Vector2(1535,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(1536,	192), Vector2(1791,	287), "Hidden Ocean"),
+		_Town_Square(Vector2(1792,	192), Vector2(2047,	287), "Hidden Ocean"),
+
+		_Town_Square(Vector2(0,		288), Vector2(255,	383), "Hidden Ocean"),
+		_Town_Square(Vector2(256,	288), Vector2(511,	383), "Hidden Ocean"),
+		_Town_Square(Vector2(512,	288), Vector2(767,	383), "Hidden Ocean"),
+		_Town_Square(Vector2(768,	288), Vector2(1023,	383), "Hidden Ocean"),
+		_Town_Square(Vector2(1024,	288), Vector2(1279,	383), "Hidden Ocean"),
+		_Town_Square(Vector2(1280,	288), Vector2(1535,	383), "Hidden Ocean"),
+		_Town_Square(Vector2(1536,	288), Vector2(1791,	383), "Hidden Ocean"),
+		_Town_Square(Vector2(1792,	288), Vector2(2047,	383), "Hidden Ocean"),
+
+		_Town_Square(Vector2(0,		384), Vector2(255,	479), "Hidden Ocean"),
+		_Town_Square(Vector2(256,	384), Vector2(511,	479), "Hidden Ocean"),
+		_Town_Square(Vector2(512,	384), Vector2(767,	479), "Hidden Ocean"),
+		_Town_Square(Vector2(768,	384), Vector2(1023,	479), "Hidden Ocean"),
+		_Town_Square(Vector2(1024,	384), Vector2(1279,	479), "Hidden Ocean"),
+		_Town_Square(Vector2(1280,	384), Vector2(1535,	479), "Hidden Ocean"),
+		_Town_Square(Vector2(1536,	384), Vector2(1791,	479), "Hidden Ocean"),
+		_Town_Square(Vector2(1792,	384), Vector2(2047,	479), "Hidden Ocean"),
+
+		_Town_Square(Vector2(0,		480), Vector2(255,	575), "Hidden Ocean"),
+		_Town_Square(Vector2(256,	480), Vector2(511,	575), "Hidden Ocean"),
+		_Town_Square(Vector2(512,	480), Vector2(767,	575), "Hidden Ocean"),
+		_Town_Square(Vector2(768,	480), Vector2(1023,	575), "Hidden Ocean"),
+		_Town_Square(Vector2(1024,	480), Vector2(1279,	575), "Hidden Ocean"),
+		_Town_Square(Vector2(1280,	480), Vector2(1535,	575), "Hidden Ocean"),
+		_Town_Square(Vector2(1536,	480), Vector2(1791,	575), "Hidden Ocean"),
+		_Town_Square(Vector2(1792,	480), Vector2(2047,	575), "Hidden Ocean"),
+
+		_Town_Square(Vector2(0,		576), Vector2(255,	671), "Hidden Ocean"),
+		_Town_Square(Vector2(256,	576), Vector2(511,	671), "Hidden Ocean"),
+		_Town_Square(Vector2(512,	576), Vector2(767,	671), "Hidden Ocean"),
+		_Town_Square(Vector2(768,	576), Vector2(1023,	671), "Hidden Ocean"),
+		_Town_Square(Vector2(1024,	576), Vector2(1279,	671), "Hidden Ocean"),
+		_Town_Square(Vector2(1280,	576), Vector2(1535,	671), "Hidden Ocean"),
+		_Town_Square(Vector2(1536,	576), Vector2(1791,	671), "Hidden Ocean"),
+		_Town_Square(Vector2(1792,	576), Vector2(2047,	671), "Hidden Ocean"),
+
+		_Town_Square(Vector2(0,		672), Vector2(255,	767), "Hidden Ocean"),
+		_Town_Square(Vector2(256,	672), Vector2(511,	767), "Hidden Ocean"),
+		_Town_Square(Vector2(512,	672), Vector2(767,	767), "Hidden Ocean"),
+		_Town_Square(Vector2(768,	672), Vector2(1023,	767), "Hidden Ocean"),
+		_Town_Square(Vector2(1024,	672), Vector2(1279,	767), "Hidden Ocean"),
+		_Town_Square(Vector2(1280,	672), Vector2(1535,	767), "Hidden Ocean"),
+		_Town_Square(Vector2(1536,	672), Vector2(1791,	767), "Hidden Ocean"),
+		_Town_Square(Vector2(1792,	672), Vector2(2047,	767), "Hidden Ocean"),
+	};
+
 	//ORC WILD FIGHT 1
 	AddAttachmentWildFight(Vector2(280, 199), "ORC_TEST");
 	AddAttachmentWildFight(Vector2(280, 198), "ORC_TEST");
@@ -41,6 +115,22 @@ SYDEMapGame::SYDEMapGame()
 		SYDEButton("", Vector2(0, 2), Vector2(20, 1), WHITE, true),
 		SYDEButton("", Vector2(0, 3), Vector2(20, 1), WHITE, true),
 	});
+
+	_FightOptions = SYDEMenu(vector<SYDEButton> {
+		SYDEButton("Fight", Vector2(1, 2), Vector2(20, 1), WHITE, true),
+		SYDEButton("Run", Vector2(1, 3), Vector2(20, 1), WHITE, true)
+	});
+	
+	_FightOptions[0].m_Label = "0";
+	_FightOptions[1].m_Label = "1";
+
+	_FightOptions.setActive(true);
+	_FightOptions.setPos(Vector2(1, 2));
+
+	for (int i = 0; i < _FightOptions.getSize(); i++)
+	{
+		_FightOptions[i].setHighLight(RED);
+	}
 
 	m_MainMenu_BG.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\UIAnimations\\MainMenuAnim.bmp", astVars, 100, 180, 20, 20, 0, 45));
 	m_MainMenu_BG.setLooping(true);
@@ -100,22 +190,22 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 	if (SYDEKeyCode::get('S')._CompareState(KEY))
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 11)));
-		window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
+		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
 		
 		// CASES FOR WILDFIGHT
 		// ADD RANDOM CHANCE
 		char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		int random_variable = std::rand() % 33 + 1;
 		if (tempChar == 'V')
 		{
-			if (true)
+			if (random_variable == 15)
 			{
-				//change to if random number, then make fight happen
-				_STATE = "ORC_TEST";
+				_STATE = getWFA_STATE(camera_Pos);
 			}
 		}
 		
 		// CASES FOR MOVEMENT NOT ALLOWED
-		else if (temp.compare("17") != 0 && temp.compare("16") != 0)
+		if (temp.compare("17") != 0 && temp.compare("16") != 0)
 		{
 			camera_Pos.addY(1);
 		}
@@ -124,7 +214,20 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(22, 10)));
 		//CASES FOR MOVEMENT NOT ALLOWED
-		window.setTextAtPoint(Vector2(0, 1),temp, BLACK_WHITE_BG);
+		//window.setTextAtPoint(Vector2(0, 1),temp, BLACK_WHITE_BG);
+
+		// CASES FOR WILDFIGHT
+		// ADD RANDOM CHANCE
+		char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		int random_variable = std::rand() % 33 + 1;
+		if (tempChar == 'V')
+		{
+			if (random_variable == 26)
+			{
+				_STATE = getWFA_STATE(camera_Pos);
+			}
+		}
+
 		if (temp.compare("17") != 0 && temp.compare("16") != 0) //Note, make from 16 -31
 		{
 			camera_Pos.addX(2);
@@ -133,7 +236,20 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 	if (SYDEKeyCode::get('W')._CompareState(KEY))
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 9)));
-		window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
+		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
+
+		// CASES FOR WILDFIGHT
+		// ADD RANDOM CHANCE
+		char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		int random_variable = std::rand() % 33 + 1;
+		if (tempChar == 'V')
+		{
+			if (random_variable == 7)
+			{
+				_STATE = getWFA_STATE(camera_Pos);
+			}
+		}
+
 		//CASES FOR MOVEMENT NOT ALLOWED
 		if (temp.compare("17") != 0 && temp.compare("16") != 0)
 		{
@@ -143,13 +259,32 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 	if (SYDEKeyCode::get('A')._CompareState(KEY))
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(18, 10)));
-		window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
+		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
+
+		// CASES FOR WILDFIGHT
+		// ADD RANDOM CHANCE
+		char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		int random_variable = std::rand() % 33 + 1;
+		if (tempChar == 'V')
+		{
+			if (random_variable == 30)
+			{
+				_STATE = getWFA_STATE(camera_Pos);
+			}
+		}
+
 		//CASES FOR MOVEMENT NOT ALLOWED
 		if (temp.compare("17") != 0 && temp.compare("16") != 0)
 		{
 			camera_Pos.addX(-2);
 		}
 	}
+	for (int l = 0; l < windowWidth; l++)
+	{
+		window.setTextAtPoint(Vector2(l, 19), " ", RED_WHITE_BG);
+	}
+	window.setTextAtPoint(Vector2(0, 1), "Area: " + getTown(camera_Pos), RED_WHITE_BG);
+	window.setTextAtPoint(Vector2(0, 19), "Health: " + std::to_string(play_health) + ", Lvl: " + std::to_string(play_lvl), RED_WHITE_BG);
 	return window;
 }
 
@@ -210,8 +345,61 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 		}
 	}
 	window.setTextAtPoint(Vector2(0, 1), "ORC_FIGHT", BLACK_WHITE_BG);
-	window = m_ORC.draw_asset(window, Vector2(20, 1));
+	window = m_ORC.draw_asset(window, Vector2(20, 2));
 
 	window.setTextAtPoint(Vector2(20, 11), "    Health: " + std::to_string(enemy_Health) + "     ", BLACK_WHITE_BG);
+
+	window = _FightOptions.draw_menu(window);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_FightOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_FightOptions.getSelected().m_Label == "0")
+		{
+		}
+		else if (_FightOptions.getSelected().m_Label == "1")
+		{
+			//IF RUN WAS SUCCESSFUL
+			_STATE = "MainMap";
+		}
+	}
 	return window;
+}
+
+string SYDEMapGame::getWFA_STATE(Vector2 point)
+{
+	for (int i = 0; i < _list_fight_cases.size(); i++)
+	{
+		if (_list_fight_cases[i].getPoint() == point)
+		{
+			return _list_fight_cases[i].getWildFightArg();
+		}
+	}
+	return "MainMap";
+}
+
+string SYDEMapGame::getTown(Vector2 point)
+{
+	for (int i = 0; i < vecTowns.size(); i++)
+	{
+		if (vecTowns[i].inBounds(point))
+		{
+			return vecTowns[i].getAREA();
+		}
+	}
+	return "???";
+}
+
+_Town_Square::_Town_Square(Vector2 boundary1, Vector2 boundary2, string townName)
+{
+	TopLeft = boundary1;
+	BottomRight = boundary2;
+	_AREANAME = townName;
+}
+
+bool _Town_Square::inBounds(Vector2 point)
+{
+	return (point.getX() >= TopLeft.getX() && point.getX() <= BottomRight.getX() && point.getY() >= TopLeft.getY() && point.getY() <= BottomRight.getY());
 }

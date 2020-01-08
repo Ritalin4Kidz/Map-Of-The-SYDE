@@ -1,5 +1,22 @@
 #pragma once
 #include "SYDEstdafx.h"
+#include <ctime>
+
+class _Town_Square {
+public:
+	_Town_Square() {}
+	_Town_Square(Vector2 boundary1, Vector2 boundary2, string townName);
+	virtual ~_Town_Square() {}
+
+	string getAREA() { return _AREANAME; }
+	bool inBounds(Vector2 point);
+
+private:
+	Vector2 TopLeft;
+	Vector2 BottomRight;
+
+	string _AREANAME = "???";
+};
 
 class WildFightAttachment {
 public:
@@ -7,6 +24,7 @@ public:
 	WildFightAttachment(Vector2 _point, string _wildfightarg);
 	virtual ~WildFightAttachment() {}
 
+	Vector2 getPoint() { return m_Point; }
 	string getWildFightArg() { return m_WILD_FIGHT_ARG; }
 private:
 	string m_WILD_FIGHT_ARG = "";
@@ -25,6 +43,9 @@ public:
 
 	ConsoleWindow Orc_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 
+	string getWFA_STATE(Vector2 point);
+	string getTown(Vector2 point);
+
 	void AddAttachmentWildFight(Vector2 m_Point, string _arg);
 private:
 	string _STATE = "MainMenu";
@@ -42,11 +63,22 @@ private:
 
 	vector<WildFightAttachment> _list_fight_cases;
 
+	// PLAYER VALUES (GET LOADING FROM CONFIG FILE
+	int play_health = 100;
+	int play_dmg = 5;
+	int play_lvl = 1;
+	int play_xp = 0;
+	int play_xp_to_next_level = 1000;
+
 	//FIGHT
 	int enemy_Health = 100;
 	int enemy_Damage = 2;
 	int enemy_exp_gained = 50;
+	SYDEMenu _FightOptions;
 
 	//ENEMY ANIMATIONS
 	CustomAnimationAsset m_ORC;
+
+	//ETC
+	vector<_Town_Square> vecTowns;
  };

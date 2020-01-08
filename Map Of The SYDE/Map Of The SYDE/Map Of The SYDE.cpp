@@ -35,6 +35,7 @@ static GdiplusStartupInput startupInput;
 
 int main()
 {
+	std::srand(std::time(nullptr));
 	LPCWSTR title = L"Map Of The SYDE";
 	SYDECredits::_GAMETITLE = "AutoClick";
 	SYDECredits::_ORGANISATION = "Callum Hands \nIn Association With Freebee Games";
