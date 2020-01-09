@@ -7,6 +7,12 @@ WildFightAttachment::WildFightAttachment(Vector2 _point, string _wildfightarg)
 	m_Point = _point;
 }
 
+Structure::Structure(Vector2 _point, string _structurearg)
+{
+	m_STRUCT_ARG = _structurearg;
+	m_Point = _point;
+}
+
 void SYDEMapGame::AddAttachmentWildFight(Vector2 m_Point, string _arg)
 {
 	_LevelAsset.setCharAtPoint(m_Point, 'V');
@@ -14,9 +20,17 @@ void SYDEMapGame::AddAttachmentWildFight(Vector2 m_Point, string _arg)
 	_list_fight_cases.push_back(WildFightAttachment(m_Point, _arg));
 }
 
+void SYDEMapGame::AddAttachmentStructure(Vector2 m_Point, string _arg)
+{
+	_LevelAsset.setCharAtPoint(m_Point, StructureChar);
+	_LevelAsset.setColourAtPoint(m_Point, 7);
+	_list_structures.push_back(Structure(m_Point, _arg));
+}
+
 SYDEMapGame::SYDEMapGame()
 {
 	_list_fight_cases = vector<WildFightAttachment>();
+	_list_structures = vector<Structure>();
 	m_bg = CustomAsset(60, 30, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\bg.bmp", 30, 30));
 	_LevelAsset = CustomAsset(2048, 768, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Level_SYDE.bmp", 1024, 768));
 	camera_Pos = Vector2(280,200);
@@ -50,37 +64,37 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1792,	192), Vector2(2047,	287), "Meow Coast Beach"), //THANKS ASHIE
 
 		_Town_Square(Vector2(0,		288), Vector2(255,	383), "Southern SYDE Coast"), // THANKS ME
-		_Town_Square(Vector2(256,	288), Vector2(511,	383), "Hidden Ocean"),
-		_Town_Square(Vector2(512,	288), Vector2(767,	383), "Hidden Ocean"),
+		_Town_Square(Vector2(256,	288), Vector2(511,	383), "Western Plains"), // THANKS ME
+		_Town_Square(Vector2(512,	288), Vector2(767,	383), "Rhofields"), // THANKS ME
 		_Town_Square(Vector2(768,	288), Vector2(1023,	383), "Loot Lake"), //MORE LEGO YODA
-		_Town_Square(Vector2(1024,	288), Vector2(1279,	383), "Hidden Ocean"),
-		_Town_Square(Vector2(1280,	288), Vector2(1535,	383), "Hidden Ocean"),
+		_Town_Square(Vector2(1024,	288), Vector2(1279,	383), "Kiffidle Lakes"), // THANKS ME
+		_Town_Square(Vector2(1280,	288), Vector2(1535,	383), "Arc Cove"), // THANKS ME
 		_Town_Square(Vector2(1536,	288), Vector2(1791,	383), "Faraway"), // THANKS ME
 		_Town_Square(Vector2(1792,	288), Vector2(2047,	383), "32x Tile Sea"), // THANKS LEGO YODA (DISCORD)
 
 		_Town_Square(Vector2(0,		384), Vector2(255,	479), "Baffled Coast"), // THANKS ANDREW
 		_Town_Square(Vector2(256,	384), Vector2(511,	479), "Zengina"), // THANKS ANDREW
-		_Town_Square(Vector2(512,	384), Vector2(767,	479), "Hidden Ocean"),
-		_Town_Square(Vector2(768,	384), Vector2(1023,	479), "Hidden Ocean"),
-		_Town_Square(Vector2(1024,	384), Vector2(1279,	479), "Hidden Ocean"),
-		_Town_Square(Vector2(1280,	384), Vector2(1535,	479), "Hidden Ocean"),
+		_Town_Square(Vector2(512,	384), Vector2(767,	479), "Capital Town"), // THANKS ME
+		_Town_Square(Vector2(768,	384), Vector2(1023,	479), "Island Centre"), // THANKS ME
+		_Town_Square(Vector2(1024,	384), Vector2(1279,	479), "New Xylsdia"), // THANKS ME
+		_Town_Square(Vector2(1280,	384), Vector2(1535,	479), "Eastern Plains"), // THANKS ME
 		_Town_Square(Vector2(1536,	384), Vector2(1791,	479), "CRT Coast"), //FUCK YOU LEGO YODA
 		_Town_Square(Vector2(1792,	384), Vector2(2047,	479), "CRT Island"), //FUCK YOU LEGO YODA
 
-		_Town_Square(Vector2(0,		480), Vector2(255,	575), "Hidden Ocean"),
-		_Town_Square(Vector2(256,	480), Vector2(511,	575), "Hidden Ocean"),
-		_Town_Square(Vector2(512,	480), Vector2(767,	575), "Hidden Ocean"),
-		_Town_Square(Vector2(768,	480), Vector2(1023,	575), "Hidden Ocean"),
+		_Town_Square(Vector2(0,		480), Vector2(255,	575), "Windan"), // THANKS ME
+		_Town_Square(Vector2(256,	480), Vector2(511,	575), "Lake Entrance"), // THANKS CENTRAL COAST
+		_Town_Square(Vector2(512,	480), Vector2(767,	575), "Western SYDE River"), // THANKS ME
+		_Town_Square(Vector2(768,	480), Vector2(1023,	575), "Eastern SYDE River"), // THANKS ME
 		_Town_Square(Vector2(1024,	480), Vector2(1279,	575), "Denton"), // THANKS LUKE
-		_Town_Square(Vector2(1280,	480), Vector2(1535,	575), "Hidden Ocean"),
+		_Town_Square(Vector2(1280,	480), Vector2(1535,	575), "Denton Fields"), // THANKS LUKE
 		_Town_Square(Vector2(1536,	480), Vector2(1791,	575), "Jeff Coast"), // THANKS SIMON
 		_Town_Square(Vector2(1792,	480), Vector2(2047,	575), "Uncharted Territory"), // THANKS ME
 
 		_Town_Square(Vector2(0,		576), Vector2(255,	671), "Uncharted Territory"), // THANKS ME
 		_Town_Square(Vector2(256,	576), Vector2(511,	671), "New SYDE Town"), // THANKS ME
-		_Town_Square(Vector2(512,	576), Vector2(767,	671), "Hidden Ocean"),
-		_Town_Square(Vector2(768,	576), Vector2(1023,	671), "Hidden Ocean"),
-		_Town_Square(Vector2(1024,	576), Vector2(1279,	671), "Hidden Ocean"),
+		_Town_Square(Vector2(512,	576), Vector2(767,	671), "North Edgecliffe"), // THANKS ME
+		_Town_Square(Vector2(768,	576), Vector2(1023,	671), "Last Bay"), // THANKS ME
+		_Town_Square(Vector2(1024,	576), Vector2(1279,	671), "Old Capital Town"), // THANKS ME
 		_Town_Square(Vector2(1280,	576), Vector2(1535,	671), "Cyprux"), // THANKS DOM
 		_Town_Square(Vector2(1536,	576), Vector2(1791,	671), "Xylsdia Coast"), // FUCK YOU ME
 		_Town_Square(Vector2(1792,	576), Vector2(2047,	671), "Useless Sea"), // THANKS ME
@@ -94,6 +108,11 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1536,	672), Vector2(1791,	767), "Haven's Corner"), // THANKS ME
 		_Town_Square(Vector2(1792,	672), Vector2(2047,	767), "South East Ocean"), // THANKS ME
 	};
+
+	//STRUCTURE 1
+	AddAttachmentStructure(Vector2(280, 190), "BUILDING_TEST");
+	AddAttachmentStructure(Vector2(281, 190), "BUILDING_TEST");
+
 
 	//ORC WILD FIGHT 1
 	AddAttachmentWildFight(Vector2(280, 199), "ORC_TEST");
@@ -115,6 +134,24 @@ SYDEMapGame::SYDEMapGame()
 		SYDEButton("", Vector2(0, 2), Vector2(20, 1), WHITE, true),
 		SYDEButton("", Vector2(0, 3), Vector2(20, 1), WHITE, true),
 	});
+
+	_StructOptions = SYDEMenu(vector<SYDEButton> {
+		SYDEButton("--", Vector2(1, 2), Vector2(20, 1), WHITE, true),
+			SYDEButton("--", Vector2(1, 3), Vector2(20, 1), WHITE, true),
+			SYDEButton("Leave", Vector2(1, 4), Vector2(20, 1), WHITE, true),
+	});
+
+	_StructOptions[0].m_Label = "0";
+	_StructOptions[1].m_Label = "1";
+	_StructOptions[2].m_Label = "2";
+
+	_StructOptions.setActive(true);
+	_StructOptions.setPos(Vector2(1, 2));
+
+	for (int i = 0; i < _StructOptions.getSize(); i++)
+	{
+		_StructOptions[i].setHighLight(RED);
+	}
 
 	_FightOptions = SYDEMenu(vector<SYDEButton> {
 		SYDEButton("Fight", Vector2(1, 2), Vector2(20, 1), WHITE, true),
@@ -160,11 +197,11 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 	{
 		window = Main_Map_Scene(window, windowWidth, windowHeight);
 	}
-	if (_STATE == "MainMenu")
+	else if (_STATE == "MainMenu")
 	{
 		window = Main_Menu(window, windowWidth, windowHeight);
 	}
-	if (_STATE == "ORC_TEST")
+	else if (_STATE == "ORC_TEST")
 	{
 		//window = Orc_Fight(window, windowWidth, windowHeight);
 		//GENERATE ORC FIGHT
@@ -173,10 +210,15 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		enemy_Health = 100;
 		_STATE = "ORC_FIGHT";
 	}
-	if (_STATE == "ORC_FIGHT")
+	else if (_STATE == "ORC_FIGHT")
 	{
 		window = Orc_Fight(window, windowWidth, windowHeight);
 	}
+	else if (_STATE == "BUILDING_TEST")
+	{
+		window = Building_Test(window, windowWidth, windowHeight);
+	}
+
 	return window;
 }
 
@@ -185,8 +227,32 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 	window = m_bg.draw_asset(window, Vector2(0, 0));
 	window = _LevelAsset.draw_asset(window, Vector2(camera_Pos.getX()-20, camera_Pos.getY()-10), windowWidth, windowHeight);
 
+	//UI
+	for (int l = 0; l < windowWidth; l++)
+	{
+		window.setTextAtPoint(Vector2(l, 19), " ", RED_WHITE_BG);
+	}
+	window.setTextAtPoint(Vector2(0, 1), "Area: " + getTown(camera_Pos), RED_WHITE_BG);
+	window.setTextAtPoint(Vector2(0, 19), "Health: " + std::to_string(play_health) + ", Lvl: " + std::to_string(play_lvl), RED_WHITE_BG);
+
+
 	//PlayerPos
 	window.setTextAtPoint(Vector2(20, 10) , "><", window.determineColourAtPoint(Vector2(20, 10), BLACK, true));
+	char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+	if (tempChar == StructureChar)
+	{
+		window.setTextAtPoint(Vector2(0, 19), "'" + getSTRUCT_STATE(camera_Pos) + "' Press Space To Enter", BLACK_WHITE_BG);
+	}
+
+	if (SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN))
+	{
+		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		int random_variable = std::rand() % 33 + 1;
+		if (tempChar == StructureChar)
+		{
+			_STATE = getSTRUCT_STATE(camera_Pos);
+		}
+	}
 	if (SYDEKeyCode::get('S')._CompareState(KEY))
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 11)));
@@ -194,7 +260,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		
 		// CASES FOR WILDFIGHT
 		// ADD RANDOM CHANCE
-		char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		int random_variable = std::rand() % 33 + 1;
 		if (tempChar == 'V')
 		{
@@ -218,7 +284,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 
 		// CASES FOR WILDFIGHT
 		// ADD RANDOM CHANCE
-		char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		int random_variable = std::rand() % 33 + 1;
 		if (tempChar == 'V')
 		{
@@ -240,7 +306,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 
 		// CASES FOR WILDFIGHT
 		// ADD RANDOM CHANCE
-		char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		int random_variable = std::rand() % 33 + 1;
 		if (tempChar == 'V')
 		{
@@ -263,7 +329,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 
 		// CASES FOR WILDFIGHT
 		// ADD RANDOM CHANCE
-		char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		int random_variable = std::rand() % 33 + 1;
 		if (tempChar == 'V')
 		{
@@ -279,12 +345,6 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 			camera_Pos.addX(-2);
 		}
 	}
-	for (int l = 0; l < windowWidth; l++)
-	{
-		window.setTextAtPoint(Vector2(l, 19), " ", RED_WHITE_BG);
-	}
-	window.setTextAtPoint(Vector2(0, 1), "Area: " + getTown(camera_Pos), RED_WHITE_BG);
-	window.setTextAtPoint(Vector2(0, 19), "Health: " + std::to_string(play_health) + ", Lvl: " + std::to_string(play_lvl), RED_WHITE_BG);
 	return window;
 }
 
@@ -370,6 +430,39 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 	return window;
 }
 
+ConsoleWindow SYDEMapGame::Building_Test(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
+		}
+	}
+	window.setTextAtPoint(Vector2(0, 1), "BUILDING_TEST", BLACK_WHITE_BG);
+
+	window = _StructOptions.draw_menu(window);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+		}
+	}
+	return window;
+}
+
 string SYDEMapGame::getWFA_STATE(Vector2 point)
 {
 	for (int i = 0; i < _list_fight_cases.size(); i++)
@@ -377,6 +470,18 @@ string SYDEMapGame::getWFA_STATE(Vector2 point)
 		if (_list_fight_cases[i].getPoint() == point)
 		{
 			return _list_fight_cases[i].getWildFightArg();
+		}
+	}
+	return "MainMap";
+}
+
+string SYDEMapGame::getSTRUCT_STATE(Vector2 point)
+{
+	for (int i = 0; i < _list_structures.size(); i++)
+	{
+		if (_list_structures[i].getPoint() == point)
+		{
+			return _list_structures[i].getStructArg();
 		}
 	}
 	return "MainMap";
@@ -405,3 +510,4 @@ bool _Town_Square::inBounds(Vector2 point)
 {
 	return (point.getX() >= TopLeft.getX() && point.getX() <= BottomRight.getX() && point.getY() >= TopLeft.getY() && point.getY() <= BottomRight.getY());
 }
+
