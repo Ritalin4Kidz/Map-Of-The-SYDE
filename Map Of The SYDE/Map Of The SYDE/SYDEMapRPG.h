@@ -1,6 +1,7 @@
 #pragma once
 #include "SYDEstdafx.h"
 #include "MOTSDefaults.h"
+#include <functional>
 #include <ctime>
 
 class _Town_Square {
@@ -67,8 +68,15 @@ public:
 
 	void AddAttachmentWildFight(Vector2 m_Point, string _arg);
 	void AddAttachmentStructure(Vector2 m_Point, string _arg, int colour);
+
+	std::function<ConsoleWindow(ConsoleWindow, int, int)> m_State;
+
+	void AssignState(std::function<ConsoleWindow(ConsoleWindow, int, int)> newState) {m_State = newState;}
+
+	ConsoleWindow DoState(ConsoleWindow window, int windowWidth, int windowHeight) { return m_State(window, windowWidth, windowHeight); }
 private:
 	string _STATE = "MainMenu";
+	string _CurentSTATE = "MainMenu";
 	CustomAsset m_bg;
 	CustomAsset _LevelAsset;
 
@@ -104,6 +112,7 @@ private:
 
 	//ETC
 	vector<_Town_Square> vecTowns;
+
 
 	//STANDARD BUILDING
 	SYDEMenu _StructOptions;

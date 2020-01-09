@@ -29,6 +29,7 @@ void SYDEMapGame::AddAttachmentStructure(Vector2 m_Point, string _arg, int colou
 
 SYDEMapGame::SYDEMapGame()
 {
+	AssignState(std::bind(&SYDEMapGame::Main_Menu, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 	_list_fight_cases = vector<WildFightAttachment>();
 	_list_structures = vector<Structure>();
 	m_bg = CustomAsset(60, 30, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\bg.bmp", 30, 30));
@@ -197,36 +198,47 @@ SYDEMapGame::SYDEMapGame()
 
 ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	if (_STATE == "MainMap")
+	if (_CurentSTATE.compare(_STATE) != 0)
 	{
-		window = Main_Map_Scene(window, windowWidth, windowHeight);
-		if (MOTSDefaults::DEBUG_UI_)
+		// SO NOW IT IS THE CURRENT STATE
+		_CurentSTATE = _STATE;
+		if (_STATE == "MainMap")
 		{
-			window.setTextAtPoint(Vector2(0, 2), to_string((int)camera_Pos.getX()) + "," + to_string((int)camera_Pos.getY()), RED_WHITE_BG);
-		}
+			//window = Main_Map_Scene(window, windowWidth, windowHeight);
+			AssignState(std::bind(&SYDEMapGame::Main_Map_Scene, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
+		}
+		else if (_STATE == "MainMenu")
+		{
+			//window = Main_Menu(window, windowWidth, windowHeight);
+			AssignState(std::bind(&SYDEMapGame::Main_Menu, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "ORC_TEST")
+		{
+			//window = Orc_Fight(window, windowWidth, windowHeight);
+			//GENERATE ORC FIGHT
+			enemy_Damage = 2;
+			enemy_exp_gained = 50;
+			enemy_Health = 100;
+			//_STATE = "ORC_FIGHT";
+			AssignState(std::bind(&SYDEMapGame::Orc_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "ORC_FIGHT")
+		{
+			//window = Orc_Fight(window, windowWidth, windowHeight);
+			AssignState(std::bind(&SYDEMapGame::Orc_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "BUILDING_TEST")
+		{
+			//window = Building_Test(window, windowWidth, windowHeight);
+			AssignState(std::bind(&SYDEMapGame::Building_Test, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else {
+			//FAILSAFE
+			AssignState(std::bind(&SYDEMapGame::Main_Menu, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
 	}
-	else if (_STATE == "MainMenu")
-	{
-		window = Main_Menu(window, windowWidth, windowHeight);
-	}
-	else if (_STATE == "ORC_TEST")
-	{
-		//window = Orc_Fight(window, windowWidth, windowHeight);
-		//GENERATE ORC FIGHT
-		enemy_Damage = 2;
-		enemy_exp_gained = 50;
-		enemy_Health = 100;
-		_STATE = "ORC_FIGHT";
-	}
-	else if (_STATE == "ORC_FIGHT")
-	{
-		window = Orc_Fight(window, windowWidth, windowHeight);
-	}
-	else if (_STATE == "BUILDING_TEST")
-	{
-		window = Building_Test(window, windowWidth, windowHeight);
-	}
+	window = DoState(window,windowWidth,windowHeight);
 	return window;
 }
 
@@ -352,6 +364,10 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		{
 			camera_Pos.addX(-2);
 		}
+	}
+	if (MOTSDefaults::DEBUG_UI_)
+	{
+		window.setTextAtPoint(Vector2(0, 2), to_string((int)camera_Pos.getX()) + "," + to_string((int)camera_Pos.getY()), RED_WHITE_BG);
 	}
 	return window;
 }
