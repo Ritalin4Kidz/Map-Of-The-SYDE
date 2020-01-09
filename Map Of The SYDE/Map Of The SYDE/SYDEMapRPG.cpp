@@ -36,6 +36,7 @@ SYDEMapGame::SYDEMapGame()
 	_LevelAsset = CustomAsset(2048, 768, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Level_SYDE.bmp", 1024, 768));
 	camera_Pos = Vector2(280,200);
 
+	// LIST OF ALL TOWNS
 	vecTowns = vector<_Town_Square>{
 		//A
 		_Town_Square(Vector2(0,		0), Vector2(255,	95) , "Dissonant Waved Ocean"), // THANKS ME TRICKS AND DOM
@@ -119,7 +120,6 @@ SYDEMapGame::SYDEMapGame()
 	// AddAttachmentStructure(Vector2(216, 172), "BUILDING_TEST", 7);
 	// AddAttachmentStructure(Vector2(217, 172), "BUILDING_TEST", 7);
 
-
 	//ORC WILD FIGHT 1 -- TEST FIGHT
 	AddAttachmentWildFight(Vector2(280, 199), "ORC_TEST");
 	AddAttachmentWildFight(Vector2(280, 198), "ORC_TEST");
@@ -133,6 +133,9 @@ SYDEMapGame::SYDEMapGame()
 	AddAttachmentWildFight(Vector2(283, 199), "ORC_TEST");
 	AddAttachmentWildFight(Vector2(283, 198), "ORC_TEST");
 	AddAttachmentWildFight(Vector2(283, 197), "ORC_TEST");
+
+	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID C:6 - Jonestown
+
 
 	//MAIN MENU VARS
 	_Options = SYDEMenu(vector<SYDEButton> {	
@@ -221,6 +224,29 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			enemy_Damage = 2;
 			enemy_exp_gained = 50;
 			enemy_Health = 100;
+
+			_MoveOptions = SYDEMenu(vector<SYDEButton> {
+					SYDEButton("Sword", Vector2(1, 2), Vector2(20, 1), WHITE, true),
+					SYDEButton(___IfUnlocked(player.getFireSpellUnlocked(), "Fire Spell")  , Vector2(1, 3), Vector2(20, 1), WHITE, true),
+					SYDEButton(___IfUnlocked(player.getWaterSpellUnlocked(), "Water Spell"), Vector2(1, 4), Vector2(20, 1), WHITE, true),
+					SYDEButton(___IfUnlocked(player.getGrassSpellUnlocked(), "Grass Spell"), Vector2(1, 5), Vector2(20, 1), WHITE, true),
+					SYDEButton("Back", Vector2(1, 6), Vector2(20, 1), WHITE, true)
+			});
+
+			_MoveOptions[0].m_Label = "0";
+			_MoveOptions[1].m_Label = ___IfUnlocked(player.getFireSpellUnlocked(), "1");
+			_MoveOptions[2].m_Label = ___IfUnlocked(player.getWaterSpellUnlocked(), "2");
+			_MoveOptions[3].m_Label = ___IfUnlocked(player.getGrassSpellUnlocked(), "3");
+			_MoveOptions[4].m_Label = "4";
+
+			_MoveOptions.setActive(false);
+			_MoveOptions.setPos(Vector2(1, 2));
+
+			for (int i = 0; i < _MoveOptions.getSize(); i++)
+			{
+				_MoveOptions[i].setHighLight(RED);
+			}
+			_FightOptions.setActive(true);
 			//_STATE = "ORC_FIGHT";
 			AssignState(std::bind(&SYDEMapGame::Orc_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
@@ -254,7 +280,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		window.setTextAtPoint(Vector2(l, 19), " ", RED_WHITE_BG);
 	}
 	window.setTextAtPoint(Vector2(0, 1), "Area: " + getTown(camera_Pos), RED_WHITE_BG);
-	window.setTextAtPoint(Vector2(0, 19), "Health: " + std::to_string(play_health) + ", Lvl: " + std::to_string(play_lvl), RED_WHITE_BG);
+	window.setTextAtPoint(Vector2(0, 19), "Health: " + std::to_string(player.getHealth()) + ", Lvl: " + std::to_string(player.getLvl()), RED_WHITE_BG);
 
 
 	//PlayerPos
@@ -423,6 +449,7 @@ ConsoleWindow SYDEMapGame::Main_Menu(ConsoleWindow window, int windowWidth, int 
 
 ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
+	bool enemy_attack = false;
 	for (int l = 0; l < windowWidth; l++)
 	{
 		for (int m = 0; m < windowHeight; m++)
@@ -435,22 +462,109 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 
 	window.setTextAtPoint(Vector2(20, 11), "    Health: " + std::to_string(enemy_Health) + "     ", BLACK_WHITE_BG);
 
-	window = _FightOptions.draw_menu(window);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (_FightOptions.getActive())
 	{
-		_FightOptions.nextSelect();
+		window = _FightOptions.draw_menu(window);
+		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+		{
+			_FightOptions.nextSelect();
+		}
+		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+		{
+			if (_FightOptions.getSelected().m_Label == "0")
+			{
+				_FightOptions.setActive(false);
+				_MoveOptions.setActive(true);
+			}
+			else if (_FightOptions.getSelected().m_Label == "1")
+			{
+				//IF RUN WAS SUCCESSFUL
+				_STATE = "MainMap";
+			}
+		}
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	else if (_MoveOptions.getActive())
 	{
-		if (_FightOptions.getSelected().m_Label == "0")
+		window = _MoveOptions.draw_menu(window);
+		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
 		{
-			//FIGHT SEQUENCE
+			_MoveOptions.nextSelect();
 		}
-		else if (_FightOptions.getSelected().m_Label == "1")
+		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
 		{
-			//IF RUN WAS SUCCESSFUL
-			_STATE = "MainMap";
+			if (_MoveOptions.getSelected().m_Label == "0")
+			{
+				//FIGHT SEQUENCE SWORD
+				int dmgApplied = player.getSwordDmg() * 1 * player.getLvl();
+				enemy_Health -= dmgApplied;
+				_FWindow.AddFString("Player Used Sword");
+				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+				enemy_attack = true;
+			}
+			else if (_MoveOptions.getSelected().m_Label == "1")
+			{
+				int dmgApplied = player.getFireDmg() * 2 * player.getLvl();
+				enemy_Health -= dmgApplied;
+				_FWindow.AddFString("Player Used Fire");
+				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+				enemy_attack = true;
+			}
+			else if (_MoveOptions.getSelected().m_Label == "2")
+			{
+				int dmgApplied = player.getWaterDmg() * 0.5f * player.getLvl();
+				enemy_Health -= dmgApplied;
+				_FWindow.AddFString("Player Used Water");
+				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+				enemy_attack = true;
+			}
+			else if (_MoveOptions.getSelected().m_Label == "3")
+			{
+				int dmgApplied = player.getGrassDmg() * 0 * player.getLvl();
+				enemy_Health -= dmgApplied;
+				_FWindow.AddFString("Player Used Grass");
+				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+				enemy_attack = true;
+			}
+			else if (_MoveOptions.getSelected().m_Label == "4")
+			{
+				_FightOptions.setActive(true);
+				_MoveOptions.setActive(false);
+			}
 		}
+	}
+
+	if (enemy_Health <= 0)
+	{
+		player.setXP(player.getXP() + enemy_exp_gained);
+		while (player.getXP() >= player.getXPNxtLvl()) {
+			player.setLvl(player.getLvl() + 1);
+			player.setMaxHealth(player.getMaxHealth() + 5);
+			player.setHealth(player.getMaxHealth()); // HEAL ON LVL UP
+			player.setXP(player.getXP() - player.getXPNxtLvl());
+			player.setXPNxtLvl(player.getXPNxtLvl() * 1.5f);
+		}
+		_FWindow.clear();
+		_STATE = "MainMap";
+		enemy_attack = false;
+	}
+
+	if (enemy_attack)
+	{
+		int dmgAppliedOrc = enemy_Damage * 2;
+		player.setHealth(player.getHealth() - dmgAppliedOrc);
+		_FWindow.AddFString("Orc Used Club");
+		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
+	if (player.getHealth() <= 0)
+	{
+		_FWindow.clear();
+		_STATE = "MainMenu";
 	}
 	return window;
 }
@@ -536,3 +650,17 @@ bool _Town_Square::inBounds(Vector2 point)
 	return (point.getX() >= TopLeft.getX() && point.getX() <= BottomRight.getX() && point.getY() >= TopLeft.getY() && point.getY() <= BottomRight.getY());
 }
 
+void FightWindow::AddFString(string fstring)
+{
+	if (_fightStrings.size() >= 8)
+	{
+		for (int i = 1; i <8; i++)
+		{
+			_fightStrings[i - 1] = _fightStrings[i];
+		}
+		_fightStrings[7] = fstring;
+	}
+	else {
+		_fightStrings.push_back(fstring);
+	}
+}
