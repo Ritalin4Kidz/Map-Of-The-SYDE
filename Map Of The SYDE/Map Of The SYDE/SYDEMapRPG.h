@@ -1,5 +1,6 @@
 #pragma once
 #include "SYDEstdafx.h"
+#include "MOTSDefaults.h"
 #include <ctime>
 
 class _Town_Square {
@@ -59,12 +60,13 @@ public:
 
 	ConsoleWindow Building_Test(ConsoleWindow window, int windowWidth, int windowHeight);
 
+
 	string getWFA_STATE(Vector2 point);
 	string getSTRUCT_STATE(Vector2 point);
 	string getTown(Vector2 point);
 
 	void AddAttachmentWildFight(Vector2 m_Point, string _arg);
-	void AddAttachmentStructure(Vector2 m_Point, string _arg);
+	void AddAttachmentStructure(Vector2 m_Point, string _arg, int colour);
 private:
 	string _STATE = "MainMenu";
 	CustomAsset m_bg;

@@ -20,10 +20,10 @@ void SYDEMapGame::AddAttachmentWildFight(Vector2 m_Point, string _arg)
 	_list_fight_cases.push_back(WildFightAttachment(m_Point, _arg));
 }
 
-void SYDEMapGame::AddAttachmentStructure(Vector2 m_Point, string _arg)
+void SYDEMapGame::AddAttachmentStructure(Vector2 m_Point, string _arg, int colour)
 {
 	_LevelAsset.setCharAtPoint(m_Point, StructureChar);
-	_LevelAsset.setColourAtPoint(m_Point, 7);
+	_LevelAsset.setColourAtPoint(m_Point, colour);
 	_list_structures.push_back(Structure(m_Point, _arg));
 }
 
@@ -109,12 +109,16 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1792,	672), Vector2(2047,	767), "South East Ocean"), // THANKS ME
 	};
 
-	//STRUCTURE 1
-	AddAttachmentStructure(Vector2(280, 190), "BUILDING_TEST");
-	AddAttachmentStructure(Vector2(281, 190), "BUILDING_TEST");
+	//STRUCTURE 1 -- TEST STRUCTURE
+	AddAttachmentStructure(Vector2(280, 190), "BUILDING_TEST", 7);
+	AddAttachmentStructure(Vector2(281, 190), "BUILDING_TEST", 7);
+
+	// WATER TEST: BUILDINGS ON WATER MEAN THAT TILE CAN BE WALKED ON :D
+	// AddAttachmentStructure(Vector2(216, 172), "BUILDING_TEST", 7);
+	// AddAttachmentStructure(Vector2(217, 172), "BUILDING_TEST", 7);
 
 
-	//ORC WILD FIGHT 1
+	//ORC WILD FIGHT 1 -- TEST FIGHT
 	AddAttachmentWildFight(Vector2(280, 199), "ORC_TEST");
 	AddAttachmentWildFight(Vector2(280, 198), "ORC_TEST");
 	AddAttachmentWildFight(Vector2(280, 197), "ORC_TEST");
@@ -196,6 +200,11 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 	if (_STATE == "MainMap")
 	{
 		window = Main_Map_Scene(window, windowWidth, windowHeight);
+		if (MOTSDefaults::DEBUG_UI_)
+		{
+			window.setTextAtPoint(Vector2(0, 2), to_string((int)camera_Pos.getX()) + "," + to_string((int)camera_Pos.getY()), RED_WHITE_BG);
+		}
+
 	}
 	else if (_STATE == "MainMenu")
 	{
@@ -218,7 +227,6 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 	{
 		window = Building_Test(window, windowWidth, windowHeight);
 	}
-
 	return window;
 }
 
