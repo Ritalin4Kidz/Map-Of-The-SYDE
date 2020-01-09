@@ -145,7 +145,7 @@ SYDEMapGame::SYDEMapGame()
 	});
 
 	_StructOptions = SYDEMenu(vector<SYDEButton> {
-		SYDEButton("--", Vector2(1, 2), Vector2(20, 1), WHITE, true),
+		SYDEButton("Speak", Vector2(1, 2), Vector2(20, 1), WHITE, true),
 			SYDEButton("--", Vector2(1, 3), Vector2(20, 1), WHITE, true),
 			SYDEButton("Leave", Vector2(1, 4), Vector2(20, 1), WHITE, true),
 	});
@@ -589,6 +589,10 @@ ConsoleWindow SYDEMapGame::Building_Test(ConsoleWindow window, int windowWidth, 
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
+			_FWindow.AddFString("Man: You Poor Lad");
+			_FWindow.AddFString("Man: Rest Up My Son");
+			_FWindow.AddFString("*HEALTH RESTORED*");
+			player.setHealth(player.getMaxHealth());
 		}
 		else if (_StructOptions.getSelected().m_Label == "1")
 		{
@@ -597,7 +601,12 @@ ConsoleWindow SYDEMapGame::Building_Test(ConsoleWindow window, int windowWidth, 
 		{
 			// LEAVE BUILDING
 			_STATE = "MainMap";
+			_FWindow.clear();
 		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
 	}
 	return window;
 }
