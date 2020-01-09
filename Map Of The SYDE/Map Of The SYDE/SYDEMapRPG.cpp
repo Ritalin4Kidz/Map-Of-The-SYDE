@@ -37,6 +37,7 @@ SYDEMapGame::SYDEMapGame()
 	camera_Pos = Vector2(280,200);
 
 	vecTowns = vector<_Town_Square>{
+		//A
 		_Town_Square(Vector2(0,		0), Vector2(255,	95) , "Dissonant Waved Ocean"), // THANKS ME TRICKS AND DOM
 		_Town_Square(Vector2(256,	0), Vector2(511,	95) , "Almon Island"), // THANKS ME
 		_Town_Square(Vector2(512,	0), Vector2(767,	95) , "Blankis Island"), // THANKS ME
@@ -45,7 +46,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1280,	0), Vector2(1535,	95) , "SYDE Coast"), // THANKS ME
 		_Town_Square(Vector2(1536,	0), Vector2(1791,	95) , "Taumatawhaka"), // THANKS LEGO YODA (DISCORD)
 		_Town_Square(Vector2(1792,	0), Vector2(2047,	95) , "Taumata Beach"), // THANKS ME
-
+		//B
 		_Town_Square(Vector2(0,		96), Vector2(255,	191), "Toplefia Place"), // THANKS ME
 		_Town_Square(Vector2(256,	96), Vector2(511,	191), "North Muric Coast"), // ALI FUCK YOU
 		_Town_Square(Vector2(512,	96), Vector2(767,	191), "Ballistica"), // THANKS ALI
