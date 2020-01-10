@@ -286,6 +286,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		else if (_STATE == "BUILDING_TEST")
 		{
 			_StructOptions[0].setText("Speak");
+			_StructOptions[1].setText("--");
 			//window = Building_Test(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Building_Test, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}

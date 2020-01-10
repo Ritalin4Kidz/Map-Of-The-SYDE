@@ -201,4 +201,6 @@ private:
 
 	//STANDARD BUILDING
 	SYDEMenu _StructOptions;
+
+	// SAVED VARIABLES (e.g. quest booleans)
  };
