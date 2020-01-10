@@ -1,0 +1,8 @@
+//PLAYERSTATS
+PlayerLVL:35
+PlayerHP:848
+PlayerHPMax:848
+PlayerXP:6632
+PlayerXPNxt:25485
+PosX:282.000000
+PosY:199.000000
