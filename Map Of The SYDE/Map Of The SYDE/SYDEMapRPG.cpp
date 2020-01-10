@@ -195,7 +195,7 @@ SYDEMapGame::SYDEMapGame()
 	_list_structures = vector<Structure>();
 	m_bg = CustomAsset(60, 30, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\bg.bmp", 30, 30));
 	_LevelAsset = CustomAsset(2048, 768, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Level_SYDE.bmp", 1024, 768));
-	camera_Pos = Vector2(280,200);
+	camera_Pos = Vector2(214,173);
 
 	// LIST OF ALL TOWNS
 	vecTowns = vector<_Town_Square>{
@@ -314,9 +314,44 @@ SYDEMapGame::SYDEMapGame()
 			}
 		}
 	}
+
 	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID B:1 - Toplefia Place
+
+	for (int ii = 199; ii < 206; ii++)
+	{
+		for (int i = 220; i < 232; i += 2)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Toplefia Town Hall", 64);
+			AddAttachmentStructure(Vector2(i + 1, ii), "Toplefia Town Hall", 64);
+		}
+	}
+
+	AddAttachmentStructure(Vector2(210, 171), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(211, 171), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(212, 171), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(213, 171), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(214, 171), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(215, 171), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(216, 171), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(217, 171), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(210, 172), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(211, 172), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(212, 172), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(213, 172), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(214, 172), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(215, 172), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(216, 172), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(217, 172), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(210, 173), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(211, 173), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(212, 173), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(213, 173), "Toplefia Wharf", 96);
 	AddAttachmentStructure(Vector2(214, 173), "Toplefia Wharf", 96);
 	AddAttachmentStructure(Vector2(215, 173), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(210, 174), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(211, 174), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(212, 174), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(213, 174), "Toplefia Wharf", 96);
 
 	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID C:6 - Jonestown
 
@@ -459,12 +494,20 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			//window = Building_Test(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Building_Test, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+		//TOPLEFIA AREA
 		else if (_STATE == "Toplefia Wharf")
 		{
 			_StructOptions[0].setText("Travel"); //230,80
 			_StructOptions[1].setText("Speak");
 			AssignState(std::bind(&SYDEMapGame::Toplefia_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+		else if (_STATE == "Toplefia Town Hall")
+		{
+			_StructOptions[0].setText("Speak"); //230,80
+			_StructOptions[1].setText("--");
+			AssignState(std::bind(&SYDEMapGame::Toplefia_TownHall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		//ALMON ISLAND
 		else if (_STATE == "Almon Wharf")
 		{
 			_StructOptions[0].setText("Travel"); //230,80
@@ -1150,6 +1193,49 @@ ConsoleWindow SYDEMapGame::Toplefia_Wharf(ConsoleWindow window, int windowWidth,
 			_FWindow.AddFString("");
 			_FWindow.AddFString("");
 			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Toplefia_TownHall(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
+		}
+	}
+	window.setTextAtPoint(Vector2(0, 1), "Toplefia Town Hall", BLACK_WHITE_BG);
+
+	window = _StructOptions.draw_menu(window);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			_FWindow.AddFString("Oh hey it's you.");
+			_FWindow.AddFString("The mayor of Jonestown called");
+			_FWindow.AddFString("requested I find someone to");
+			_FWindow.AddFString("help with some problem they're");
+			_FWindow.AddFString("having over there.");
+			_FWindow.AddFString("Jonestown is just along the");
+			_FWindow.AddFString("north east coast, shouldn't");
+			_FWindow.AddFString("take too long to get there.");
 		}
 		else if (_StructOptions.getSelected().m_Label == "2")
 		{

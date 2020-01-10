@@ -148,7 +148,9 @@ public:
 
 	//TOPLEFIA PLACE
 	ConsoleWindow Toplefia_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Toplefia_TownHall(ConsoleWindow window, int windowWidth, int windowHeight);
 
+	//OTHER
 	string ___IfUnlocked(bool unlocked, string use) { if (unlocked) { return use; } return "???"; }
 
 	string getWFA_STATE(Vector2 point);
