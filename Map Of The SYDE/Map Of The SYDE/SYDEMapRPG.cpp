@@ -20,6 +20,13 @@ void SYDEMapGame::AddAttachmentWildFight(Vector2 m_Point, string _arg)
 	_list_fight_cases.push_back(WildFightAttachment(m_Point, _arg));
 }
 
+void SYDEMapGame::AddAttachmentWildFight(Vector2 m_Point, string _arg, int colour)
+{
+	_LevelAsset.setCharAtPoint(m_Point, 'V');
+	_LevelAsset.setColourAtPoint(m_Point, colour);
+	_list_fight_cases.push_back(WildFightAttachment(m_Point, _arg));
+}
+
 void SYDEMapGame::AddAttachmentStructure(Vector2 m_Point, string _arg, int colour)
 {
 	_LevelAsset.setCharAtPoint(m_Point, StructureChar);
@@ -134,8 +141,29 @@ SYDEMapGame::SYDEMapGame()
 	AddAttachmentWildFight(Vector2(283, 198), "ORC_TEST");
 	AddAttachmentWildFight(Vector2(283, 197), "ORC_TEST");
 
-	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID C:6 - Jonestown
+	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID A:2 - Almon Island
+	AddAttachmentStructure(Vector2(392, 83), "Almon Wharf", 96);
+	AddAttachmentStructure(Vector2(393, 83), "Almon Wharf", 96);
 
+	//ADD WILD AREAS IN BOUUNDARIES 402,85  451,85,  402,68   451,68
+	for (int ii = 68; ii < 86; ii++)
+	{
+		for (int i = 402; i < 452; i += 2)
+		{
+			int wfc = getColourFromLevel(Vector2(i, ii));
+			if (wfc == 32)
+			{
+				string wfs = getRandomFromList(Almon_WILD);
+				AddAttachmentWildFight(Vector2(i, ii), wfs, wfc); // NEED TO DO TWICE
+				AddAttachmentWildFight(Vector2(i + 1, ii), wfs, wfc);
+			}
+		}
+	}
+	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID B:1 - Toplefia Place
+	AddAttachmentStructure(Vector2(214, 173), "Toplefia Wharf", 96);
+	AddAttachmentStructure(Vector2(215, 173), "Toplefia Wharf", 96);
+
+	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID C:6 - Jonestown
 
 	//MAIN MENU VARS
 	_Options = SYDEMenu(vector<SYDEButton> {	
@@ -145,7 +173,7 @@ SYDEMapGame::SYDEMapGame()
 	});
 
 	_StructOptions = SYDEMenu(vector<SYDEButton> {
-		SYDEButton("Speak", Vector2(1, 2), Vector2(20, 1), WHITE, true),
+		SYDEButton("--", Vector2(1, 2), Vector2(20, 1), WHITE, true),
 			SYDEButton("--", Vector2(1, 3), Vector2(20, 1), WHITE, true),
 			SYDEButton("Leave", Vector2(1, 4), Vector2(20, 1), WHITE, true),
 	});
@@ -257,8 +285,21 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		}
 		else if (_STATE == "BUILDING_TEST")
 		{
+			_StructOptions[0].setText("Speak");
 			//window = Building_Test(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Building_Test, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "Toplefia Wharf")
+		{
+			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::Toplefia_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "Almon Wharf")
+		{
+			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::Almon_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else {
 			//FAILSAFE
@@ -564,6 +605,7 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 	if (player.getHealth() <= 0)
 	{
 		_FWindow.clear();
+		player.setHealth(1);
 		_STATE = "MainMenu";
 	}
 	return window;
@@ -611,6 +653,104 @@ ConsoleWindow SYDEMapGame::Building_Test(ConsoleWindow window, int windowWidth, 
 	return window;
 }
 
+ConsoleWindow SYDEMapGame::Almon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
+		}
+	}
+	window.setTextAtPoint(Vector2(0, 1), "Almon Wharf", BLACK_WHITE_BG);
+
+	window = _StructOptions.draw_menu(window);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(214, 173); // Toplefia Wharf
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("Are you ready to head back to");
+			_FWindow.AddFString("the mainland yet?");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Toplefia_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
+		}
+	}
+	window.setTextAtPoint(Vector2(0, 1), "Toplefia Wharf", BLACK_WHITE_BG);
+
+	window = _StructOptions.draw_menu(window);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(392, 83); // Almon Island Dock
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("We're Going To Almon Island! ");
+			_FWindow.AddFString("A lot of dangerous creatures");
+			_FWindow.AddFString("over there so you might want");
+			_FWindow.AddFString("to make sure you're strong");
+			_FWindow.AddFString("enough");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
 string SYDEMapGame::getWFA_STATE(Vector2 point)
 {
 	for (int i = 0; i < _list_fight_cases.size(); i++)
@@ -645,6 +785,36 @@ string SYDEMapGame::getTown(Vector2 point)
 		}
 	}
 	return "???";
+}
+
+int SYDEMapGame::getColourFromLevel(Vector2 point)
+{
+	int wf_colour = _LevelAsset.getColourAtPoint(point);
+	switch (wf_colour)
+	{
+	case 32:
+		wf_colour = 32;
+		break;
+	case 34:
+		wf_colour = 32;
+		break;
+	case 224:
+		wf_colour = 224;
+		break;
+	case 238:
+		wf_colour = 224;
+	default:
+		wf_colour = 224;
+		break;
+	}
+
+	return wf_colour;
+}
+
+string SYDEMapGame::getRandomFromList(vector<string> _list)
+{
+	int random_var = std::rand() %  _list.size();
+	return _list[random_var];
 }
 
 _Town_Square::_Town_Square(Vector2 boundary1, Vector2 boundary2, string townName)

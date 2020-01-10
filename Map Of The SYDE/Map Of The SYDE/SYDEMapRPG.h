@@ -127,9 +127,15 @@ public:
 
 	ConsoleWindow Main_Menu(ConsoleWindow window, int windowWidth, int windowHeight);
 
+	//TEST
 	ConsoleWindow Orc_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
-
 	ConsoleWindow Building_Test(ConsoleWindow window, int windowWidth, int windowHeight);
+
+	//Almon Island
+	ConsoleWindow Almon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+
+	//TOPLEFIA PLACE
+	ConsoleWindow Toplefia_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	string ___IfUnlocked(bool unlocked, string use) { if (unlocked) { return use; } return "???"; }
 
@@ -137,7 +143,11 @@ public:
 	string getSTRUCT_STATE(Vector2 point);
 	string getTown(Vector2 point);
 
+	int getColourFromLevel(Vector2 point);
+	string getRandomFromList(vector<string> _list);
+
 	void AddAttachmentWildFight(Vector2 m_Point, string _arg);
+	void AddAttachmentWildFight(Vector2 m_Point, string _arg, int colour);
 	void AddAttachmentStructure(Vector2 m_Point, string _arg, int colour);
 
 	std::function<ConsoleWindow(ConsoleWindow, int, int)> m_State;
@@ -184,6 +194,10 @@ private:
 	//ETC
 	vector<_Town_Square> vecTowns;
 
+	//WILD AREAS
+	vector<string> Almon_WILD = {
+		"ORC_TEST"
+	};
 
 	//STANDARD BUILDING
 	SYDEMenu _StructOptions;
