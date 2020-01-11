@@ -159,6 +159,14 @@ void SYDEMapGame::loadSave()
 	}
 }
 
+void SYDEMapGame::enemy_dead()
+{
+	player.setXP(player.getXP() + enemy_exp_gained);
+	lvlUP();
+	_FWindow.clear();
+	_STATE = "MainMap";
+}
+
 vector<string> SYDEMapGame::Split(string a_String, char splitter)
 {
 	int arraySize = 1;
@@ -426,6 +434,10 @@ SYDEMapGame::SYDEMapGame()
 	//CUTSCENES
 	m_SAIL.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\SailingAnimation.bmp", astVars, 160, 20, 20, 20, 0, 8));
 	m_SAIL.setLooping(true);
+
+	//NPC
+	m_PLACEHOLDER.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Bitmaps\\NPC_Placeholder.bmp", astVars, 10, 10, 10, 10, 0, 1));
+	m_PLACEHOLDER.setLooping(true);
 }
 
 ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidth, int windowHeight)
@@ -735,39 +747,10 @@ ConsoleWindow SYDEMapGame::Main_Menu(ConsoleWindow window, int windowWidth, int 
 ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	for (int l = 0; l < windowWidth; l++)
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_ORC);
+	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
-		for (int m = 0; m < windowHeight; m++)
-		{
-			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
-		}
-	}
-	window.setTextAtPoint(Vector2(0, 1), "ORC_FIGHT", BLACK_WHITE_BG);
-	window = m_ORC.draw_asset(window, Vector2(20, 2));
-
-	window.setTextAtPoint(Vector2(20, 11), "Health:" + std::to_string(enemy_Health) + ",LVL:" + std::to_string(enemy_lvl), BLACK_WHITE_BG);
-
-	if (_FightOptions.getActive())
-	{
-		window = _FightOptions.draw_menu(window);
-		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
-		{
-			_FightOptions.nextSelect();
-		}
-		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
-		{
-			if (_FightOptions.getSelected().m_Label == "0")
-			{
-				_FightOptions.setActive(false);
-				_MoveOptions.setActive(true);
-			}
-			else if (_FightOptions.getSelected().m_Label == "1")
-			{
-				//IF RUN WAS SUCCESSFUL
-				_FWindow.clear();
-				_STATE = "MainMap";
-			}
-		}
+		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
 	}
 	else if (_MoveOptions.getActive())
 	{
@@ -821,13 +804,9 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 
 	if (enemy_Health <= 0)
 	{
-		player.setXP(player.getXP() + enemy_exp_gained);
-		lvlUP();
-		_FWindow.clear();
-		_STATE = "MainMap";
+		enemy_dead();
 		enemy_attack = false;
 	}
-
 	if (enemy_attack)
 	{
 		int dmgAppliedOrc = enemy_Damage * 2;
@@ -897,39 +876,10 @@ ConsoleWindow SYDEMapGame::Building_Test(ConsoleWindow window, int windowWidth, 
 ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	for (int l = 0; l < windowWidth; l++)
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_ORC);
+	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
-		for (int m = 0; m < windowHeight; m++)
-		{
-			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
-		}
-	}
-	window.setTextAtPoint(Vector2(0, 1), "PIG_FIGHT", BLACK_WHITE_BG);
-	window = m_PIG.draw_asset(window, Vector2(20, 2));
-
-	window.setTextAtPoint(Vector2(20, 11), "Health:" + std::to_string(enemy_Health) + ",LVL:" + std::to_string(enemy_lvl), BLACK_WHITE_BG);
-
-	if (_FightOptions.getActive())
-	{
-		window = _FightOptions.draw_menu(window);
-		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
-		{
-			_FightOptions.nextSelect();
-		}
-		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
-		{
-			if (_FightOptions.getSelected().m_Label == "0")
-			{
-				_FightOptions.setActive(false);
-				_MoveOptions.setActive(true);
-			}
-			else if (_FightOptions.getSelected().m_Label == "1")
-			{
-				//IF RUN WAS SUCCESSFUL
-				_FWindow.clear();
-				_STATE = "MainMap";
-			}
-		}
+		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
 	}
 	else if (_MoveOptions.getActive())
 	{
@@ -983,13 +933,9 @@ ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int 
 
 	if (enemy_Health <= 0)
 	{
-		player.setXP(player.getXP() + enemy_exp_gained);
-		lvlUP();
-		_FWindow.clear();
-		_STATE = "MainMap";
+		enemy_dead();
 		enemy_attack = false;
 	}
-
 	if (enemy_attack)
 	{
 		int dmgAppliedOrc = enemy_Damage * 2;
@@ -1015,39 +961,10 @@ ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int 
 ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	for (int l = 0; l < windowWidth; l++)
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_WOLF);
+	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
-		for (int m = 0; m < windowHeight; m++)
-		{
-			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
-		}
-	}
-	window.setTextAtPoint(Vector2(0, 1), "WOLF_FIGHT", BLACK_WHITE_BG);
-	window = m_ORC.draw_asset(window, Vector2(20, 2));
-
-	window.setTextAtPoint(Vector2(20, 11), "Health:" + std::to_string(enemy_Health) + ",LVL:" + std::to_string(enemy_lvl), BLACK_WHITE_BG);
-
-	if (_FightOptions.getActive())
-	{
-		window = _FightOptions.draw_menu(window);
-		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
-		{
-			_FightOptions.nextSelect();
-		}
-		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
-		{
-			if (_FightOptions.getSelected().m_Label == "0")
-			{
-				_FightOptions.setActive(false);
-				_MoveOptions.setActive(true);
-			}
-			else if (_FightOptions.getSelected().m_Label == "1")
-			{
-				//IF RUN WAS SUCCESSFUL
-				_FWindow.clear();
-				_STATE = "MainMap";
-			}
-		}
+		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
 	}
 	else if (_MoveOptions.getActive())
 	{
@@ -1101,13 +1018,9 @@ ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int
 
 	if (enemy_Health <= 0)
 	{
-		player.setXP(player.getXP() + enemy_exp_gained);
-		lvlUP();
-		_FWindow.clear();
-		_STATE = "MainMap";
+		enemy_dead();
 		enemy_attack = false;
 	}
-
 	if (enemy_attack)
 	{
 		int dmgAppliedOrc = enemy_Damage * 1.5f;
@@ -1132,16 +1045,7 @@ ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int
 
 ConsoleWindow SYDEMapGame::Almon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	for (int l = 0; l < windowWidth; l++)
-	{
-		for (int m = 0; m < windowHeight; m++)
-		{
-			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
-		}
-	}
-	window.setTextAtPoint(Vector2(0, 1), "Almon Wharf", BLACK_WHITE_BG);
-
-	window = _StructOptions.draw_menu(window);
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
 	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
@@ -1181,16 +1085,7 @@ ConsoleWindow SYDEMapGame::Almon_Wharf(ConsoleWindow window, int windowWidth, in
 
 ConsoleWindow SYDEMapGame::Toplefia_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	for (int l = 0; l < windowWidth; l++)
-	{
-		for (int m = 0; m < windowHeight; m++)
-		{
-			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
-		}
-	}
-	window.setTextAtPoint(Vector2(0, 1), "Toplefia Wharf", BLACK_WHITE_BG);
-
-	window = _StructOptions.draw_menu(window);
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
 	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
@@ -1230,16 +1125,7 @@ ConsoleWindow SYDEMapGame::Toplefia_Wharf(ConsoleWindow window, int windowWidth,
 
 ConsoleWindow SYDEMapGame::Toplefia_TownHall(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	for (int l = 0; l < windowWidth; l++)
-	{
-		for (int m = 0; m < windowHeight; m++)
-		{
-			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
-		}
-	}
-	window.setTextAtPoint(Vector2(0, 1), "Toplefia Town Hall", BLACK_WHITE_BG);
-
-	window = _StructOptions.draw_menu(window);
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
 	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
@@ -1268,6 +1154,62 @@ ConsoleWindow SYDEMapGame::Toplefia_TownHall(ConsoleWindow window, int windowWid
 	{
 		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
 	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _EnemAnim)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
+		}
+	}
+	window.setTextAtPoint(Vector2(0, 1), _STATE, BLACK_WHITE_BG);
+	window = _EnemAnim.draw_asset(window, Vector2(20, 2));
+
+	window.setTextAtPoint(Vector2(20, 11), "Health:" + std::to_string(enemy_Health) + ",LVL:" + std::to_string(enemy_lvl), BLACK_WHITE_BG);
+
+	if (_FightOptions.getActive())
+	{
+		window = _FightOptions.draw_menu(window);
+		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+		{
+			_FightOptions.nextSelect();
+		}
+		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+		{
+			if (_FightOptions.getSelected().m_Label == "0")
+			{
+				//_FightOptions.setActive(false);
+				_MoveOptions.setActive(true);
+			}
+			else if (_FightOptions.getSelected().m_Label == "1")
+			{
+				//IF RUN WAS SUCCESSFUL
+				_FWindow.clear();
+				_STATE = "MainMap";
+			}
+		}
+	}
+
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Wharf_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _NPCAnim)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
+		}
+	}
+	window.setTextAtPoint(Vector2(0, 1), _Name, BLACK_WHITE_BG);
+	window = _StructOptions.draw_menu(window);
+
+	window = _NPCAnim.draw_asset(window, Vector2(20, 2));
 	return window;
 }
 

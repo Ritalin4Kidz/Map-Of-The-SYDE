@@ -131,6 +131,7 @@ public:
 	virtual ~SYDEMapGame() {}
 	ConsoleWindow window_draw_game(ConsoleWindow window, int windowWidth, int windowHeight) override;
 
+
 	//CUTSCENES
 	ConsoleWindow Sailing(ConsoleWindow window, int windowWidth, int windowHeight);
 	void setSail(string a_STATE) { sailingTime = 0.0f; _STATESail = a_STATE; _STATE = "Sailing"; }
@@ -156,6 +157,9 @@ public:
 	ConsoleWindow Toplefia_TownHall(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//OTHER
+	ConsoleWindow Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _EnemAnim);
+	ConsoleWindow Wharf_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _NPCAnim);
+
 	string ___IfUnlocked(bool unlocked, string use) { if (unlocked) { return use; } return "???"; }
 
 	string getWFA_STATE(Vector2 point);
@@ -183,6 +187,7 @@ public:
 	void lvlUP();
 	void saveGame();
 	void loadSave();
+	void enemy_dead();
 
 	vector<string> Split(string a_String, char splitter);
 
@@ -232,6 +237,9 @@ private:
 	CustomAnimationAsset m_ORC;
 	CustomAnimationAsset m_PIG; // PLACHOLDER USED ATM
 	CustomAnimationAsset m_WOLF; // PLACHOLDER USED ATM
+
+	//NPC
+	CustomAnimationAsset m_PLACEHOLDER;
 
 	//ETC
 	vector<_Town_Square> vecTowns;

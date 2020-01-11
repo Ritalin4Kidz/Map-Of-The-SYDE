@@ -33,8 +33,42 @@ vector<string> cheatCodes;
 static ULONG_PTR gdiplusToken;
 static GdiplusStartupInput startupInput;
 
+DWORD VOLUME_LOW = DWORD(858993459);
+DWORD VOLUME_NML = DWORD(1717986918);
+DWORD VOLUME_MED = DWORD(-1717986918);
+DWORD VOLUME_HIG = DWORD(-858993459);
+DWORD VOLUME_OFF = DWORD(0);
+
+
+void volumeControl(int volume){
+	switch (volume)
+	{
+	case 0:
+		waveOutSetVolume(0, VOLUME_OFF);
+		break;
+	case 1:
+		waveOutSetVolume(0, VOLUME_LOW);
+		break;
+	case 2:
+		waveOutSetVolume(0, VOLUME_NML);
+		break;
+	case 3:
+		waveOutSetVolume(0, VOLUME_MED);
+		break;
+	case 4:
+		waveOutSetVolume(0, VOLUME_HIG);
+		break;
+	default:
+		waveOutSetVolume(0, VOLUME_NML);
+		volume = 2;
+		break;
+	}
+}
+
+
 int main()
 {
+	volumeControl(1);
 	std::srand(std::time(nullptr));
 	LPCWSTR title = L"Map Of The SYDE";
 	SYDECredits::_GAMETITLE = "AutoClick";
