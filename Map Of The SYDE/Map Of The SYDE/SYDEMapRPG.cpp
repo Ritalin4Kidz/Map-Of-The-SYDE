@@ -422,6 +422,10 @@ SYDEMapGame::SYDEMapGame()
 
 	m_WOLF.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\UIAnimations\\TestEnemy.bmp", astVars, 100, 30, 10, 10, 0, 27)); // PLACEHOLDER ANIM
 	m_WOLF.setLooping(true);
+
+	//CUTSCENES
+	m_SAIL.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\SailingAnimation.bmp", astVars, 160, 20, 20, 20, 0, 8));
+	m_SAIL.setLooping(true);
 }
 
 ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidth, int windowHeight)
@@ -435,6 +439,10 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			//window = Main_Map_Scene(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Main_Map_Scene, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
+		}
+		else if (_STATE == "Sailing")
+		{
+			AssignState(std::bind(&SYDEMapGame::Sailing, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "MainMenu")
 		{
@@ -520,6 +528,18 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		}
 	}
 	window = DoState(window,windowWidth,windowHeight);
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Sailing(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = m_SAIL.draw_asset(window, Vector2(0, 0));
+	sailingTime += SYDEDefaults::getDeltaTime();
+	window.setTextAtPoint(Vector2(0, 1), "Traveling To '" + _STATESail + "'", BLACK_WHITE_BG);
+	if (sailingTime >= maxSailTime)
+	{
+		_STATE = _STATESail;
+	}
 	return window;
 }
 
@@ -1131,7 +1151,7 @@ ConsoleWindow SYDEMapGame::Almon_Wharf(ConsoleWindow window, int windowWidth, in
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
 			camera_Pos = Vector2(214, 173); // Toplefia Wharf
-			_STATE = "MainMap";
+			setSail("Toplefia Wharf");
 			_FWindow.clear();
 		}
 		else if (_StructOptions.getSelected().m_Label == "1")
@@ -1180,7 +1200,7 @@ ConsoleWindow SYDEMapGame::Toplefia_Wharf(ConsoleWindow window, int windowWidth,
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
 			camera_Pos = Vector2(392, 83); // Almon Island Dock
-			_STATE = "MainMap";
+			setSail("Almon Wharf");
 			_FWindow.clear();
 		}
 		else if (_StructOptions.getSelected().m_Label == "1")
