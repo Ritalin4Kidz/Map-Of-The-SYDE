@@ -1,25 +1,6 @@
 #include "pch.h"
 #include "SYDEMapRPG.h"
 
-WildFightAttachment::WildFightAttachment(Vector2 _point, string _wildfightarg)
-{
-	m_WILD_FIGHT_ARG = _wildfightarg;
-	m_Point = _point;
-}
-
-WildFightAttachment::WildFightAttachment(Vector2 _point, string _wildfightarg, int a_Lvl)
-{
-	m_WILD_FIGHT_ARG = _wildfightarg;
-	m_Point = _point;
-	m_Lvl = a_Lvl;
-}
-
-Structure::Structure(Vector2 _point, string _structurearg)
-{
-	m_STRUCT_ARG = _structurearg;
-	m_Point = _point;
-}
-
 void SYDEMapGame::AddAttachmentWildFight(Vector2 m_Point, string _arg)
 {
 	_LevelAsset.setCharAtPoint(m_Point, 'V');
@@ -1289,31 +1270,4 @@ string SYDEMapGame::getRandomFromList(vector<string> _list)
 {
 	int random_var = std::rand() %  _list.size();
 	return _list[random_var];
-}
-
-_Town_Square::_Town_Square(Vector2 boundary1, Vector2 boundary2, string townName)
-{
-	TopLeft = boundary1;
-	BottomRight = boundary2;
-	_AREANAME = townName;
-}
-
-bool _Town_Square::inBounds(Vector2 point)
-{
-	return (point.getX() >= TopLeft.getX() && point.getX() <= BottomRight.getX() && point.getY() >= TopLeft.getY() && point.getY() <= BottomRight.getY());
-}
-
-void FightWindow::AddFString(string fstring)
-{
-	if (_fightStrings.size() >= 8)
-	{
-		for (int i = 1; i <8; i++)
-		{
-			_fightStrings[i - 1] = _fightStrings[i];
-		}
-		_fightStrings[7] = fstring;
-	}
-	else {
-		_fightStrings.push_back(fstring);
-	}
 }
