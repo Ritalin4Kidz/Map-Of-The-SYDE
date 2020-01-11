@@ -217,7 +217,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1280,	96), Vector2(1535,	191), "Repaired Coast"), // THANKS ME
 		_Town_Square(Vector2(1536,	96), Vector2(1791,	191), "Western Meow Coast"), // THANKS ASHIE
 		_Town_Square(Vector2(1792,	96), Vector2(2047,	191), "Eastern Meow Coast"), // THANKS ASHIE
-
+		//C
 		_Town_Square(Vector2(0,		192), Vector2(255,	287), "Northen SYDE Coast"), // THANKS ME
 		_Town_Square(Vector2(256,	192), Vector2(511,	287), "Beached Butthole"), // THANKS TRICKS
 		_Town_Square(Vector2(512,	192), Vector2(767,	287), "Arcoomer"), // THANKS ARCANA
@@ -226,7 +226,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1280,	192), Vector2(1535,	287), "Jonestown"), // THANKS LINDSAY
 		_Town_Square(Vector2(1536,	192), Vector2(1791,	287), "Swan Lake"), // THANKS PETE
 		_Town_Square(Vector2(1792,	192), Vector2(2047,	287), "Meow Coast Beach"), //THANKS ASHIE
-
+		//D
 		_Town_Square(Vector2(0,		288), Vector2(255,	383), "Southern SYDE Coast"), // THANKS ME
 		_Town_Square(Vector2(256,	288), Vector2(511,	383), "Western Plains"), // THANKS ME
 		_Town_Square(Vector2(512,	288), Vector2(767,	383), "Rhofields"), // THANKS ME
@@ -235,7 +235,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1280,	288), Vector2(1535,	383), "Arc Cove"), // THANKS ME
 		_Town_Square(Vector2(1536,	288), Vector2(1791,	383), "Faraway"), // THANKS ME
 		_Town_Square(Vector2(1792,	288), Vector2(2047,	383), "32x Tile Sea"), // THANKS LEGO YODA (DISCORD)
-
+		//E
 		_Town_Square(Vector2(0,		384), Vector2(255,	479), "Baffled Coast"), // THANKS ANDREW
 		_Town_Square(Vector2(256,	384), Vector2(511,	479), "Zengina"), // THANKS ANDREW
 		_Town_Square(Vector2(512,	384), Vector2(767,	479), "Capital Town"), // THANKS ME
@@ -244,7 +244,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1280,	384), Vector2(1535,	479), "Eastern Plains"), // THANKS ME
 		_Town_Square(Vector2(1536,	384), Vector2(1791,	479), "CRT Coast"), //FUCK YOU LEGO YODA
 		_Town_Square(Vector2(1792,	384), Vector2(2047,	479), "CRT Island"), //FUCK YOU LEGO YODA
-
+		//F
 		_Town_Square(Vector2(0,		480), Vector2(255,	575), "Windan"), // THANKS ME
 		_Town_Square(Vector2(256,	480), Vector2(511,	575), "Lake Entrance"), // THANKS CENTRAL COAST
 		_Town_Square(Vector2(512,	480), Vector2(767,	575), "Western SYDE River"), // THANKS ME
@@ -253,7 +253,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1280,	480), Vector2(1535,	575), "Denton Fields"), // THANKS LUKE
 		_Town_Square(Vector2(1536,	480), Vector2(1791,	575), "Jeff Coast"), // THANKS SIMON
 		_Town_Square(Vector2(1792,	480), Vector2(2047,	575), "Uncharted Territory"), // THANKS ME
-
+		//G
 		_Town_Square(Vector2(0,		576), Vector2(255,	671), "Uncharted Territory"), // THANKS ME
 		_Town_Square(Vector2(256,	576), Vector2(511,	671), "New SYDE Town"), // THANKS ME
 		_Town_Square(Vector2(512,	576), Vector2(767,	671), "North Edgecliffe"), // THANKS ME
@@ -262,7 +262,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1280,	576), Vector2(1535,	671), "Cyprux"), // THANKS DOM
 		_Town_Square(Vector2(1536,	576), Vector2(1791,	671), "Xylsdia Coast"), // FUCK YOU ME
 		_Town_Square(Vector2(1792,	576), Vector2(2047,	671), "Useless Sea"), // THANKS ME
-
+		//H
 		_Town_Square(Vector2(0,		672), Vector2(255,	767), "Uncharted Territory"), // THANKS ME
 		_Town_Square(Vector2(256,	672), Vector2(511,	767), "Edgecliffe"), // THANKS ME
 		_Town_Square(Vector2(512,	672), Vector2(767,	767), "Eastcliffe"), // THANKS ME
