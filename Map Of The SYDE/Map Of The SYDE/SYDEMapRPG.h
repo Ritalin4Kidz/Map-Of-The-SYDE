@@ -130,6 +130,11 @@ public:
 	SYDEMapGame();
 	virtual ~SYDEMapGame() {}
 	ConsoleWindow window_draw_game(ConsoleWindow window, int windowWidth, int windowHeight) override;
+
+	//CUTSCENES
+	ConsoleWindow Sailing(ConsoleWindow window, int windowWidth, int windowHeight);
+	void setSail(string a_STATE) { sailingTime = 0.0f; _STATESail = a_STATE; _STATE = "Sailing"; }
+
 	//MAIN
 	ConsoleWindow Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Main_Menu(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -184,6 +189,11 @@ public:
 private:
 	string _STATE = "MainMenu";
 	string _CurentSTATE = "MainMenu";
+
+	string _STATESail = "Toplefia Wharf";
+	float sailingTime = 0.0f;
+	const float maxSailTime = 5.5f;
+
 	CustomAsset m_bg;
 	CustomAsset _LevelAsset;
 
@@ -214,6 +224,9 @@ private:
 	SYDEMenu _MoveOptions;
 
 	FightWindow _FWindow;
+
+	//CutScenes
+	CustomAnimationAsset m_SAIL; // PLACHOLDER USED ATM
 
 	//ENEMY ANIMATIONS
 	CustomAnimationAsset m_ORC;
