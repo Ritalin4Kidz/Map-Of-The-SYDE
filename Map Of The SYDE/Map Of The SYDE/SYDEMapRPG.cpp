@@ -177,6 +177,23 @@ vector<string> SYDEMapGame::Split(string a_String, char splitter)
 	return splitString;
 }
 
+void SYDEMapGame::setByTag(string tag, bool newState, bool isSettingGiven)
+{
+	for (int i = 0; i < questVec.size(); i++) 
+	{ 
+		if (tag.compare(questVec[i].getTag()) == 0) 
+		{ 
+			if (isSettingGiven)
+			{
+				questVec[i].setGiven(newState);
+			}
+			else {
+				questVec[i].setFinished(newState);
+			}
+		} 
+	}
+}
+
 SYDEMapGame::SYDEMapGame()
 {
 	AssignState(std::bind(&SYDEMapGame::Main_Menu, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
@@ -301,6 +318,25 @@ SYDEMapGame::SYDEMapGame()
 				AddAttachmentWildFight(Vector2(i, ii), wfs, wfc, lvlEnemy); // NEED TO DO TWICE
 				AddAttachmentWildFight(Vector2(i + 1, ii), wfs, wfc);
 			}
+		}
+	}
+
+	// STRUCTURES && WILD FIGHT AREAS INSIDE Jonestown + Repaired Coast
+
+	for (int ii = 181; ii < 184; ii++)
+	{
+		for (int i = 1344; i < 1360; i ++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Jonestown Hall", 64);
+		}
+	}
+
+	// BEACHED ****Hole
+	for (int ii = 224; ii < 230; ii++)
+	{
+		for (int i = 356; i < 364; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Jiman's House", 64);
 		}
 	}
 
@@ -486,7 +522,11 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			//window = Orc_Fight(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Wolf_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
-
+		else if (_STATE == "QUEST_PAGE")
+		{
+			//window = Building_Test(window, windowWidth, windowHeight);
+			AssignState(std::bind(&SYDEMapGame::Quest, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
 		//BUILDINGS
 		else if (_STATE == "BUILDING_TEST")
 		{
@@ -507,6 +547,21 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			_StructOptions[0].setText("Speak"); //230,80
 			_StructOptions[1].setText("--");
 			AssignState(std::bind(&SYDEMapGame::Toplefia_TownHall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+
+		//Beached ***hole
+		else if (_STATE == "Jiman's House")
+		{
+			_StructOptions[0].setText("Speak"); //230,80
+			_StructOptions[1].setText("--");
+			AssignState(std::bind(&SYDEMapGame::Jiman_House, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		//JONESTOWN
+		else if (_STATE == "Jonestown Hall")
+		{
+			_StructOptions[0].setText("Speak"); //230,80
+			_StructOptions[1].setText("--");
+			AssignState(std::bind(&SYDEMapGame::Jonestown_Hall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		//ALMON ISLAND
 		else if (_STATE == "Almon Wharf")
@@ -566,6 +621,11 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		{
 			_STATE = getSTRUCT_STATE(camera_Pos);
 		}
+	}
+	if (SYDEKeyCode::get('I')._CompareState(KEYDOWN))
+	{
+		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		_STATE = "QUEST_PAGE";
 	}
 	if (SYDEKeyCode::get('S')._CompareState(KEY))
 	{
@@ -722,6 +782,39 @@ ConsoleWindow SYDEMapGame::Main_Menu(ConsoleWindow window, int windowWidth, int 
 			exit(NULL);
 		}
 	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Quest(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", WHITE_WHITE_BG);
+		}
+	}
+	if (SYDEKeyCode::get('I')._CompareState(KEYDOWN))
+	{
+		_STATE = "MainMap";
+	}
+	if (SYDEKeyCode::get('A')._CompareState(KEYDOWN))
+	{
+		questPage--;
+		if (questPage < 0)
+		{
+			questPage = questVec.size() - 1;
+		}
+	}
+	if (SYDEKeyCode::get('D')._CompareState(KEYDOWN))
+	{
+		questPage++;
+		if (questPage > questVec.size() - 1)
+		{
+			questPage = 0;
+		}
+	}
+	window.setTextAtPoint(Vector2(0,1),questVec[questPage].getDetails(), BLACK_WHITE_BG);
 	return window;
 }
 
@@ -1024,6 +1117,48 @@ ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int
 	return window;
 }
 
+ConsoleWindow SYDEMapGame::Jonestown_Hall(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			if (!getByTag("Jonestown_Main_Quest").getGiven())
+			{
+				//Do Quest Cutscene
+				setByTag("Jonestown_Main_Quest", true, true);
+			}
+			else
+			{
+				_FWindow.AddFString("Use that pass I gave you");
+				_FWindow.AddFString("to catch the boat to Swan Lake");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("The island is counting on you");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+			}
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
 ConsoleWindow SYDEMapGame::Almon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
@@ -1049,6 +1184,65 @@ ConsoleWindow SYDEMapGame::Almon_Wharf(ConsoleWindow window, int windowWidth, in
 			_FWindow.AddFString("");
 			_FWindow.AddFString("");
 			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Jiman_House(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			if (!getByTag("Beached_Pigs_Quest").getFinished())
+			{
+				//Do Quest Cutscene
+				//setByTag("Beached_Pigs_Quest", true, true);
+			}
+			else if (!getByTag("Beached_Pigs_Quest").getGiven())
+			{
+				//Do Quest Cutscene
+				setByTag("Beached_Pigs_Quest", true, true);
+			}
+			else if (getByTag("Beached_Pigs_Quest").getGiven() && jimans_house_pigs_killed < 5)
+			{
+				_FWindow.AddFString("pls kill those pig");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+			}
+			else if (getByTag("Beached_Pigs_Quest").getGiven() && jimans_house_pigs_killed >= 5)
+			{
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				setByTag("Beached_Pigs_Quest", true, false);
+			}
 		}
 		else if (_StructOptions.getSelected().m_Label == "2")
 		{

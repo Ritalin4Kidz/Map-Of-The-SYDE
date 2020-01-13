@@ -8,6 +8,7 @@
 #include <sstream>
 #include "Structures.h"
 #include "Player.h"
+#include "Quest.h"
 
 class SYDEMapGame : public SYDEWindowGame {
 public:
@@ -23,6 +24,7 @@ public:
 	//MAIN
 	ConsoleWindow Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Main_Menu(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Quest(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//TEST
 	ConsoleWindow Orc_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -32,9 +34,14 @@ public:
 	ConsoleWindow Pig_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Wolf_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 
+	//Jonestown//Repaired Coast
+	ConsoleWindow Jonestown_Hall(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//Almon Island
 	ConsoleWindow Almon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+
+	// BEACHED ****Hole
+	ConsoleWindow Jiman_House(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//TOPLEFIA PLACE
 	ConsoleWindow Toplefia_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -74,6 +81,9 @@ public:
 	void enemy_dead();
 
 	vector<string> Split(string a_String, char splitter);
+	__Quest getByTag(string tag) { for (int i = 0; i < questVec.size(); i++) { if (tag.compare(questVec[i].getTag()) == 0) { return questVec[i]; } } return __Quest(); }
+
+	void setByTag(string tag, bool newState, bool isSettingGiven);
 
 private:
 	string _STATE = "MainMenu";
@@ -141,4 +151,11 @@ private:
 	SYDEMenu _StructOptions;
 
 	// SAVED VARIABLES (e.g. quest booleans)
+	vector<__Quest> questVec = vector<__Quest>
+	{
+		__Quest("placeholder", "Jonestown_Main_Quest"),
+		__Quest("placeholder22", "Beached_Pigs_Quest")
+	};
+	int jimans_house_pigs_killed = 0;
+	int questPage = 0;
  };
