@@ -1263,6 +1263,27 @@ ConsoleWindow SYDEMapGame::Jonestown_Hall(ConsoleWindow window, int windowWidth,
 			if (!getByTag("Jonestown_Main_Quest").getGiven())
 			{
 				//Do Quest Cutscene
+				_FWindow.AddFString("Ah, you've arrived");
+				_FWindow.AddFString("I'll be blunt");
+				_FWindow.AddFString("There's a dragon to the east");
+				_FWindow.AddFString("of SYDE island");
+				_FWindow.AddFString("I need you to kill it");
+				_FWindow.AddFString("Take this pass to travel to");
+				_FWindow.AddFString("Swan lake, you can figure");
+				_FWindow.AddFString("the rest out from there");
+				setByTag("Jonestown_Main_Quest", true, true);
+			}
+			else if (getByTag("Jonestown_Main_Quest").getFinished())
+			{
+				//Do Quest Cutscene
+				_FWindow.AddFString("I cannot express any further");
+				_FWindow.AddFString("gratitude than right now");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("The island is forever in");
+				_FWindow.AddFString("debt to you");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
 				setByTag("Jonestown_Main_Quest", true, true);
 			}
 			else
