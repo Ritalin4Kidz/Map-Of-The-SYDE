@@ -32,6 +32,7 @@ public:
 
 	//ENEMIES
 	ConsoleWindow Pig_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow HarmlessPig_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Wolf_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//Jonestown//Repaired Coast
@@ -84,6 +85,7 @@ public:
 	__Quest getByTag(string tag) { for (int i = 0; i < questVec.size(); i++) { if (tag.compare(questVec[i].getTag()) == 0) { return questVec[i]; } } return __Quest(); }
 
 	void setByTag(string tag, bool newState, bool isSettingGiven);
+	void setByTag(string tag, int amtDone);
 
 private:
 	string _STATE = "MainMenu";
@@ -153,9 +155,13 @@ private:
 	// SAVED VARIABLES (e.g. quest booleans)
 	vector<__Quest> questVec = vector<__Quest>
 	{
-		__Quest("placeholder", "Jonestown_Main_Quest"),
-		__Quest("placeholder22", "Beached_Pigs_Quest")
+		__Quest(vector<string>{
+			"placeholder"}, "Jonestown_Main_Quest"),
+		__Quest(vector<string> {
+			"HOUSE SAVIOUR",
+			"",
+			"Jiman wants you to get rid of the",
+			"'monsters' surrounding his house"}, "Beached_Pigs_Quest", 5)
 	};
-	int jimans_house_pigs_killed = 0;
 	int questPage = 0;
  };

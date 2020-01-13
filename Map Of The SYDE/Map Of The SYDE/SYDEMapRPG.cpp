@@ -194,6 +194,17 @@ void SYDEMapGame::setByTag(string tag, bool newState, bool isSettingGiven)
 	}
 }
 
+void SYDEMapGame::setByTag(string tag, int amtDone)
+{
+	for (int i = 0; i < questVec.size(); i++)
+	{
+		if (tag.compare(questVec[i].getTag()) == 0)
+		{
+			questVec[i].setAmtDone(amtDone);
+		}
+	}
+}
+
 SYDEMapGame::SYDEMapGame()
 {
 	AssignState(std::bind(&SYDEMapGame::Main_Menu, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
@@ -337,6 +348,18 @@ SYDEMapGame::SYDEMapGame()
 		for (int i = 356; i < 364; i++)
 		{
 			AddAttachmentStructure(Vector2(i, ii), "Jiman's House", 64);
+		}
+	}
+	for (int ii = 225; ii < 233; ii++)
+	{
+		for (int i = 356; i < 372; i++)
+		{
+			int wfc = getColourFromLevel(Vector2(i, ii));
+			if (wfc == 32)
+			{
+				int lvlEnemy = 5;
+				AddAttachmentWildFight(Vector2(i, ii), "Harmless Pig", wfc, lvlEnemy); // NEED TO DO TWICE
+			}
 		}
 	}
 
@@ -504,13 +527,23 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		}
 		else if (_STATE == "PIG_FIGHT")
 		{
-			enemy_Damage = 0;
+			enemy_Damage = 0.5f;
 			enemy_exp_gained = 10 * (enemy_lvl);
 			enemy_Health = 20 * (enemy_lvl);
 
 			setUpFight();
 			//window = Orc_Fight(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Pig_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "Harmless Pig")
+		{
+			enemy_Damage = 0;
+			enemy_exp_gained = 5 * (enemy_lvl);
+			enemy_Health = 15 * (enemy_lvl);
+
+			setUpFight();
+			//window = Orc_Fight(window, windowWidth, windowHeight);
+			AssignState(std::bind(&SYDEMapGame::HarmlessPig_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "WOLF_FIGHT")
 		{
@@ -814,7 +847,17 @@ ConsoleWindow SYDEMapGame::Quest(ConsoleWindow window, int windowWidth, int wind
 			questPage = 0;
 		}
 	}
-	window.setTextAtPoint(Vector2(0,1),questVec[questPage].getDetails(), BLACK_WHITE_BG);
+	if (questVec[questPage].getGiven())
+	{
+		for (int i = 0; i < questVec[questPage].getDetails().size(); i++)
+		{
+			window.setTextAtPoint(Vector2(0, i + 1), questVec[questPage].getDetails()[i], BLACK_WHITE_BG);
+		}
+	}
+	else{
+		window.setTextAtPoint(Vector2(0,  1), "???", BLACK_WHITE_BG);
+	}
+	window.setTextAtPoint(Vector2(0, 19), to_string(questVec[questPage].getAmtDone()) + "/" + to_string(questVec[questPage].getAmtRequired()), BLACK_WHITE_BG);
 	return window;
 }
 
@@ -1014,8 +1057,97 @@ ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int 
 	{
 		int dmgAppliedOrc = enemy_Damage * 2;
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
+		_FWindow.AddFString("Pig Used Mud Throw");
+		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
+	if (player.getHealth() <= 0)
+	{
+		_FWindow.clear();
+		player.setHealth(1);
+		_STATE = "MainMenu";
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::HarmlessPig_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	bool enemy_attack = false;
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_PIG);
+	if (_MoveOptions.getActive() && _FightOptions.getActive())
+	{
+		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
+	}
+	else if (_MoveOptions.getActive())
+	{
+		window = _MoveOptions.draw_menu(window);
+		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+		{
+			_MoveOptions.nextSelect();
+		}
+		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+		{
+			if (_MoveOptions.getSelected().m_Label == "0")
+			{
+				//FIGHT SEQUENCE SWORD
+				int dmgApplied = player.getSwordDmg() * 2 * player.getLvl();
+				enemy_Health -= dmgApplied;
+				_FWindow.AddFString("Player Used Sword");
+				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+				enemy_attack = true;
+			}
+			else if (_MoveOptions.getSelected().m_Label == "1")
+			{
+				int dmgApplied = player.getFireDmg() * 2 * player.getLvl();
+				enemy_Health -= dmgApplied;
+				_FWindow.AddFString("Player Used Fire");
+				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+				enemy_attack = true;
+			}
+			else if (_MoveOptions.getSelected().m_Label == "2")
+			{
+				int dmgApplied = player.getWaterDmg() * 0.5f * player.getLvl();
+				enemy_Health -= dmgApplied;
+				_FWindow.AddFString("Player Used Water");
+				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+				enemy_attack = true;
+			}
+			else if (_MoveOptions.getSelected().m_Label == "3")
+			{
+				int dmgApplied = player.getGrassDmg() * 0.5f * player.getLvl();
+				enemy_Health -= dmgApplied;
+				_FWindow.AddFString("Player Used Grass");
+				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+				enemy_attack = true;
+			}
+			else if (_MoveOptions.getSelected().m_Label == "4")
+			{
+				_FightOptions.setActive(true);
+				_MoveOptions.setActive(false);
+			}
+		}
+	}
+
+	if (enemy_Health <= 0)
+	{
+		enemy_dead();
+		if (getByTag("Beached_Pigs_Quest").getGiven())
+		{
+			setByTag("Beached_Pigs_Quest", getByTag("Beached_Pigs_Quest").getAmtDone() + 1);
+		}
+		enemy_attack = false;
+	}
+	if (enemy_attack)
+	{
+		int dmgAppliedOrc = enemy_Damage * 2;
+		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Pig Used Roll Around");
-		_FWindow.AddFString("It Didn't Do Anything");
+		_FWindow.AddFString("It Didn't Do A Thing");
 
 	}
 	for (int i = 0; i < 8; i++)
@@ -1213,35 +1345,53 @@ ConsoleWindow SYDEMapGame::Jiman_House(ConsoleWindow window, int windowWidth, in
 			if (getByTag("Beached_Pigs_Quest").getFinished())
 			{
 				//Do Quest Cutscene
+				_FWindow.AddFString("I am no longer in need");
+				_FWindow.AddFString("of your services kind stranger");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
 				//setByTag("Beached_Pigs_Quest", true, true);
 			}
 			else if (!getByTag("Beached_Pigs_Quest").getGiven())
 			{
 				//Do Quest Cutscene
+				_FWindow.AddFString("Help me stranger");
+				_FWindow.AddFString("I haven't left home in 3 days");
+				_FWindow.AddFString("my place is surrounded by...");
+				_FWindow.AddFString("!!MONSTERS!!");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("if you get rid of them");
+				_FWindow.AddFString("i will reward you");
+				_FWindow.AddFString("");
+				//Do Quest Cutscene
 				setByTag("Beached_Pigs_Quest", true, true);
 			}
-			else if (getByTag("Beached_Pigs_Quest").getGiven() && jimans_house_pigs_killed < 5)
+			else if (getByTag("Beached_Pigs_Quest").getGiven() && getByTag("Beached_Pigs_Quest").getAmtDone() < getByTag("Beached_Pigs_Quest").getAmtRequired())
 			{
-				_FWindow.AddFString("pls kill those pig");
+				_FWindow.AddFString("pls kill those monsters");
 				_FWindow.AddFString("");
 				_FWindow.AddFString("");
-				_FWindow.AddFString("");
+				_FWindow.AddFString("i'm running low on food");
 				_FWindow.AddFString("");
 				_FWindow.AddFString("");
 				_FWindow.AddFString("");
 				_FWindow.AddFString("");
 			}
-			else if (getByTag("Beached_Pigs_Quest").getGiven() && jimans_house_pigs_killed >= 5)
+			else if (getByTag("Beached_Pigs_Quest").getGiven() && getByTag("Beached_Pigs_Quest").getAmtDone() >= getByTag("Beached_Pigs_Quest").getAmtRequired())
 			{
+				_FWindow.AddFString("Thank you kind stranger");
+				_FWindow.AddFString("here is your reward");
 				_FWindow.AddFString("");
 				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
+				_FWindow.AddFString("*SWORD UPGRADED*");
 				_FWindow.AddFString("");
 				_FWindow.AddFString("");
 				_FWindow.AddFString("");
 				setByTag("Beached_Pigs_Quest", true, false);
+				player.setSwordDmg(player.getSwordDmg() + 1);
 			}
 		}
 		else if (_StructOptions.getSelected().m_Label == "2")
