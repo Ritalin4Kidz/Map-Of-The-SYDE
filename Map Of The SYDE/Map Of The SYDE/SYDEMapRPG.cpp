@@ -1210,7 +1210,7 @@ ConsoleWindow SYDEMapGame::Jiman_House(ConsoleWindow window, int windowWidth, in
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
-			if (!getByTag("Beached_Pigs_Quest").getFinished())
+			if (getByTag("Beached_Pigs_Quest").getFinished())
 			{
 				//Do Quest Cutscene
 				//setByTag("Beached_Pigs_Quest", true, true);
