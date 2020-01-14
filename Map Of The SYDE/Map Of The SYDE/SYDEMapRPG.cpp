@@ -214,6 +214,8 @@ SYDEMapGame::SYDEMapGame()
 	_LevelAsset = CustomAsset(2048, 768, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Level_SYDE.bmp", 1024, 768));
 	camera_Pos = Vector2(214,173);
 
+	//camera_Pos = Vector2(1280, 676);
+
 	// LIST OF ALL TOWNS
 	vecTowns = vector<_Town_Square>{
 		//A
@@ -339,6 +341,42 @@ SYDEMapGame::SYDEMapGame()
 		for (int i = 1344; i < 1360; i ++)
 		{
 			AddAttachmentStructure(Vector2(i, ii), "Jonestown Hall", 64);
+		}
+	}
+
+	for (int ii = 259; ii < 263; ii++)
+	{
+		for (int i = 1522; i < 1530; i ++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Jonestown Wharf", 96);
+		}
+	}
+
+	// SWAN LAKE
+
+	for (int ii = 251; ii < 253; ii++)
+	{
+		for (int i = 1670; i < 1674; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Swan Lake Wharf", 96);
+		}
+	}
+
+	// DENTON
+	for (int ii = 559; ii < 563; ii++)
+	{
+		for (int i = 1286; i < 1294; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Denton Wharf", 96);
+		}
+	}
+
+	// CYPRUX
+	for (int ii = 632; ii < 636; ii++)
+	{
+		for (int i = 1286; i < 1294; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Cyprux Wharf", 96);
 		}
 	}
 
@@ -501,6 +539,11 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			//window = Main_Menu(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Main_Menu, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+		else if (_STATE == "Player_Stats")
+		{
+			//window = Main_Menu(window, windowWidth, windowHeight);
+			AssignState(std::bind(&SYDEMapGame::Player_Stats, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
 		else if (_STATE == "ORC_TEST")
 		{
 			//window = Orc_Fight(window, windowWidth, windowHeight);
@@ -596,6 +639,33 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			_StructOptions[1].setText("--");
 			AssignState(std::bind(&SYDEMapGame::Jonestown_Hall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+		else if (_STATE == "Jonestown Wharf")
+		{
+		_StructOptions[0].setText("Travel"); //230,80
+		_StructOptions[1].setText("Speak");
+		AssignState(std::bind(&SYDEMapGame::Jonestown_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		//SWAN LAKE
+		else if (_STATE == "Swan Lake Wharf")
+		{
+		_StructOptions[0].setText("Travel"); //230,80
+		_StructOptions[1].setText("Speak");
+		AssignState(std::bind(&SYDEMapGame::SwanLake_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		// DENTON
+		else if (_STATE == "Denton Wharf")
+		{
+		_StructOptions[0].setText("Travel"); //230,80
+		_StructOptions[1].setText("Speak");
+		AssignState(std::bind(&SYDEMapGame::Denton_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		// CYPRUX
+		else if (_STATE == "Cyprux Wharf")
+		{
+		_StructOptions[0].setText("Travel"); //230,80
+		_StructOptions[1].setText("Speak");
+		AssignState(std::bind(&SYDEMapGame::Cyprux_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
 		//ALMON ISLAND
 		else if (_STATE == "Almon Wharf")
 		{
@@ -659,6 +729,11 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 	{
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		_STATE = "QUEST_PAGE";
+	}
+	if (SYDEKeyCode::get('T')._CompareState(KEYDOWN))
+	{
+		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		_STATE = "Player_Stats";
 	}
 	if (SYDEKeyCode::get('S')._CompareState(KEY))
 	{
@@ -858,6 +933,47 @@ ConsoleWindow SYDEMapGame::Quest(ConsoleWindow window, int windowWidth, int wind
 		window.setTextAtPoint(Vector2(0,  1), "???", BLACK_WHITE_BG);
 	}
 	window.setTextAtPoint(Vector2(0, 19), to_string(questVec[questPage].getAmtDone()) + "/" + to_string(questVec[questPage].getAmtRequired()), BLACK_WHITE_BG);
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Player_Stats(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", BLACK_BRIGHTYELLOW_BG);
+		}
+	}
+	if (SYDEKeyCode::get('T')._CompareState(KEYDOWN))
+	{
+		_STATE = "MainMap";
+	}
+	window.setTextAtPoint(Vector2(0, 1), "PLAYER STATS", BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 3), "Health: " + to_string(player.getHealth()) + "/" + to_string(player.getMaxHealth()), BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 4), "LvL: " + to_string(player.getLvl()), BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 5), "Sword DMG: " + to_string(player.getSwordDmg()), BLACK_BRIGHTYELLOW_BG);
+	if (player.getFireSpellUnlocked())
+	{
+		window.setTextAtPoint(Vector2(0, 6), "Fire DMG: " + to_string(player.getFireDmg()), BLACK_BRIGHTYELLOW_BG);
+	}
+	else {
+		window.setTextAtPoint(Vector2(0, 6), "???", BLACK_BRIGHTYELLOW_BG);
+	}
+	if (player.getWaterSpellUnlocked())
+	{
+		window.setTextAtPoint(Vector2(0, 7), "Water DMG: " + to_string(player.getWaterDmg()), BLACK_BRIGHTYELLOW_BG);
+	}
+	else {
+		window.setTextAtPoint(Vector2(0, 7), "???", BLACK_BRIGHTYELLOW_BG);
+	}
+	if (player.getGrassSpellUnlocked())
+	{
+		window.setTextAtPoint(Vector2(0, 8), "Grass DMG: " + to_string(player.getGrassDmg()), BLACK_BRIGHTYELLOW_BG);
+	}
+	else {
+		window.setTextAtPoint(Vector2(0, 8), "???", BLACK_BRIGHTYELLOW_BG);
+	}
 	return window;
 }
 
@@ -1312,6 +1428,112 @@ ConsoleWindow SYDEMapGame::Jonestown_Hall(ConsoleWindow window, int windowWidth,
 	return window;
 }
 
+ConsoleWindow SYDEMapGame::Jonestown_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			if (!getByTag("Jonestown_Main_Quest").getGiven())
+			{
+				_FWindow.AddFString("Sorry, Swan Lake Is Blocked");
+				_FWindow.AddFString("There are dangers on the");
+				_FWindow.AddFString("island");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("Authorised Access Only");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+			}
+			else {
+				camera_Pos = Vector2(1670, 251); // Swan Lake Wharf
+				setSail("Swan Lake Wharf");
+				_FWindow.clear();
+			}
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			if (!getByTag("Jonestown_Main_Quest").getGiven())
+			{
+				_FWindow.AddFString("Sorry, Swan Lake Is Blocked");
+				_FWindow.AddFString("There are dangers on the");
+				_FWindow.AddFString("island");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("Authorised Access Only");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+			}
+			else {
+				_FWindow.AddFString("Ah i see you have");
+				_FWindow.AddFString("an access pass");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("We will travel to swan");
+				_FWindow.AddFString("lake when you are ready");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("Be careful out there");
+			}
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::SwanLake_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(1528, 262); // Jonestown Wharf
+			setSail("Jonestown Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("Are you ready to head back to");
+			_FWindow.AddFString("the mainland yet?");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
 ConsoleWindow SYDEMapGame::Almon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
@@ -1488,6 +1710,86 @@ ConsoleWindow SYDEMapGame::Toplefia_TownHall(ConsoleWindow window, int windowWid
 			_FWindow.AddFString("Jonestown is just along the");
 			_FWindow.AddFString("north east coast, shouldn't");
 			_FWindow.AddFString("take too long to get there.");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Denton_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(1286,632); // Almon Island Dock
+			setSail("Cyprux Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Cyprux_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(1286, 559); // Denton Dock
+			setSail("Denton Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
 		}
 		else if (_StructOptions.getSelected().m_Label == "2")
 		{

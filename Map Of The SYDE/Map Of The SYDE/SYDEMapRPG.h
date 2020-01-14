@@ -25,6 +25,7 @@ public:
 	ConsoleWindow Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Main_Menu(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Quest(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Player_Stats(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//TEST
 	ConsoleWindow Orc_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -37,6 +38,10 @@ public:
 
 	//Jonestown//Repaired Coast
 	ConsoleWindow Jonestown_Hall(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Jonestown_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+
+	//SWAN LAKE
+	ConsoleWindow SwanLake_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//Almon Island
 	ConsoleWindow Almon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -47,6 +52,12 @@ public:
 	//TOPLEFIA PLACE
 	ConsoleWindow Toplefia_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Toplefia_TownHall(ConsoleWindow window, int windowWidth, int windowHeight);
+
+	//DENTON
+	ConsoleWindow Denton_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+
+	//Cyprux
+	ConsoleWindow Cyprux_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//OTHER
 	ConsoleWindow Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _EnemAnim);
@@ -117,7 +128,7 @@ private:
 
 	//FIGHT
 	int enemy_Health = 100;
-	int enemy_Damage = 2;
+	float enemy_Damage = 2;
 	int enemy_exp_gained = 50;
 	int enemy_lvl = 1;
 
