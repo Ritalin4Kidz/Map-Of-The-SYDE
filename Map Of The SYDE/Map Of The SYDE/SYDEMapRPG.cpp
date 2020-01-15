@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "SYDEMapRPG.h"
 
+void SYDEMapGame::addLand(Vector2 a_Point)
+{
+	_LevelAsset.setColourAtPoint(a_Point, 34);
+}
+
 void SYDEMapGame::AddAttachmentWildFight(Vector2 m_Point, string _arg)
 {
 	_LevelAsset.setCharAtPoint(m_Point, 'V');
@@ -212,7 +217,6 @@ SYDEMapGame::SYDEMapGame()
 	_list_structures = vector<Structure>();
 	m_bg = CustomAsset(60, 30, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\bg.bmp", 30, 30));
 	_LevelAsset = CustomAsset(2048, 768, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Level_SYDE.bmp", 1024, 768));
-	camera_Pos = Vector2(214,173);
 
 	//camera_Pos = Vector2(1280, 676);
 
@@ -292,27 +296,35 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1792,	672), Vector2(2047,	767), "South East Ocean"), // THANKS ME
 	};
 
+	camera_Pos = Vector2(214, 173);
+	//DEV
+	if (MOTSDefaults::DEV_ON_)
+	{
+		camera_Pos = Vector2(2030, 750);	
+	}
+	for (int ii = 746; ii < 754; ii++)
+	{
+		for (int i = 2022; i < 2038; i++)
+		{
+			addLand(Vector2(i, ii));
+		}
+	}
 	//STRUCTURE 1 -- TEST STRUCTURE
-	AddAttachmentStructure(Vector2(280, 190), "BUILDING_TEST", 7);
-	AddAttachmentStructure(Vector2(281, 190), "BUILDING_TEST", 7);
+	AddAttachmentStructure(Vector2(2030, 747), "BUILDING_TEST", 7);
+	AddAttachmentStructure(Vector2(2031, 747), "BUILDING_TEST", 7);
 
 	// WATER TEST: BUILDINGS ON WATER MEAN THAT TILE CAN BE WALKED ON :D
 	// AddAttachmentStructure(Vector2(216, 172), "BUILDING_TEST", 7);
 	// AddAttachmentStructure(Vector2(217, 172), "BUILDING_TEST", 7);
 
 	//ORC WILD FIGHT 1 -- TEST FIGHT
-	AddAttachmentWildFight(Vector2(280, 199), "ORC_TEST");
-	AddAttachmentWildFight(Vector2(280, 198), "ORC_TEST");
-	AddAttachmentWildFight(Vector2(280, 197), "ORC_TEST");
-	AddAttachmentWildFight(Vector2(281, 199), "ORC_TEST");
-	AddAttachmentWildFight(Vector2(281, 198), "ORC_TEST");
-	AddAttachmentWildFight(Vector2(281, 197), "ORC_TEST");
-	AddAttachmentWildFight(Vector2(282, 199), "ORC_TEST");
-	AddAttachmentWildFight(Vector2(282, 198), "ORC_TEST");
-	AddAttachmentWildFight(Vector2(282, 197), "ORC_TEST");
-	AddAttachmentWildFight(Vector2(283, 199), "ORC_TEST");
-	AddAttachmentWildFight(Vector2(283, 198), "ORC_TEST");
-	AddAttachmentWildFight(Vector2(283, 197), "ORC_TEST");
+	for (int ii = 749; ii < 752; ii++)
+	{
+		for (int i = 2028; i < 2032; i++)
+		{
+			AddAttachmentWildFight(Vector2(i, ii), "ORC_TEST");
+		}
+	}
 
 	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID A:2 - Almon Island
 	AddAttachmentStructure(Vector2(392, 83), "Almon Wharf", 96);
@@ -360,6 +372,27 @@ SYDEMapGame::SYDEMapGame()
 		{
 			AddAttachmentStructure(Vector2(i, ii), "Swan Lake Wharf", 96);
 		}
+	}
+
+	for (int ii = 227; ii < 229; ii++)
+	{
+		for (int i = 1726; i < 1730; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "North Swan Lake Wharf", 96);
+		}
+	}
+
+	for (int ii = 213; ii < 215; ii++)
+	{
+		for (int i = 1748; i < 1752; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Dragon Keep Wharf", 96);
+		}
+	}
+
+	for (int i = 1756; i < 1758; i++)
+	{
+		AddAttachmentStructure(Vector2(i, 209), "Dragon Keep", 208);
 	}
 
 	// DENTON
@@ -465,6 +498,23 @@ SYDEMapGame::SYDEMapGame()
 	{
 		_StructOptions[i].setHighLight(RED);
 	}
+
+	_StructTestOptions = SYDEMenu(vector<SYDEButton> {
+			SYDEButton("Speak", Vector2(1, 2), Vector2(20, 1), WHITE, true),
+			SYDEButton("Upgrade Sword", Vector2(1, 3), Vector2(20, 1), WHITE, true),
+			SYDEButton("Toplefia Wharf", Vector2(1, 4), Vector2(20, 1), WHITE, true),
+			SYDEButton("Swan Lake Wharf", Vector2(1, 5), Vector2(20, 1), WHITE, true),
+			SYDEButton("Leave", Vector2(1, 6), Vector2(20, 1), WHITE, true),
+	});
+
+	for (int i = 0; i < _StructTestOptions.getSize(); i++)
+	{
+		_StructTestOptions[i].m_Label = to_string(i);
+		_StructTestOptions[i].setHighLight(RED);
+	}
+
+	_StructTestOptions.setActive(true);
+	_StructTestOptions.setPos(Vector2(1, 2));
 
 	_FightOptions = SYDEMenu(vector<SYDEButton> {
 		SYDEButton("Fight", Vector2(1, 2), Vector2(20, 1), WHITE, true),
@@ -606,8 +656,8 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		//BUILDINGS
 		else if (_STATE == "BUILDING_TEST")
 		{
-			_StructOptions[0].setText("Speak");
-			_StructOptions[1].setText("Upgrade Sword (Test");
+			_StructTestOptions[0].setText("Speak");
+			_StructTestOptions[1].setText("Upgrade Sword (Test");
 			//window = Building_Test(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Building_Test, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
@@ -648,9 +698,21 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		//SWAN LAKE
 		else if (_STATE == "Swan Lake Wharf")
 		{
-		_StructOptions[0].setText("Travel"); //230,80
-		_StructOptions[1].setText("Speak");
-		AssignState(std::bind(&SYDEMapGame::SwanLake_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::SwanLake_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "North Swan Lake Wharf")
+		{
+			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::NorthSwanLake_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "Dragon Keep Wharf")
+		{
+			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::Dragon_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		// DENTON
 		else if (_STATE == "Denton Wharf")
@@ -672,6 +734,11 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			_StructOptions[0].setText("Travel"); //230,80
 			_StructOptions[1].setText("Speak");
 			AssignState(std::bind(&SYDEMapGame::Almon_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		//DUNGEONS
+		else if (_STATE == "Dragon Keep")
+		{
+			AssignState(std::bind(&SYDEMapGame::Dragon_Keep_Dungeon, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else {
 			//FAILSAFE
@@ -974,6 +1041,8 @@ ConsoleWindow SYDEMapGame::Player_Stats(ConsoleWindow window, int windowWidth, i
 	else {
 		window.setTextAtPoint(Vector2(0, 8), "???", BLACK_BRIGHTYELLOW_BG);
 	}
+	window.setTextAtPoint(Vector2(0, 9), "XP: " + to_string(player.getXP()), BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 10), "XP To Next Level: " + to_string(player.getXPNxtLvl() - player.getXP()), BLACK_BRIGHTYELLOW_BG);
 	return window;
 }
 
@@ -1073,28 +1142,40 @@ ConsoleWindow SYDEMapGame::Building_Test(ConsoleWindow window, int windowWidth, 
 	}
 	window.setTextAtPoint(Vector2(0, 1), "BUILDING_TEST", BLACK_WHITE_BG);
 
-	window = _StructOptions.draw_menu(window);
+	window = _StructTestOptions.draw_menu(window);
 	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
 	{
-		_StructOptions.nextSelect();
+		_StructTestOptions.nextSelect();
 	}
 	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
 	{
-		if (_StructOptions.getSelected().m_Label == "0")
+		if (_StructTestOptions.getSelected().m_Label == "0")
 		{
 			_FWindow.AddFString("Man: You Poor Lad");
 			_FWindow.AddFString("Man: Rest Up My Son");
 			_FWindow.AddFString("*HEALTH RESTORED*");
 			player.setHealth(player.getMaxHealth());
 		}
-		else if (_StructOptions.getSelected().m_Label == "1")
+		else if (_StructTestOptions.getSelected().m_Label == "1")
 		{
 			player.setSwordDmg(player.getSwordDmg() + 1);
 			_FWindow.AddFString("*SWORD UPGRADED*");
 		}
-		else if (_StructOptions.getSelected().m_Label == "2")
+		else if (_StructTestOptions.getSelected().m_Label == "2")
 		{
 			// LEAVE BUILDING
+			camera_Pos = Vector2(214, 173); // Toplefia Wharf
+			setSail("Toplefia Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructTestOptions.getSelected().m_Label == "3")
+		{
+			camera_Pos = Vector2(1670, 251); // Swan Lake Wharf
+			setSail("Swan Lake Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructTestOptions.getSelected().m_Label == "4")
+		{
 			_STATE = "MainMap";
 			_FWindow.clear();
 		}
@@ -1534,6 +1615,86 @@ ConsoleWindow SYDEMapGame::SwanLake_Wharf(ConsoleWindow window, int windowWidth,
 	return window;
 }
 
+ConsoleWindow SYDEMapGame::NorthSwanLake_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(1748, 214);
+			setSail("Dragon Keep Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("Oh damn a customer");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("This ship sails to Dragon");
+			_FWindow.AddFString("Keep");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("I swear nothing of danger");
+			_FWindow.AddFString("lies there");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Dragon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(1726, 228); 
+			setSail("North Swan Lake Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("Are you ready to head back to");
+			_FWindow.AddFString("the mainland yet?");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
 ConsoleWindow SYDEMapGame::Almon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
@@ -1858,6 +2019,12 @@ ConsoleWindow SYDEMapGame::Wharf_Header(ConsoleWindow window, int windowWidth, i
 	window = _StructOptions.draw_menu(window);
 
 	window = _NPCAnim.draw_asset(window, Vector2(20, 2));
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	//NEED DUNGEON IMPLEMENTATION
 	return window;
 }
 

@@ -42,6 +42,8 @@ public:
 
 	//SWAN LAKE
 	ConsoleWindow SwanLake_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow NorthSwanLake_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Dragon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//Almon Island
 	ConsoleWindow Almon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -63,6 +65,10 @@ public:
 	ConsoleWindow Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _EnemAnim);
 	ConsoleWindow Wharf_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _NPCAnim);
 
+
+	//DUNGEONS
+	ConsoleWindow Dragon_Keep_Dungeon(ConsoleWindow window, int windowWidth, int windowHeight);
+
 	string ___IfUnlocked(bool unlocked, string use) { if (unlocked) { return use; } return "???"; }
 
 	string getWFA_STATE(Vector2 point);
@@ -73,6 +79,7 @@ public:
 	int getColourFromLevel(Vector2 point);
 	string getRandomFromList(vector<string> _list);
 
+	void addLand(Vector2 a_Point);
 	void AddAttachmentWildFight(Vector2 m_Point, string _arg);
 	void AddAttachmentWildFight(Vector2 m_Point, string _arg, int colour);
 	void AddAttachmentWildFight(Vector2 m_Point, string _arg, int colour, int a_lvl);
@@ -162,12 +169,19 @@ private:
 
 	//STANDARD BUILDING
 	SYDEMenu _StructOptions;
+	SYDEMenu _StructTestOptions;
 
 	// SAVED VARIABLES (e.g. quest booleans)
 	vector<__Quest> questVec = vector<__Quest>
 	{
 		__Quest(vector<string>{
-			"placeholder"}, "Jonestown_Main_Quest"),
+			"DRAGON KEEPER",
+			"",
+			"SYDE Island is under the threat",
+			"of attack by a dragon roosting",
+			"in the middle of dragon keep.",
+			"Travel to Swan Lake and kill",
+			"the dragon before it's too late!"}, "Jonestown_Main_Quest"),
 		__Quest(vector<string> {
 			"HOUSE SAVIOUR",
 			"",
