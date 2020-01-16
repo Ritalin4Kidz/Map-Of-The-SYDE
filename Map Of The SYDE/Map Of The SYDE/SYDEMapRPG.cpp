@@ -34,6 +34,25 @@ void SYDEMapGame::AddAttachmentStructure(Vector2 m_Point, string _arg, int colou
 	_list_structures.push_back(Structure(m_Point, _arg));
 }
 
+void SYDEMapGame::AddDungeonAttachment(CustomAsset _Dungeon, vector<Structure> listAdd, Vector2 m_Point, string _arg, int colour)
+{
+	_Dungeon.setCharAtPoint(m_Point, StructureChar);
+	_Dungeon.setColourAtPoint(m_Point, colour);
+	listAdd.push_back(Structure(m_Point, _arg));
+}
+
+string SYDEMapGame::getSTRUCT_STATE(Vector2 point, vector<Structure> _list_struct)
+{
+	for (int i = 0; i < _list_struct.size(); i++)
+	{
+		if (_list_struct[i].getPoint() == point)
+		{
+			return _list_struct[i].getStructArg();;
+		}
+	}
+	return "MainMap";
+}
+
 void SYDEMapGame::setUpFight()
 {
 	_MoveOptions = SYDEMenu(vector<SYDEButton> {
@@ -215,8 +234,10 @@ SYDEMapGame::SYDEMapGame()
 	AssignState(std::bind(&SYDEMapGame::Main_Menu, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 	_list_fight_cases = vector<WildFightAttachment>();
 	_list_structures = vector<Structure>();
+	_list_structures_dragon_keep = vector<Structure>();
 	m_bg = CustomAsset(60, 30, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\bg.bmp", 30, 30));
 	_LevelAsset = CustomAsset(2048, 768, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Level_SYDE.bmp", 1024, 768));
+	_DragonKeepAsset = CustomAsset(200, 100, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Swan Lake Dungeon.bmp", 100, 100));
 
 	//camera_Pos = Vector2(1280, 676);
 
@@ -549,6 +570,19 @@ SYDEMapGame::SYDEMapGame()
 		_Options[i].setHighLight(RED);
 	}
 
+	_MenuOptions = SYDEMenu(vector<SYDEButton> {
+			SYDEButton("Resume", Vector2(1, 2), Vector2(20, 1), WHITE, true),
+			SYDEButton("Save Game", Vector2(1, 3), Vector2(20, 1), WHITE, true),
+			SYDEButton("Return To Menu", Vector2(1, 4), Vector2(20, 1), WHITE, true),
+	});
+	_MenuOptions.setActive(true);
+	_MenuOptions.setPos(Vector2(1, 2));
+	for (int i = 0; i < _MenuOptions.getSize(); i++)
+	{
+		_MenuOptions[i].m_Label = to_string(i);
+		_MenuOptions[i].setHighLight(RED);
+	}
+
 	//ENEMY ANIMATIONS
 	m_ORC.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\UIAnimations\\TestEnemy.bmp", astVars, 100, 30, 10, 10, 0, 27));
 	m_ORC.setLooping(true);
@@ -570,6 +604,7 @@ SYDEMapGame::SYDEMapGame()
 
 ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidth, int windowHeight)
 {
+	// IF DIFFERENT STATE, CHANGE THE FUNCTION TO DRAW WHAT WE ACTUALLY WANT IT TO
 	if (_CurentSTATE.compare(_STATE) != 0)
 	{
 		// SO NOW IT IS THE CURRENT STATE
@@ -691,9 +726,9 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		}
 		else if (_STATE == "Jonestown Wharf")
 		{
-		_StructOptions[0].setText("Travel"); //230,80
-		_StructOptions[1].setText("Speak");
-		AssignState(std::bind(&SYDEMapGame::Jonestown_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::Jonestown_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		//SWAN LAKE
 		else if (_STATE == "Swan Lake Wharf")
@@ -717,16 +752,16 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		// DENTON
 		else if (_STATE == "Denton Wharf")
 		{
-		_StructOptions[0].setText("Travel"); //230,80
-		_StructOptions[1].setText("Speak");
-		AssignState(std::bind(&SYDEMapGame::Denton_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::Denton_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		// CYPRUX
 		else if (_STATE == "Cyprux Wharf")
 		{
-		_StructOptions[0].setText("Travel"); //230,80
-		_StructOptions[1].setText("Speak");
-		AssignState(std::bind(&SYDEMapGame::Cyprux_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::Cyprux_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		//ALMON ISLAND
 		else if (_STATE == "Almon Wharf")
@@ -738,6 +773,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		//DUNGEONS
 		else if (_STATE == "Dragon Keep")
 		{
+			camera_Pos = Vector2(8, 93);
 			AssignState(std::bind(&SYDEMapGame::Dragon_Keep_Dungeon, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else {
@@ -800,7 +836,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 	if (SYDEKeyCode::get('T')._CompareState(KEYDOWN))
 	{
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
-		_STATE = "Player_Stats";
+		_PlayerPage();
 	}
 	if (SYDEKeyCode::get('S')._CompareState(KEY))
 	{
@@ -1014,35 +1050,58 @@ ConsoleWindow SYDEMapGame::Player_Stats(ConsoleWindow window, int windowWidth, i
 	}
 	if (SYDEKeyCode::get('T')._CompareState(KEYDOWN))
 	{
-		_STATE = "MainMap";
+		_STATE = _MenuReturnSTATE;
 	}
-	window.setTextAtPoint(Vector2(0, 1), "PLAYER STATS", BLACK_BRIGHTYELLOW_BG);
-	window.setTextAtPoint(Vector2(0, 3), "Health: " + to_string(player.getHealth()) + "/" + to_string(player.getMaxHealth()), BLACK_BRIGHTYELLOW_BG);
-	window.setTextAtPoint(Vector2(0, 4), "LvL: " + to_string(player.getLvl()), BLACK_BRIGHTYELLOW_BG);
-	window.setTextAtPoint(Vector2(0, 5), "Sword DMG: " + to_string(player.getSwordDmg()), BLACK_BRIGHTYELLOW_BG);
+
+	window = _MenuOptions.draw_menu(window);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_MenuOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_MenuOptions.getSelected().m_Label == "0")
+		{
+			_STATE = _MenuReturnSTATE;
+		}
+		else if (_MenuOptions.getSelected().m_Label == "1")
+		{
+			//SAVE STATE
+		}
+		else if (_MenuOptions.getSelected().m_Label == "2")
+		{
+			_STATE = "MainMenu";
+		}
+	}
+
+	window.setTextAtPoint(Vector2(15, 1), "GAME PAUSED", BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 10), "PLAYER STATS", BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 12), "Health: " + to_string(player.getHealth()) + "/" + to_string(player.getMaxHealth()), BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 13), "LvL: " + to_string(player.getLvl()), BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 14), "Sword DMG: " + to_string(player.getSwordDmg()), BLACK_BRIGHTYELLOW_BG);
 	if (player.getFireSpellUnlocked())
 	{
-		window.setTextAtPoint(Vector2(0, 6), "Fire DMG: " + to_string(player.getFireDmg()), BLACK_BRIGHTYELLOW_BG);
+		window.setTextAtPoint(Vector2(0, 15), "Fire DMG: " + to_string(player.getFireDmg()), BLACK_BRIGHTYELLOW_BG);
 	}
 	else {
-		window.setTextAtPoint(Vector2(0, 6), "???", BLACK_BRIGHTYELLOW_BG);
+		window.setTextAtPoint(Vector2(0, 15), "???", BLACK_BRIGHTYELLOW_BG);
 	}
 	if (player.getWaterSpellUnlocked())
 	{
-		window.setTextAtPoint(Vector2(0, 7), "Water DMG: " + to_string(player.getWaterDmg()), BLACK_BRIGHTYELLOW_BG);
+		window.setTextAtPoint(Vector2(0, 16), "Water DMG: " + to_string(player.getWaterDmg()), BLACK_BRIGHTYELLOW_BG);
 	}
 	else {
-		window.setTextAtPoint(Vector2(0, 7), "???", BLACK_BRIGHTYELLOW_BG);
+		window.setTextAtPoint(Vector2(0, 16), "???", BLACK_BRIGHTYELLOW_BG);
 	}
 	if (player.getGrassSpellUnlocked())
 	{
-		window.setTextAtPoint(Vector2(0, 8), "Grass DMG: " + to_string(player.getGrassDmg()), BLACK_BRIGHTYELLOW_BG);
+		window.setTextAtPoint(Vector2(0, 17), "Grass DMG: " + to_string(player.getGrassDmg()), BLACK_BRIGHTYELLOW_BG);
 	}
 	else {
-		window.setTextAtPoint(Vector2(0, 8), "???", BLACK_BRIGHTYELLOW_BG);
+		window.setTextAtPoint(Vector2(0, 17), "???", BLACK_BRIGHTYELLOW_BG);
 	}
-	window.setTextAtPoint(Vector2(0, 9), "XP: " + to_string(player.getXP()), BLACK_BRIGHTYELLOW_BG);
-	window.setTextAtPoint(Vector2(0, 10), "XP To Next Level: " + to_string(player.getXPNxtLvl() - player.getXP()), BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 18), "XP: " + to_string(player.getXP()), BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 19), "XP To Next Level: " + to_string(player.getXPNxtLvl() - player.getXP()), BLACK_BRIGHTYELLOW_BG);
 	return window;
 }
 
@@ -2025,6 +2084,112 @@ ConsoleWindow SYDEMapGame::Wharf_Header(ConsoleWindow window, int windowWidth, i
 ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	//NEED DUNGEON IMPLEMENTATION
+	window = m_bg.draw_asset(window, Vector2(0, 0));
+	window = _DragonKeepAsset.draw_asset(window, Vector2(camera_Pos.getX() - 20, camera_Pos.getY() - 10), windowWidth, windowHeight);
+
+	//UI
+	for (int l = 0; l < windowWidth; l++)
+	{
+		window.setTextAtPoint(Vector2(l, 19), " ", RED_WHITE_BG);
+	}
+	window.setTextAtPoint(Vector2(0, 19), "Health: " + std::to_string(player.getHealth()) + ", Lvl: " + std::to_string(player.getLvl()) + ", XP: " + std::to_string(player.getXP()), RED_WHITE_BG);
+	//PlayerPos
+	window.setTextAtPoint(Vector2(20, 10), "><", window.determineColourAtPoint(Vector2(20, 10), BLACK, true));
+	char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+	if (tempChar == StructureChar)
+	{
+		window.setTextAtPoint(Vector2(0, 19), "'" + getSTRUCT_STATE(camera_Pos, _list_structures_dragon_keep) + "' Press Space To Enter", BLACK_WHITE_BG);
+	}
+
+	if (SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN))
+	{
+		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		int random_variable = std::rand() % 33 + 1;
+		if (tempChar == StructureChar)
+		{
+			_STATE = getSTRUCT_STATE(camera_Pos);
+		}
+	}
+	if (SYDEKeyCode::get('T')._CompareState(KEYDOWN))
+	{
+		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		_PlayerPage();
+	}
+	if (SYDEKeyCode::get('S')._CompareState(KEY))
+	{
+		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 11)));
+		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
+
+		// CASES FOR WILDFIGHT
+		// ADD RANDOM CHANCE
+		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		int random_variable = std::rand() % 33 + 1;
+		if (random_variable == 15)
+		{
+			// SET ENEMY AND LEVEL
+			
+		}
+		// CASES FOR MOVEMENT NOT ALLOWED
+		if (temp.compare("0") != 0 && temp.compare("1") != 0)
+		{
+			camera_Pos.addY(1);
+		}
+	}
+	if (SYDEKeyCode::get('D')._CompareState(KEY))
+	{
+		string temp = std::to_string(window.getTextColourAtPoint(Vector2(22, 10)));
+		//CASES FOR MOVEMENT NOT ALLOWED
+		//window.setTextAtPoint(Vector2(0, 1),temp, BLACK_WHITE_BG);
+		// CASES FOR WILDFIGHT
+		// ADD RANDOM CHANCE
+		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		int random_variable = std::rand() % 33 + 1;
+		if (random_variable == 26)
+		{
+			// SET ENEMY AND LEVEL
+		}
+		if (temp.compare("0") != 0 && temp.compare("1") != 0)
+		{
+			camera_Pos.addX(2);
+		}
+	}
+	if (SYDEKeyCode::get('W')._CompareState(KEY))
+	{
+		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 9)));
+		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
+		// CASES FOR WILDFIGHT
+		// ADD RANDOM CHANCE
+		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		int random_variable = std::rand() % 33 + 1;	
+		if (random_variable == 7)
+		{
+			// SET ENEMY AND LEVEL
+		}
+		//CASES FOR MOVEMENT NOT ALLOWED
+		if (temp.compare("0") != 0 && temp.compare("1") != 0)
+		{
+			camera_Pos.addY(-1);
+		}
+	}
+	if (SYDEKeyCode::get('A')._CompareState(KEY))
+	{
+		string temp = std::to_string(window.getTextColourAtPoint(Vector2(18, 10)));
+		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
+
+		// CASES FOR WILDFIGHT
+		// ADD RANDOM CHANCE
+		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+		int random_variable = std::rand() % 33 + 1;
+		if (random_variable == 30)
+		{
+			// SET ENEMY AND LEVEL
+		}
+		//CASES FOR MOVEMENT NOT ALLOWED
+		if (temp.compare("0") != 0 && temp.compare("1") != 0)
+		{
+			camera_Pos.addX(-2);
+		}
+	}
 	return window;
 }
 

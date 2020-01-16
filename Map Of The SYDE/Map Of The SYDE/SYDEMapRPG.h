@@ -86,6 +86,10 @@ public:
 
 	void AddAttachmentStructure(Vector2 m_Point, string _arg, int colour);
 
+	void AddDungeonAttachment(CustomAsset _Dungeon, vector<Structure> listAdd, Vector2 m_Point, string _arg, int colour);
+	string getSTRUCT_STATE(Vector2 point, vector<Structure> _list_struct);
+
+
 	std::function<ConsoleWindow(ConsoleWindow, int, int)> m_State;
 
 	void AssignState(std::function<ConsoleWindow(ConsoleWindow, int, int)> newState) {m_State = newState;}
@@ -105,9 +109,15 @@ public:
 	void setByTag(string tag, bool newState, bool isSettingGiven);
 	void setByTag(string tag, int amtDone);
 
+	void _PlayerPage() {
+		_MenuReturnSTATE = _STATE;
+		_STATE = "Player_Stats";
+	}
+
 private:
 	string _STATE = "MainMenu";
 	string _CurentSTATE = "MainMenu";
+	string _MenuReturnSTATE = "MainMap";
 
 	string _STATESail = "Toplefia Wharf";
 	float sailingTime = 0.0f;
@@ -115,6 +125,7 @@ private:
 
 	CustomAsset m_bg;
 	CustomAsset _LevelAsset;
+	CustomAsset _DragonKeepAsset;
 
 	Vector2 camera_Pos;
 
@@ -127,6 +138,7 @@ private:
 
 	vector<WildFightAttachment> _list_fight_cases;
 	vector<Structure> _list_structures;
+	vector<Structure> _list_structures_dragon_keep;
 
 	const char StructureChar = '0';
 
@@ -141,6 +153,7 @@ private:
 
 	SYDEMenu _FightOptions;
 	SYDEMenu _MoveOptions;
+	SYDEMenu _MenuOptions;
 
 	FightWindow _FWindow;
 
