@@ -68,6 +68,7 @@ void volumeControl(int volume){
 
 int main()
 {
+	MOTSDefaults::ColourPalette(hOut);
 	volumeControl(1);
 	std::srand(std::time(nullptr));
 	LPCWSTR title = L"Map Of The SYDE";
