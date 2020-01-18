@@ -8,21 +8,21 @@ void SYDEMapGame::addLand(Vector2 a_Point)
 
 void SYDEMapGame::AddAttachmentWildFight(Vector2 m_Point, string _arg)
 {
-	_LevelAsset.setCharAtPoint(m_Point, 'V');
+	_LevelAsset.setCharAtPoint(m_Point, WildFightChar);
 	_LevelAsset.setColourAtPoint(m_Point, 32);
 	_list_fight_cases.push_back(WildFightAttachment(m_Point, _arg));
 }
 
 void SYDEMapGame::AddAttachmentWildFight(Vector2 m_Point, string _arg, int colour)
 {
-	_LevelAsset.setCharAtPoint(m_Point, 'V');
+	_LevelAsset.setCharAtPoint(m_Point, WildFightChar);
 	_LevelAsset.setColourAtPoint(m_Point, colour);
 	_list_fight_cases.push_back(WildFightAttachment(m_Point, _arg));
 }
 
 void SYDEMapGame::AddAttachmentWildFight(Vector2 m_Point, string _arg, int colour, int a_lvl)
 {
-	_LevelAsset.setCharAtPoint(m_Point, 'V');
+	_LevelAsset.setCharAtPoint(m_Point, WildFightChar);
 	_LevelAsset.setColourAtPoint(m_Point, colour);
 	_list_fight_cases.push_back(WildFightAttachment(m_Point, _arg, a_lvl));
 }
@@ -484,7 +484,7 @@ SYDEMapGame::SYDEMapGame()
 			if (wfc == 32)
 			{
 				int lvlEnemy = 5;
-				AddAttachmentWildFight(Vector2(i, ii), "Harmless Pig", wfc, lvlEnemy); // NEED TO DO TWICE
+				AddAttachmentWildFight(Vector2(i, ii), "Harmless Pig", wfc, lvlEnemy);
 			}
 		}
 	}
@@ -893,7 +893,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		// ADD RANDOM CHANCE
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		int random_variable = std::rand() % 33 + 1;
-		if (tempChar == 'V')
+		if (tempChar == WildFightChar)
 		{
 			if (random_variable == 15)
 			{

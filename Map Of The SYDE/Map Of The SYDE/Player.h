@@ -37,6 +37,11 @@ public:
 	bool getGrassSpellUnlocked() { return play_grass_spell; }
 	void setGrassDmg(int dmg) { play_grass_dmg = dmg; }
 	int getGrassDmg() { return play_grass_dmg; }
+
+	//etc values
+	void setMoney(int coins) { player_money = coins; }
+	void addMoney(int coins) { player_money += coins; }
+	int getMoney() { return player_money; }
 private:
 	int play_health = 100;
 
@@ -49,12 +54,15 @@ private:
 	int play_sword_dmg = 5;
 
 	bool play_fire_spell = false;
-	bool play_water_spell = true;
+	bool play_water_spell = false;
 	bool play_grass_spell = false;
 
 	int play_fire_dmg = 5;
 	int play_water_dmg = 5;
 	int play_grass_dmg = 5;
+
+	// etc values
+	int player_money = 0;
 };
 
 class FightWindow {

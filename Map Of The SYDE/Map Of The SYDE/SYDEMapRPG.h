@@ -145,6 +145,7 @@ private:
 	vector<Structure> _list_structures_dragon_keep;
 
 	const char StructureChar = '0';
+	const char WildFightChar = 'V';
 
 	// PLAYER VALUES (GET LOADING FROM CONFIG FILE
 	MOTS_Player player;
