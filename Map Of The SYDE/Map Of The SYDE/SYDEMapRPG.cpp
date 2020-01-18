@@ -385,6 +385,40 @@ SYDEMapGame::SYDEMapGame()
 		}
 	}
 
+	// NORTHERN SYDE COAST
+	//198.261
+	for (int ii = 257; ii < 261; ii++)
+	{
+		for (int i = 190; i < 198; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "North SYDE Wharf", 96);
+		}
+	}
+
+	for (int ii = 284; ii < 286; ii++)
+	{
+		for (int i = 90; i < 94; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "West SYDE Wharf", 96);
+		}
+	}
+
+	//ENEMY CODE, ADD WHEN ENEMIES MADE, MAKE DIFFERENT FROM ALMON ISLAND
+	for (int ii = 285; ii < 306; ii++)
+	{
+		for (int i = 50; i < 86; i += 2)
+		{
+			int wfc = getColourFromLevel(Vector2(i, ii));
+			if (wfc == 32)
+			{
+				string wfs = getRandomFromList(WEST_SYDE_WILD); // NEED TO MAKE DIFFERENT FOR SYDE COAST
+				int lvlEnemy = (std::rand() % (west_syde_max_level - west_syde_min_level)) + west_syde_min_level;
+				AddAttachmentWildFight(Vector2(i, ii), wfs, wfc, lvlEnemy); // NEED TO DO TWICE
+				AddAttachmentWildFight(Vector2(i + 1, ii), wfs, wfc);
+			}
+		}
+	}
+
 	// SWAN LAKE
 
 	for (int ii = 251; ii < 253; ii++)
@@ -636,7 +670,6 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			enemy_Damage = 2;
 			enemy_exp_gained = 25000;
 			enemy_Health = 100;
-
 			setUpFight();
 			//_STATE = "ORC_FIGHT";
 			AssignState(std::bind(&SYDEMapGame::Orc_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
@@ -755,6 +788,19 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			_StructOptions[0].setText("Travel"); //230,80
 			_StructOptions[1].setText("Speak");
 			AssignState(std::bind(&SYDEMapGame::Denton_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		//NORTH SYDE COAST
+		else if (_STATE == "West SYDE Wharf")
+		{
+			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::WestSYDE_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "North SYDE Wharf")
+		{
+			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::NorthSYDE_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		// CYPRUX
 		else if (_STATE == "Cyprux Wharf")
@@ -1930,6 +1976,82 @@ ConsoleWindow SYDEMapGame::Toplefia_TownHall(ConsoleWindow window, int windowWid
 			_FWindow.AddFString("Jonestown is just along the");
 			_FWindow.AddFString("north east coast, shouldn't");
 			_FWindow.AddFString("take too long to get there.");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::WestSYDE_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(190, 260); // Almon Island Dock
+			setSail("North SYDE Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::NorthSYDE_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(92, 285); //92, 285
+			setSail("West SYDE Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
 		}
 		else if (_StructOptions.getSelected().m_Label == "2")
 		{

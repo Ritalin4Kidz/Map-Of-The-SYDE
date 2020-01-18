@@ -55,6 +55,10 @@ public:
 	ConsoleWindow Toplefia_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Toplefia_TownHall(ConsoleWindow window, int windowWidth, int windowHeight);
 
+	//NORTHERN SYDE COAST
+	ConsoleWindow WestSYDE_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow NorthSYDE_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+
 	//DENTON
 	ConsoleWindow Denton_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 
@@ -179,6 +183,14 @@ private:
 	};
 	int almon_min_level = 4;
 	int almon_max_level = 10;
+
+	vector<string> WEST_SYDE_WILD = {
+		"ORC_FIGHT",
+		"WOLF_FIGHT",
+		"PIG_FIGHT",
+	};
+	int west_syde_min_level = 2;
+	int west_syde_max_level = 5;
 
 	//STANDARD BUILDING
 	SYDEMenu _StructOptions;

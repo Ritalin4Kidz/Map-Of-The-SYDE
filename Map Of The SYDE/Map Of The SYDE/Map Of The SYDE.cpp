@@ -72,7 +72,7 @@ int main()
 	volumeControl(1);
 	std::srand(std::time(nullptr));
 	LPCWSTR title = L"Map Of The SYDE";
-	SYDECredits::_GAMETITLE = "AutoClick";
+	SYDECredits::_GAMETITLE = "Map Of The SYDE";
 	SYDECredits::_ORGANISATION = "Callum Hands \nIn Association With Freebee Games";
 	//CONSOLE SETTINGS
 	//SYDE ENGINE SETTINGS
@@ -89,8 +89,14 @@ int main()
 		}
 	}
 	SYDEMapGame m_MapSYDE;
-	SYDEGamePlay::activate_bySplashscreen(astVars.get_electronic_chime_file_path(), start, hOut, window, windowWidth, windowHeight, artVars);
-
+	if (MOTSDefaults::DEV_ON_)
+	{
+		SYDEGamePlay::activate_bySplashscreen(astVars.get_electronic_chime_file_path(), start, hOut, window, windowWidth, windowHeight, artVars);
+	}
+	else
+	{
+		SYDEGamePlay::opening_splashscreens(astVars.get_electronic_chime_file_path(), start, hOut, window, windowWidth, windowHeight, artVars);
+	}
 	while (true)
 	{
 		window = SYDEGamePlay::play_game(&m_MapSYDE, start, hOut, window, windowWidth, windowHeight, deltaTime);
