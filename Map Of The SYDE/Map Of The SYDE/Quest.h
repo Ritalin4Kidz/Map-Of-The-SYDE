@@ -18,6 +18,7 @@ public:
 	vector<string> getDetails() { return m_details; }
 
 	void setAmtDone(int a_new) { amtDone = a_new; }
+	void addAmtDone(int a_new) { amtDone += a_new; }
 	int getAmtDone() { return amtDone; }
 
 	int getAmtRequired() { return amtRequired; }

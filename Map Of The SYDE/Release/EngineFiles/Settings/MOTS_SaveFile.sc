@@ -1,8 +1,1 @@
-//PLAYERSTATS
-PlayerLVL:35
-PlayerHP:848
-PlayerHPMax:848
-PlayerXP:6632
-PlayerXPNxt:25485
-PosX:282.000000
-PosY:199.000000
+{"PlayerColour":0,"PlayerHP":100,"PlayerHPMax":100,"PlayerIcon":"()","PlayerLVL":1,"PlayerXP":0,"PlayerXPNxt":1000,"PosX":274.0,"PosY":160.0,"Quests":{"0":{"AmtDone":0,"Finished":false,"Given":false},"1":{"AmtDone":0,"Finished":false,"Given":false}},"fireDmg":5,"fireUnlock":false,"grassDmg":5,"grassUnlock":false,"swordDmg":5,"waterDmg":5,"waterUnlock":false}

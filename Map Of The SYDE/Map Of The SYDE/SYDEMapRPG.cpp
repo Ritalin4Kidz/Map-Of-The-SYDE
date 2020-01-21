@@ -1828,7 +1828,13 @@ ConsoleWindow SYDEMapGame::RED_DRAGON_Fight(ConsoleWindow window, int windowWidt
 	{
 		enemy_dead();
 		enemy_attack = false;
-		//credits
+		if (getByTag("Jonestown_Main_Quest").getGiven())
+		{
+			getByTag("Jonestown_Main_Quest").addAmtDone(1);
+		}
+		//Credits <---Add these to credits scene --->
+		camera_Pos = Vector2(1522, 259);
+		setSail("Jonestown Wharf");
 	}
 	if (enemy_attack)
 	{
