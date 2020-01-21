@@ -34,6 +34,13 @@ void SYDEMapGame::AddAttachmentStructure(Vector2 m_Point, string _arg, int colou
 	_list_structures.push_back(Structure(m_Point, _arg));
 }
 
+void SYDEMapGame::AddDragonKeepAttachment(Vector2 m_Point, string _arg, int colour)
+{
+	_DragonKeepAsset.setCharAtPoint(m_Point, StructureChar);
+	_DragonKeepAsset.setColourAtPoint(m_Point, colour);
+	_list_structures_dragon_keep.push_back(Structure(m_Point, _arg));
+}
+
 void SYDEMapGame::AddDungeonAttachment(CustomAsset _Dungeon, vector<Structure> listAdd, Vector2 m_Point, string _arg, int colour)
 {
 	_Dungeon.setCharAtPoint(m_Point, StructureChar);
@@ -547,6 +554,9 @@ SYDEMapGame::SYDEMapGame()
 	{
 		AddAttachmentStructure(Vector2(i, 209), "Dragon Keep", 208);
 	}
+	//Dungeon Keep Stuff
+	AddDragonKeepAttachment(Vector2(186, 19), "Red Dragon Fight", 192);
+	AddDragonKeepAttachment(Vector2(187, 19), "Red Dragon Fight", 192);
 #pragma endregion
 
 
@@ -723,6 +733,9 @@ SYDEMapGame::SYDEMapGame()
 	m_PLACEHOLDER.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Bitmaps\\NPC_Placeholder.bmp", astVars, 10, 10, 10, 10, 0, 1));
 	m_PLACEHOLDER.setLooping(true);
 
+	m_RED_DRAGON.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\DragonAnimation.bmp", astVars, 150, 30, 15, 10, 0, 30));
+	m_RED_DRAGON.setLooping(true);
+
 }
 
 ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidth, int windowHeight)
@@ -765,7 +778,15 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			//_STATE = "ORC_FIGHT";
 			AssignState(std::bind(&SYDEMapGame::Orc_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
-
+		else if (_STATE == "Red Dragon Fight")
+		{
+			enemy_Damage = 50;
+			enemy_exp_gained = 100000;
+			enemy_Health = 18500;
+			enemy_lvl = 100;
+			setUpFight();
+			AssignState(std::bind(&SYDEMapGame::RED_DRAGON_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
 		//FIGHTS
 		else if (_STATE == "ORC_FIGHT")
 		{
@@ -1342,6 +1363,65 @@ ConsoleWindow SYDEMapGame::Player_Customization(ConsoleWindow window, int window
 	return window;
 }
 
+
+ConsoleWindow SYDEMapGame::Building_Test(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
+		}
+	}
+	window.setTextAtPoint(Vector2(0, 1), "BUILDING_TEST", BLACK_WHITE_BG);
+
+	window = _StructTestOptions.draw_menu(window);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructTestOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructTestOptions.getSelected().m_Label == "0")
+		{
+			_FWindow.AddFString("Man: You Poor Lad");
+			_FWindow.AddFString("Man: Rest Up My Son");
+			_FWindow.AddFString("*HEALTH RESTORED*");
+			player.setHealth(player.getMaxHealth());
+		}
+		else if (_StructTestOptions.getSelected().m_Label == "1")
+		{
+			player.setSwordDmg(player.getSwordDmg() + 1);
+			_FWindow.AddFString("*SWORD UPGRADED*");
+		}
+		else if (_StructTestOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			camera_Pos = Vector2(214, 173); // Toplefia Wharf
+			setSail("Toplefia Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructTestOptions.getSelected().m_Label == "3")
+		{
+			camera_Pos = Vector2(1670, 251); // Swan Lake Wharf
+			setSail("Swan Lake Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructTestOptions.getSelected().m_Label == "4")
+		{
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+#pragma region Fights
+
 ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
@@ -1423,62 +1503,6 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 		_FWindow.clear();
 		player.setHealth(1);
 		_STATE = "MainMenu";
-	}
-	return window;
-}
-
-ConsoleWindow SYDEMapGame::Building_Test(ConsoleWindow window, int windowWidth, int windowHeight)
-{
-	for (int l = 0; l < windowWidth; l++)
-	{
-		for (int m = 0; m < windowHeight; m++)
-		{
-			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
-		}
-	}
-	window.setTextAtPoint(Vector2(0, 1), "BUILDING_TEST", BLACK_WHITE_BG);
-
-	window = _StructTestOptions.draw_menu(window);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
-	{
-		_StructTestOptions.nextSelect();
-	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
-	{
-		if (_StructTestOptions.getSelected().m_Label == "0")
-		{
-			_FWindow.AddFString("Man: You Poor Lad");
-			_FWindow.AddFString("Man: Rest Up My Son");
-			_FWindow.AddFString("*HEALTH RESTORED*");
-			player.setHealth(player.getMaxHealth());
-		}
-		else if (_StructTestOptions.getSelected().m_Label == "1")
-		{
-			player.setSwordDmg(player.getSwordDmg() + 1);
-			_FWindow.AddFString("*SWORD UPGRADED*");
-		}
-		else if (_StructTestOptions.getSelected().m_Label == "2")
-		{
-			// LEAVE BUILDING
-			camera_Pos = Vector2(214, 173); // Toplefia Wharf
-			setSail("Toplefia Wharf");
-			_FWindow.clear();
-		}
-		else if (_StructTestOptions.getSelected().m_Label == "3")
-		{
-			camera_Pos = Vector2(1670, 251); // Swan Lake Wharf
-			setSail("Swan Lake Wharf");
-			_FWindow.clear();
-		}
-		else if (_StructTestOptions.getSelected().m_Label == "4")
-		{
-			_STATE = "MainMap";
-			_FWindow.clear();
-		}
-	}
-	for (int i = 0; i < 8; i++)
-	{
-		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
 	}
 	return window;
 }
@@ -1742,6 +1766,94 @@ ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int
 	return window;
 }
 
+ConsoleWindow SYDEMapGame::RED_DRAGON_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	bool enemy_attack = false;
+	window = DragonKeepBoss_Header(window, windowWidth, windowHeight);
+	if (_MoveOptions.getActive() && _FightOptions.getActive())
+	{
+		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
+	}
+	else if (_MoveOptions.getActive())
+	{
+		window = _MoveOptions.draw_menu(window);
+		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+		{
+			_MoveOptions.nextSelect();
+		}
+		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+		{
+			if (_MoveOptions.getSelected().m_Label == "0")
+			{
+				//FIGHT SEQUENCE SWORD
+				int dmgApplied = player.getSwordDmg() * 1 * player.getLvl();
+				enemy_Health -= dmgApplied;
+				_FWindow.AddFString("Player Used Sword");
+				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+				enemy_attack = true;
+			}
+			else if (_MoveOptions.getSelected().m_Label == "1")
+			{
+				int dmgApplied = player.getFireDmg() * 2 * player.getLvl();
+				enemy_Health -= dmgApplied;
+				_FWindow.AddFString("Player Used Fire");
+				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+				enemy_attack = true;
+			}
+			else if (_MoveOptions.getSelected().m_Label == "2")
+			{
+				int dmgApplied = player.getWaterDmg() * 0.5f * player.getLvl();
+				enemy_Health -= dmgApplied;
+				_FWindow.AddFString("Player Used Water");
+				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+				enemy_attack = true;
+			}
+			else if (_MoveOptions.getSelected().m_Label == "3")
+			{
+				int dmgApplied = player.getGrassDmg() * 0.5f * player.getLvl();
+				enemy_Health -= dmgApplied;
+				_FWindow.AddFString("Player Used Grass");
+				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+				enemy_attack = true;
+			}
+			else if (_MoveOptions.getSelected().m_Label == "4")
+			{
+				_FightOptions.setActive(true);
+				_MoveOptions.setActive(false);
+			}
+		}
+	}
+
+	if (enemy_Health <= 0)
+	{
+		enemy_dead();
+		enemy_attack = false;
+		//credits
+	}
+	if (enemy_attack)
+	{
+		int dmgAppliedOrc = enemy_Damage * 4.5f;
+		player.setHealth(player.getHealth() - dmgAppliedOrc);
+		_FWindow.AddFString("Dragon Used Bite");
+		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
+	if (player.getHealth() <= 0)
+	{
+		_FWindow.clear();
+		player.setHealth(1);
+		_STATE = "MainMenu";
+	}
+	return window;
+}
+
+#pragma endregion
+
 ConsoleWindow SYDEMapGame::Jonestown_Hall(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
@@ -1804,6 +1916,7 @@ ConsoleWindow SYDEMapGame::Jonestown_Hall(ConsoleWindow window, int windowWidth,
 	}
 	return window;
 }
+#pragma region WharfsFunc
 
 ConsoleWindow SYDEMapGame::Jonestown_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
@@ -2658,6 +2771,9 @@ ConsoleWindow SYDEMapGame::Cyprux_Wharf(ConsoleWindow window, int windowWidth, i
 	return window;
 }
 
+
+#pragma endregion
+
 ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _EnemAnim)
 {
 	for (int l = 0; l < windowWidth; l++)
@@ -2669,6 +2785,46 @@ ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, i
 	}
 	window.setTextAtPoint(Vector2(0, 1), _STATE, BLACK_WHITE_BG);
 	window = _EnemAnim.draw_asset(window, Vector2(20, 2));
+
+	window.setTextAtPoint(Vector2(20, 11), "Health:" + std::to_string(enemy_Health) + ",LVL:" + std::to_string(enemy_lvl), BLACK_WHITE_BG);
+
+	if (_FightOptions.getActive())
+	{
+		window = _FightOptions.draw_menu(window);
+		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+		{
+			_FightOptions.nextSelect();
+		}
+		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+		{
+			if (_FightOptions.getSelected().m_Label == "0")
+			{
+				//_FightOptions.setActive(false);
+				_MoveOptions.setActive(true);
+			}
+			else if (_FightOptions.getSelected().m_Label == "1")
+			{
+				//IF RUN WAS SUCCESSFUL
+				_FWindow.clear();
+				_STATE = "MainMap";
+			}
+		}
+	}
+
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::DragonKeepBoss_Header(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
+		}
+	}
+	window.setTextAtPoint(Vector2(0, 1), _STATE, BLACK_WHITE_BG);
+	window = m_RED_DRAGON.draw_asset(window, Vector2(15, 2));
 
 	window.setTextAtPoint(Vector2(20, 11), "Health:" + std::to_string(enemy_Health) + ",LVL:" + std::to_string(enemy_lvl), BLACK_WHITE_BG);
 
@@ -2728,7 +2884,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 	window.setTextAtPoint(Vector2(0, 19), "Health: " + std::to_string(player.getHealth()) + ", Lvl: " + std::to_string(player.getLvl()) + ", XP: " + std::to_string(player.getXP()), RED_WHITE_BG);
 	//PlayerPos
 	window.setTextAtPoint(Vector2(20, 10), player.getIcon(), window.determineColourAtPoint(Vector2(20, 10), player.getColour(), true));
-	char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
+	char tempChar = _DragonKeepAsset.getCharAtPoint(camera_Pos);
 	if (tempChar == StructureChar)
 	{
 		window.setTextAtPoint(Vector2(0, 19), "'" + getSTRUCT_STATE(camera_Pos, _list_structures_dragon_keep) + "' Press Space To Enter", BLACK_WHITE_BG);
@@ -2737,10 +2893,9 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 	if (SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN))
 	{
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
-		int random_variable = std::rand() % 33 + 1;
 		if (tempChar == StructureChar)
 		{
-			_STATE = getSTRUCT_STATE(camera_Pos);
+			_STATE = getSTRUCT_STATE(_list_structures_dragon_keep ,camera_Pos);
 		}
 	}
 	if (SYDEKeyCode::get('T')._CompareState(KEYDOWN))
@@ -2857,6 +3012,18 @@ string SYDEMapGame::getSTRUCT_STATE(Vector2 point)
 		if (_list_structures[i].getPoint() == point)
 		{
 			return _list_structures[i].getStructArg();
+		}
+	}
+	return "MainMap";
+}
+
+string SYDEMapGame::getSTRUCT_STATE(vector<Structure> _list, Vector2 point)
+{
+	for (int i = 0; i < _list.size(); i++)
+	{
+		if (_list[i].getPoint() == point)
+		{
+			return _list[i].getStructArg();
 		}
 	}
 	return "MainMap";

@@ -38,6 +38,7 @@ public:
 	ConsoleWindow Pig_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow HarmlessPig_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Wolf_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow RED_DRAGON_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//Jonestown//Repaired Coast
 	ConsoleWindow Jonestown_Hall(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -84,6 +85,7 @@ public:
 
 	//OTHER
 	ConsoleWindow Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _EnemAnim);
+	ConsoleWindow DragonKeepBoss_Header(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Wharf_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _NPCAnim);
 
 
@@ -95,6 +97,7 @@ public:
 	string getWFA_STATE(Vector2 point);
 	int getWFA_LVL(Vector2 point);
 	string getSTRUCT_STATE(Vector2 point);
+	string getSTRUCT_STATE(vector<Structure> _list, Vector2 point);
 	string getTown(Vector2 point);
 
 	int getColourFromLevel(Vector2 point);
@@ -107,6 +110,7 @@ public:
 
 	void AddAttachmentStructure(Vector2 m_Point, string _arg, int colour);
 
+	void AddDragonKeepAttachment(Vector2 m_Point, string _arg, int colour);
 	void AddDungeonAttachment(CustomAsset _Dungeon, vector<Structure> listAdd, Vector2 m_Point, string _arg, int colour);
 	string getSTRUCT_STATE(Vector2 point, vector<Structure> _list_struct);
 
@@ -188,6 +192,8 @@ private:
 	CustomAnimationAsset m_ORC;
 	CustomAnimationAsset m_PIG; // PLACHOLDER USED ATM
 	CustomAnimationAsset m_WOLF; // PLACHOLDER USED ATM
+
+	CustomAnimationAsset m_RED_DRAGON; // PLACHOLDER USED ATM
 
 	//NPC
 	CustomAnimationAsset m_PLACEHOLDER;
