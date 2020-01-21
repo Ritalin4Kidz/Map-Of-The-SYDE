@@ -43,6 +43,20 @@ public:
 	ConsoleWindow Jonestown_Hall(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Jonestown_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 
+	//Blankis Island 2 wharfs
+	ConsoleWindow SouthBlankis_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow EastBlankis_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+	//Ballistica
+	ConsoleWindow Ballistica_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+	//Aliran Island
+	ConsoleWindow Aliran_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+	//Repaired Coast
+	ConsoleWindow Repaired_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+	//Taumatawhaka
+	ConsoleWindow Taumata_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+	//CRT COAST 2 wharfs
+	ConsoleWindow CRTCoast_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow CRTIsland_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 	//SWAN LAKE
 	ConsoleWindow SwanLake_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow NorthSwanLake_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);

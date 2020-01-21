@@ -244,7 +244,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1024,	0), Vector2(1279,	95) , "Daggo Coast"), // FUCK YOU LEGO YODA
 		_Town_Square(Vector2(1280,	0), Vector2(1535,	95) , "SYDE Coast"), // THANKS ME
 		_Town_Square(Vector2(1536,	0), Vector2(1791,	95) , "Taumatawhaka"), // THANKS LEGO YODA (DISCORD)
-		_Town_Square(Vector2(1792,	0), Vector2(2047,	95) , "Taumata Beach"), // THANKS ME
+		_Town_Square(Vector2(1792,	0), Vector2(2047,	95) , "Taumata Beach"), // THANKS LEGO YODA (DISCORD)
 		//B
 		_Town_Square(Vector2(0,		96), Vector2(255,	191), "Toplefia Place"), // THANKS ME
 		_Town_Square(Vector2(256,	96), Vector2(511,	191), "North Muric Coast"), // ALI FUCK YOU
@@ -378,6 +378,62 @@ SYDEMapGame::SYDEMapGame()
 		}
 	}
 
+	for (int ii = 110; ii < 114; ii++)
+	{
+		for (int i = 1404; i < 1412; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Repaired Wharf", 96);
+		}
+	}
+
+	//CRT COAST
+	for (int ii = 444; ii < 448; ii++)
+	{
+		for (int i = 1626; i < 1634; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "CRT Coast Wharf", 96);
+		}
+	}
+	for (int ii = 446; ii < 450; ii++)
+	{
+		for (int i = 1718; i < 1726; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "CRT Island Wharf", 96);
+		}
+	}
+	//Blankis
+	for (int ii = 71; ii < 75; ii++)
+	{
+		for (int i = 590; i < 598; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "South Blankis Wharf", 96);
+		}
+	}
+	for (int ii = 47; ii < 51; ii++)
+	{
+		for (int i = 642; i < 650; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "East Blankis Wharf", 96);
+		}
+	}
+
+	//Taumata
+	for (int ii = 73; ii < 77; ii++)
+	{
+		for (int i = 1502; i < 1510; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Taumata Wharf", 96);
+		}
+	}
+
+	//BALLISTICA
+	for (int ii = 136; ii < 140; ii++)
+	{
+		for (int i = 602; i < 610; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Ballistica Wharf", 96);
+		}
+	}
 	// NORTHERN SYDE COAST
 	//198.261
 	for (int ii = 257; ii < 261; ii++)
@@ -409,6 +465,15 @@ SYDEMapGame::SYDEMapGame()
 				AddAttachmentWildFight(Vector2(i, ii), wfs, wfc, lvlEnemy); // NEED TO DO TWICE
 				AddAttachmentWildFight(Vector2(i + 1, ii), wfs, wfc);
 			}
+		}
+	}
+
+	//Aliran
+	for (int ii = 53; ii < 57; ii++)
+	{
+		for (int i = 788; i < 796; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Aliran Wharf", 96);
 		}
 	}
 
@@ -745,60 +810,113 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		//TOPLEFIA AREA
 		else if (_STATE == "Toplefia Wharf")
 		{
-			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[0].setText("Travel"); 
 			_StructOptions[1].setText("Speak");
 			AssignState(std::bind(&SYDEMapGame::Toplefia_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Toplefia Town Hall")
 		{
-			_StructOptions[0].setText("Speak"); //230,80
+			_StructOptions[0].setText("Speak"); 
 			_StructOptions[1].setText("--");
 			AssignState(std::bind(&SYDEMapGame::Toplefia_TownHall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
-
+		//Ballistica
+		else if (_STATE == "Ballistica Wharf")
+		{
+			_StructOptions[0].setText("Travel"); 
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::Ballistica_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		//BLANKIS
+		else if (_STATE == "South Blankis Wharf")
+		{
+			_StructOptions[0].setText("Travel");
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::SouthBlankis_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "East Blankis Wharf")
+		{
+			_StructOptions[0].setText("Travel");
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::EastBlankis_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		//Taumata
+		else if (_STATE == "Taumata Wharf")
+		{
+			_StructOptions[0].setText("Travel");
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::Taumata_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		//Aliran
+		else if (_STATE == "Aliran Wharf")
+		{
+			_StructOptions[0].setText("Travel");
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::Aliran_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		//CRT COAST
+		else if (_STATE == "CRT Coast Wharf")
+		{
+			_StructOptions[0].setText("Travel"); 
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::CRTCoast_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "CRT Island Wharf")
+		{
+			_StructOptions[0].setText("Travel");
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::CRTIsland_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
 		//Beached ***hole
 		else if (_STATE == "Jiman's House")
 		{
-			_StructOptions[0].setText("Speak"); //230,80
+			_StructOptions[0].setText("Speak"); 
 			_StructOptions[1].setText("--");
 			AssignState(std::bind(&SYDEMapGame::Jiman_House, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		//REPAIRED COAST
+		else if (_STATE == "Repaired Wharf")
+		{
+			_StructOptions[0].setText("Travel"); 
+			_StructOptions[1].setText("Speak");
+			AssignState(std::bind(&SYDEMapGame::Repaired_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		//JONESTOWN
 		else if (_STATE == "Jonestown Hall")
 		{
-			_StructOptions[0].setText("Speak"); //230,80
+			_StructOptions[0].setText("Speak"); 
 			_StructOptions[1].setText("--");
 			AssignState(std::bind(&SYDEMapGame::Jonestown_Hall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Jonestown Wharf")
 		{
-			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[0].setText("Travel"); 
 			_StructOptions[1].setText("Speak");
 			AssignState(std::bind(&SYDEMapGame::Jonestown_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		//SWAN LAKE
 		else if (_STATE == "Swan Lake Wharf")
 		{
-			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[0].setText("Travel"); 
 			_StructOptions[1].setText("Speak");
 			AssignState(std::bind(&SYDEMapGame::SwanLake_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "North Swan Lake Wharf")
 		{
-			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[0].setText("Travel"); 
 			_StructOptions[1].setText("Speak");
 			AssignState(std::bind(&SYDEMapGame::NorthSwanLake_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Dragon Keep Wharf")
 		{
-			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[0].setText("Travel"); 
 			_StructOptions[1].setText("Speak");
 			AssignState(std::bind(&SYDEMapGame::Dragon_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		// DENTON
 		else if (_STATE == "Denton Wharf")
 		{
-			_StructOptions[0].setText("Travel"); //230,80
+			_StructOptions[0].setText("Travel"); 
 			_StructOptions[1].setText("Speak");
 			AssignState(std::bind(&SYDEMapGame::Denton_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
@@ -1721,6 +1839,326 @@ ConsoleWindow SYDEMapGame::Jonestown_Wharf(ConsoleWindow window, int windowWidth
 				_FWindow.AddFString("");
 				_FWindow.AddFString("Be careful out there");
 			}
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::SouthBlankis_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(602, 136); // Ballistica
+			setSail("Ballistica Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::EastBlankis_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(788, 53);
+			setSail("Aliran Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Ballistica_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(590, 71);
+			setSail("South Blankis Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Aliran_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(642, 47); // EAST BLANKIS
+			setSail("East Blankis Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Repaired_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(1502, 73);
+			setSail("Taumata Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Taumata_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(1404, 110);
+			setSail("Repaired Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::CRTCoast_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(1718, 447);
+			setSail("CRT Island Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::CRTIsland_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			camera_Pos = Vector2(1626, 444);
+			setSail("CRT Coast Wharf");
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
 		}
 		else if (_StructOptions.getSelected().m_Label == "2")
 		{
