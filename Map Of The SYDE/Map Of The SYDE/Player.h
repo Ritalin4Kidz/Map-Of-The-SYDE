@@ -42,6 +42,12 @@ public:
 	void setMoney(int coins) { player_money = coins; }
 	void addMoney(int coins) { player_money += coins; }
 	int getMoney() { return player_money; }
+
+	void setIcon(string _ICON) { player_icon = _ICON; }
+	string getIcon() { return player_icon; }
+
+	void setColour(ColourClass colour) { player_colour = colour; }
+	ColourClass getColour() { return player_colour; }
 private:
 	int play_health = 100;
 
@@ -63,6 +69,9 @@ private:
 
 	// etc values
 	int player_money = 0;
+
+	string player_icon = "><";
+	ColourClass player_colour = BLACK;
 };
 
 class FightWindow {

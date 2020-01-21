@@ -9,6 +9,8 @@
 #include "Structures.h"
 #include "Player.h"
 #include "Quest.h"
+#include "json.hpp"
+using json = nlohmann::json;
 
 class SYDEMapGame : public SYDEWindowGame {
 public:
@@ -26,6 +28,7 @@ public:
 	ConsoleWindow Main_Menu(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Quest(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Player_Stats(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Player_Customization(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//TEST
 	ConsoleWindow Orc_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -138,7 +141,6 @@ private:
 	//MainMenu Vars
 	CustomAnimationAsset m_MainMenu_BG;
 	float time_passed = 0.0f;
-	SYDEMenu _Options;
 
 	vector<WildFightAttachment> _list_fight_cases;
 	vector<Structure> _list_structures;
@@ -156,9 +158,12 @@ private:
 	int enemy_exp_gained = 50;
 	int enemy_lvl = 1;
 
+	//MENUS
+	SYDEMenu _Options;
 	SYDEMenu _FightOptions;
 	SYDEMenu _MoveOptions;
 	SYDEMenu _MenuOptions;
+	SYDEMenu _ColourOptions;
 
 	FightWindow _FWindow;
 
@@ -175,7 +180,23 @@ private:
 
 	//ETC
 	vector<_Town_Square> vecTowns;
-
+	vector<string> vecIcons = {
+		"><",
+		"[]",
+		"()",
+		"<>",
+		"{}",
+		"**",
+		"##"
+	};
+	int iconNo = 0;
+	vector<ColourClass> vecIconCol = {
+		BLACK,
+		BLUE,
+		RED,
+		YELLOW,
+		PURPLE
+	};
 	//WILD AREAS
 	vector<string> Almon_WILD = {
 		"ORC_FIGHT",

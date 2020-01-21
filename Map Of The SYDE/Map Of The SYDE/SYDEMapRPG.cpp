@@ -93,74 +93,67 @@ void SYDEMapGame::lvlUP()
 
 void SYDEMapGame::saveGame()
 {
-	ofstream FileOut("EngineFiles\\Settings\\MOTS_SaveFile.sc");
-	//LEVELS
-	FileOut << "//PLAYERSTATS" << endl;
-	FileOut << "PlayerLVL:" + to_string(player.getLvl()) << endl;
-	FileOut << "PlayerHP:" + to_string(player.getHealth()) << endl;
-	FileOut << "PlayerHPMax:" + to_string(player.getMaxHealth()) << endl;
-	FileOut << "PlayerXP:" + to_string(player.getXP()) << endl;
-	FileOut << "PlayerXPNxt:" + to_string(player.getXPNxtLvl()) << endl;
-	FileOut << "PosX:" + to_string(camera_Pos.getX()) << endl;
-	FileOut << "PosY:" + to_string(camera_Pos.getY()) << endl;
-
-
-	FileOut << "//QUESTS" << endl;
+	json save_file;
+	//PlayerStats
+	save_file["PlayerLVL"] = player.getLvl();
+	save_file["PlayerHP"] = player.getHealth();
+	save_file["PlayerHPMax"] = player.getMaxHealth();
+	save_file["PlayerXP"] = player.getXP();
+	save_file["PlayerXPNxt"] = player.getXPNxtLvl();
+	save_file["PlayerColour"] = player.getColour();
+	save_file["PlayerIcon"] = player.getIcon();
+	//PlayerWeapons
+	save_file["swordDmg"] = player.getSwordDmg();
+	save_file["waterUnlock"] = player.getWaterSpellUnlocked();
+	save_file["waterDmg"] = player.getWaterDmg();
+	save_file["fireUnlock"] = player.getFireSpellUnlocked();
+	save_file["fireDmg"] = player.getFireDmg();
+	save_file["grassUnlock"] = player.getGrassSpellUnlocked();
+	save_file["grassDmg"] = player.getGrassDmg();
+	//POSITION
+	save_file["PosX"] = camera_Pos.getX();
+	save_file["PosY"] = camera_Pos.getY();
+	//Quests
+	for (int i = 0; i < questVec.size(); i++)
+	{
+		save_file["Quests"][to_string(i)]["Given"] = questVec[i].getGiven();
+		save_file["Quests"][to_string(i)]["AmtDone"] = questVec[i].getAmtDone();
+		save_file["Quests"][to_string(i)]["Finished"] = questVec[i].getFinished();
+	}
+	std::ofstream ofs("EngineFiles\\Settings\\MOTS_SaveFile.sc");
+	ofs << save_file;
 }
 
 void SYDEMapGame::loadSave()
-{
-	ifstream File("EngineFiles\\Settings\\MOTS_SaveFile.sc", ios::binary | ios::in);
-	if (File.is_open())
+{	
+	std::ifstream ifs{ "EngineFiles\\Settings\\MOTS_SaveFile.sc" };
+	json save_file = json::parse(ifs);
+	//string notes = release_notes["body"];
+	//PlayerStats
+	player.setLvl(save_file["PlayerLVL"]);
+	player.setHealth(save_file["PlayerHP"]);
+	player.setMaxHealth(save_file["PlayerHPMax"]);
+	player.setXP(save_file["PlayerXP"]);
+	player.setXPNxtLvl(save_file["PlayerXPNxt"]);
+	player.setColour(save_file["PlayerColour"]);
+	player.setIcon(save_file["PlayerIcon"]);
+	//PlayerWeapons
+	player.setSwordDmg(save_file["swordDmg"]);
+	player.setWaterSpellUnlocked(save_file["waterUnlock"]);
+	player.setWaterDmg(save_file["waterDmg"]);
+	player.setFireSpellUnlocked(save_file["fireUnlock"]);
+	player.setFireDmg(save_file["fireDmg"]);
+	player.setGrassSpellUnlocked(save_file["grassUnlock"]);
+	player.setGrassDmg(save_file["grassDmg"]);
+	//POSITION
+	camera_Pos.setX(save_file["PosX"]);
+	camera_Pos.setY(save_file["PosY"]);
+	//Quests
+	for (int i = 0; i < questVec.size(); i++)
 	{
-		string line;
-		vector<string> FileLines;
-		while (getline(File, line, '\n'))
-		{
-			FileLines = Split(line, ':');
-			if (FileLines[0] == "PlayerLVL")
-			{
-				int tempVal;
-				std::istringstream(FileLines[1]) >> tempVal;
-				player.setLvl(tempVal);
-			}
-			else if (FileLines[0] == "PlayerHP")
-			{
-				int tempVal;
-				std::istringstream(FileLines[1]) >> tempVal;
-				player.setHealth(tempVal);
-			}
-			else if (FileLines[0] == "PlayerHPMax")
-			{
-				int tempVal;
-				std::istringstream(FileLines[1]) >> tempVal;
-				player.setMaxHealth(tempVal);
-			}
-			else if (FileLines[0] == "PlayerXP")
-			{
-				int tempVal;
-				std::istringstream(FileLines[1]) >> tempVal;
-				player.setXP(tempVal);
-			}
-			else if (FileLines[0] == "PlayerXPNxt")
-			{
-				int tempVal;
-				std::istringstream(FileLines[1]) >> tempVal;
-				player.setXPNxtLvl(tempVal);
-			}
-			else if (FileLines[0] == "PosX")
-			{
-				int tempVal;
-				std::istringstream(FileLines[1]) >> tempVal;
-				camera_Pos.setX(tempVal);
-			}
-			else if (FileLines[0] == "PosY")
-			{
-				int tempVal;
-				std::istringstream(FileLines[1]) >> tempVal;
-				camera_Pos.setY(tempVal);
-			}
-		}
+		questVec[i].setGiven(save_file["Quests"][to_string(i)]["Given"]); 
+		questVec[i].setAmtDone(save_file["Quests"][to_string(i)]["AmtDone"]);
+		questVec[i].setFinished(save_file["Quests"][to_string(i)]["Finished"]);
 	}
 }
 
@@ -634,6 +627,26 @@ SYDEMapGame::SYDEMapGame()
 	//NPC
 	m_PLACEHOLDER.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Bitmaps\\NPC_Placeholder.bmp", astVars, 10, 10, 10, 10, 0, 1));
 	m_PLACEHOLDER.setLooping(true);
+
+
+	//CUSTOMIZATION STUFF
+	_ColourOptions = SYDEMenu(vector<SYDEButton> {
+			SYDEButton("BLACK", Vector2(1, 2), Vector2(20, 1), BLACK, true),
+			SYDEButton("BLUE", Vector2(1, 3), Vector2(20, 1), BLACK, true),
+			SYDEButton("RED", Vector2(1, 4), Vector2(20, 1), BLACK, true),
+			SYDEButton("YELLOW", Vector2(1, 5), Vector2(20, 1), BLACK, true),
+			SYDEButton("PURPLE", Vector2(1, 6), Vector2(20, 1), BLACK, true),
+	});
+
+	for (int i = 0; i < _ColourOptions.getSize(); i++)
+	{
+		_ColourOptions[i].m_Label = to_string(i);
+		_ColourOptions[i].setHighLight(RED);
+	}
+
+	_ColourOptions.setActive(true);
+	_ColourOptions.setPos(Vector2(1, 2));
+
 }
 
 ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidth, int windowHeight)
@@ -822,6 +835,11 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			camera_Pos = Vector2(8, 93);
 			AssignState(std::bind(&SYDEMapGame::Dragon_Keep_Dungeon, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+		//ETC
+		else if (_STATE == "Customize")
+		{
+			AssignState(std::bind(&SYDEMapGame::Player_Customization, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
 		else {
 			//FAILSAFE
 			AssignState(std::bind(&SYDEMapGame::Main_Menu, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
@@ -858,7 +876,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 
 
 	//PlayerPos
-	window.setTextAtPoint(Vector2(20, 10) , "><", window.determineColourAtPoint(Vector2(20, 10), BLACK, true));
+	window.setTextAtPoint(Vector2(20, 10) , player.getIcon(), window.determineColourAtPoint(Vector2(20, 10), player.getColour(), true));
 	char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 	if (tempChar == StructureChar)
 	{
@@ -993,13 +1011,6 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 
 ConsoleWindow SYDEMapGame::Main_Menu(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	//for (int l = 0; l < windowWidth; l++)
-	//{
-	//	for (int m = 0; m < windowHeight; m++)
-	//	{
-	//		window.setTextAtPoint(Vector2(l, m), " ", BLACK);
-	//	}
-	//}
 	window = m_MainMenu_BG.draw_asset(window, Vector2(0,0));
 	if (time_passed < 0.15f)
 	{
@@ -1032,7 +1043,7 @@ ConsoleWindow SYDEMapGame::Main_Menu(ConsoleWindow window, int windowWidth, int 
 		else if (_Options.getSelected().m_Label == "1")
 		{
 			// REVERT EVERYTHING TO DEFAULT VARS
-			_STATE = "MainMap";
+			_STATE = "Customize";
 		}
 		else if (_Options.getSelected().m_Label == "2")
 		{
@@ -1113,6 +1124,7 @@ ConsoleWindow SYDEMapGame::Player_Stats(ConsoleWindow window, int windowWidth, i
 		else if (_MenuOptions.getSelected().m_Label == "1")
 		{
 			//SAVE STATE
+			saveGame();
 		}
 		else if (_MenuOptions.getSelected().m_Label == "2")
 		{
@@ -1148,6 +1160,50 @@ ConsoleWindow SYDEMapGame::Player_Stats(ConsoleWindow window, int windowWidth, i
 	}
 	window.setTextAtPoint(Vector2(0, 18), "XP: " + to_string(player.getXP()), BLACK_BRIGHTYELLOW_BG);
 	window.setTextAtPoint(Vector2(0, 19), "XP To Next Level: " + to_string(player.getXPNxtLvl() - player.getXP()), BLACK_BRIGHTYELLOW_BG);
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Player_Customization(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", WHITE_WHITE_BG);
+		}
+	}
+	window = _ColourOptions.draw_menu(window);
+	window.setTextAtPoint(Vector2(0,1),"CUSTOMIZE YOUR CHARACTER", BLACK_WHITE_BG);
+	window.setTextAtPoint(Vector2(0, 17), "TAB: Change Colour", BLACK_WHITE_BG);
+	window.setTextAtPoint(Vector2(0, 18), "A or D: Change Icon", BLACK_WHITE_BG);
+	window.setTextAtPoint(Vector2(0, 19), "Space: Start Game", BLACK_WHITE_BG);
+	window.setTextAtPoint(Vector2(25, 10), vecIcons[iconNo], window.determineColourAtPoint(Vector2(25, 10), vecIconCol[_ColourOptions.getSelectedNumber()], true));
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_ColourOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get('A')._CompareState(KEYDOWN)))
+	{
+		iconNo--;
+		if (iconNo < 0)
+		{
+			iconNo = vecIcons.size() - 1;
+		}
+	}
+	else if ((SYDEKeyCode::get('D')._CompareState(KEYDOWN)))
+	{
+		iconNo++;
+		if (iconNo >= vecIcons.size())
+		{
+			iconNo = 0;
+		}
+	}
+	else if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		player.setColour(vecIconCol[_ColourOptions.getSelectedNumber()]);
+		player.setIcon(vecIcons[iconNo]);
+		_STATE = "MainMap";
+	}
 	return window;
 }
 
@@ -2216,7 +2272,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 	}
 	window.setTextAtPoint(Vector2(0, 19), "Health: " + std::to_string(player.getHealth()) + ", Lvl: " + std::to_string(player.getLvl()) + ", XP: " + std::to_string(player.getXP()), RED_WHITE_BG);
 	//PlayerPos
-	window.setTextAtPoint(Vector2(20, 10), "><", window.determineColourAtPoint(Vector2(20, 10), BLACK, true));
+	window.setTextAtPoint(Vector2(20, 10), player.getIcon(), window.determineColourAtPoint(Vector2(20, 10), player.getColour(), true));
 	char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 	if (tempChar == StructureChar)
 	{
