@@ -233,6 +233,7 @@ SYDEMapGame::SYDEMapGame()
 	_DragonKeepAsset = CustomAsset(200, 100, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Swan Lake Dungeon.bmp", 100, 100));
 
 	//camera_Pos = Vector2(1280, 676);
+#pragma region TownDeclaration
 
 	// LIST OF ALL TOWNS
 	vecTowns = vector<_Town_Square>{
@@ -309,7 +310,7 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1536,	672), Vector2(1791,	767), "Haven's Corner"), // THANKS ME
 		_Town_Square(Vector2(1792,	672), Vector2(2047,	767), "South East Ocean"), // THANKS ME
 	};
-
+#pragma endregion
 	camera_Pos = Vector2(214, 173);
 	//DEV
 	if (MOTSDefaults::DEV_ON_)
@@ -340,35 +341,13 @@ SYDEMapGame::SYDEMapGame()
 		}
 	}
 
+#pragma region Wharfs
+
 	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID A:2 - Almon Island
 	AddAttachmentStructure(Vector2(392, 83), "Almon Wharf", 96);
 	AddAttachmentStructure(Vector2(393, 83), "Almon Wharf", 96);
 
-	//ADD WILD AREAS IN BOUUNDARIES 402,85  451,85,  402,68   451,68
-	for (int ii = 68; ii < 86; ii++)
-	{
-		for (int i = 402; i < 452; i += 2)
-		{
-			int wfc = getColourFromLevel(Vector2(i, ii));
-			if (wfc == 32)
-			{
-				string wfs = getRandomFromList(Almon_WILD);
-				int lvlEnemy = (std::rand() % (almon_max_level - almon_min_level)) + almon_min_level;
-				AddAttachmentWildFight(Vector2(i, ii), wfs, wfc, lvlEnemy); // NEED TO DO TWICE
-				AddAttachmentWildFight(Vector2(i + 1, ii), wfs, wfc);
-			}
-		}
-	}
-
 	// STRUCTURES && WILD FIGHT AREAS INSIDE Jonestown + Repaired Coast
-
-	for (int ii = 181; ii < 184; ii++)
-	{
-		for (int i = 1344; i < 1360; i ++)
-		{
-			AddAttachmentStructure(Vector2(i, ii), "Jonestown Hall", 64);
-		}
-	}
 
 	for (int ii = 259; ii < 263; ii++)
 	{
@@ -452,22 +431,6 @@ SYDEMapGame::SYDEMapGame()
 		}
 	}
 
-	//ENEMY CODE, ADD WHEN ENEMIES MADE, MAKE DIFFERENT FROM ALMON ISLAND
-	for (int ii = 285; ii < 306; ii++)
-	{
-		for (int i = 50; i < 86; i += 2)
-		{
-			int wfc = getColourFromLevel(Vector2(i, ii));
-			if (wfc == 32)
-			{
-				string wfs = getRandomFromList(WEST_SYDE_WILD); // NEED TO MAKE DIFFERENT FOR SYDE COAST
-				int lvlEnemy = (std::rand() % (west_syde_max_level - west_syde_min_level)) + west_syde_min_level;
-				AddAttachmentWildFight(Vector2(i, ii), wfs, wfc, lvlEnemy); // NEED TO DO TWICE
-				AddAttachmentWildFight(Vector2(i + 1, ii), wfs, wfc);
-			}
-		}
-	}
-
 	//Aliran
 	for (int ii = 53; ii < 57; ii++)
 	{
@@ -503,11 +466,6 @@ SYDEMapGame::SYDEMapGame()
 		}
 	}
 
-	for (int i = 1756; i < 1758; i++)
-	{
-		AddAttachmentStructure(Vector2(i, 209), "Dragon Keep", 208);
-	}
-
 	// DENTON
 	for (int ii = 559; ii < 563; ii++)
 	{
@@ -523,38 +481,6 @@ SYDEMapGame::SYDEMapGame()
 		for (int i = 1286; i < 1294; i++)
 		{
 			AddAttachmentStructure(Vector2(i, ii), "Cyprux Wharf", 96);
-		}
-	}
-
-	// BEACHED ****Hole
-	for (int ii = 224; ii < 230; ii++)
-	{
-		for (int i = 356; i < 364; i++)
-		{
-			AddAttachmentStructure(Vector2(i, ii), "Jiman's House", 64);
-		}
-	}
-	for (int ii = 225; ii < 233; ii++)
-	{
-		for (int i = 356; i < 372; i++)
-		{
-			int wfc = getColourFromLevel(Vector2(i, ii));
-			if (wfc == 32)
-			{
-				int lvlEnemy = 5;
-				AddAttachmentWildFight(Vector2(i, ii), "Harmless Pig", wfc, lvlEnemy);
-			}
-		}
-	}
-
-	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID B:1 - Toplefia Place
-
-	for (int ii = 199; ii < 206; ii++)
-	{
-		for (int i = 220; i < 232; i += 2)
-		{
-			AddAttachmentStructure(Vector2(i, ii), "Toplefia Town Hall", 64);
-			AddAttachmentStructure(Vector2(i + 1, ii), "Toplefia Town Hall", 64);
 		}
 	}
 
@@ -584,9 +510,94 @@ SYDEMapGame::SYDEMapGame()
 	AddAttachmentStructure(Vector2(211, 174), "Toplefia Wharf", 96);
 	AddAttachmentStructure(Vector2(212, 174), "Toplefia Wharf", 96);
 	AddAttachmentStructure(Vector2(213, 174), "Toplefia Wharf", 96);
+#pragma endregion
+#pragma region Buildings
 
-	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID C:6 - Jonestown
+	// BEACHED ****Hole
+	for (int ii = 224; ii < 230; ii++)
+	{
+		for (int i = 356; i < 364; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Jiman's House", 64);
+		}
+	}
 
+	for (int ii = 181; ii < 184; ii++)
+	{
+		for (int i = 1344; i < 1360; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Jonestown Hall", 64);
+		}
+	}
+
+	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID B:1 - Toplefia Place
+
+	for (int ii = 199; ii < 206; ii++)
+	{
+		for (int i = 220; i < 232; i += 2)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Toplefia Town Hall", 64);
+			AddAttachmentStructure(Vector2(i + 1, ii), "Toplefia Town Hall", 64);
+		}
+	}
+#pragma endregion
+
+#pragma region Dungeons
+	for (int i = 1756; i < 1758; i++)
+	{
+		AddAttachmentStructure(Vector2(i, 209), "Dragon Keep", 208);
+	}
+#pragma endregion
+
+
+#pragma region WildfightAreas
+	//ADD WILD AREAS IN BOUUNDARIES 402,85  451,85,  402,68   451,68
+	for (int ii = 68; ii < 86; ii++)
+	{
+		for (int i = 402; i < 452; i += 2)
+		{
+			int wfc = getColourFromLevel(Vector2(i, ii));
+			if (wfc == 32)
+			{
+				string wfs = getRandomFromList(Almon_WILD);
+				int lvlEnemy = (std::rand() % (almon_max_level - almon_min_level)) + almon_min_level;
+				AddAttachmentWildFight(Vector2(i, ii), wfs, wfc, lvlEnemy); // NEED TO DO TWICE
+				AddAttachmentWildFight(Vector2(i + 1, ii), wfs, wfc);
+			}
+		}
+	}
+
+	//Beached Butthole
+	for (int ii = 225; ii < 233; ii++)
+	{
+		for (int i = 356; i < 372; i++)
+		{
+			int wfc = getColourFromLevel(Vector2(i, ii));
+			if (wfc == 32)
+			{
+				int lvlEnemy = 5;
+				AddAttachmentWildFight(Vector2(i, ii), "Harmless Pig", wfc, lvlEnemy);
+			}
+		}
+	}
+
+	//ENEMY CODE, ADD WHEN ENEMIES MADE, MAKE DIFFERENT FROM ALMON ISLAND
+	for (int ii = 285; ii < 306; ii++)
+	{
+		for (int i = 50; i < 86; i += 2)
+		{
+			int wfc = getColourFromLevel(Vector2(i, ii));
+			if (wfc == 32)
+			{
+				string wfs = getRandomFromList(WEST_SYDE_WILD); // NEED TO MAKE DIFFERENT FOR SYDE COAST
+				int lvlEnemy = (std::rand() % (west_syde_max_level - west_syde_min_level)) + west_syde_min_level;
+				AddAttachmentWildFight(Vector2(i, ii), wfs, wfc, lvlEnemy); // NEED TO DO TWICE
+				AddAttachmentWildFight(Vector2(i + 1, ii), wfs, wfc);
+			}
+		}
+	}
+#pragma endregion
+#pragma region Options/SydeMenus
 	//MAIN MENU VARS
 	_Options = SYDEMenu(vector<SYDEButton> {	
 		SYDEButton("", Vector2(0, 1), Vector2(20, 1), WHITE, true),
@@ -675,6 +686,25 @@ SYDEMapGame::SYDEMapGame()
 		_MenuOptions[i].setHighLight(RED);
 	}
 
+	//CUSTOMIZATION STUFF
+	_ColourOptions = SYDEMenu(vector<SYDEButton> {
+		SYDEButton("BLACK", Vector2(1, 2), Vector2(20, 1), BLACK, true),
+			SYDEButton("BLUE", Vector2(1, 3), Vector2(20, 1), BLACK, true),
+			SYDEButton("RED", Vector2(1, 4), Vector2(20, 1), BLACK, true),
+			SYDEButton("YELLOW", Vector2(1, 5), Vector2(20, 1), BLACK, true),
+			SYDEButton("PURPLE", Vector2(1, 6), Vector2(20, 1), BLACK, true),
+	});
+
+	for (int i = 0; i < _ColourOptions.getSize(); i++)
+	{
+		_ColourOptions[i].m_Label = to_string(i);
+		_ColourOptions[i].setHighLight(RED);
+	}
+
+	_ColourOptions.setActive(true);
+	_ColourOptions.setPos(Vector2(1, 2));
+#pragma endregion
+
 	//ENEMY ANIMATIONS
 	m_ORC.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\UIAnimations\\TestEnemy.bmp", astVars, 100, 30, 10, 10, 0, 27));
 	m_ORC.setLooping(true);
@@ -692,25 +722,6 @@ SYDEMapGame::SYDEMapGame()
 	//NPC
 	m_PLACEHOLDER.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Bitmaps\\NPC_Placeholder.bmp", astVars, 10, 10, 10, 10, 0, 1));
 	m_PLACEHOLDER.setLooping(true);
-
-
-	//CUSTOMIZATION STUFF
-	_ColourOptions = SYDEMenu(vector<SYDEButton> {
-			SYDEButton("BLACK", Vector2(1, 2), Vector2(20, 1), BLACK, true),
-			SYDEButton("BLUE", Vector2(1, 3), Vector2(20, 1), BLACK, true),
-			SYDEButton("RED", Vector2(1, 4), Vector2(20, 1), BLACK, true),
-			SYDEButton("YELLOW", Vector2(1, 5), Vector2(20, 1), BLACK, true),
-			SYDEButton("PURPLE", Vector2(1, 6), Vector2(20, 1), BLACK, true),
-	});
-
-	for (int i = 0; i < _ColourOptions.getSize(); i++)
-	{
-		_ColourOptions[i].m_Label = to_string(i);
-		_ColourOptions[i].setHighLight(RED);
-	}
-
-	_ColourOptions.setActive(true);
-	_ColourOptions.setPos(Vector2(1, 2));
 
 }
 
@@ -741,6 +752,8 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			//window = Main_Menu(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Player_Stats, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+#pragma region Fights
+
 		else if (_STATE == "ORC_TEST")
 		{
 			//window = Orc_Fight(window, windowWidth, windowHeight);
@@ -794,6 +807,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			//window = Orc_Fight(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Wolf_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+#pragma endregion
 		else if (_STATE == "QUEST_PAGE")
 		{
 			//window = Building_Test(window, windowWidth, windowHeight);
@@ -807,18 +821,32 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			//window = Building_Test(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Building_Test, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+		else if (_STATE == "Toplefia Town Hall")
+		{
+			_StructOptions[0].setText("Speak");
+			_StructOptions[1].setText("--");
+			AssignState(std::bind(&SYDEMapGame::Toplefia_TownHall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "Jiman's House")
+		{
+			_StructOptions[0].setText("Speak");
+			_StructOptions[1].setText("--");
+			AssignState(std::bind(&SYDEMapGame::Jiman_House, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "Jonestown Hall")
+		{
+			_StructOptions[0].setText("Speak");
+			_StructOptions[1].setText("--");
+			AssignState(std::bind(&SYDEMapGame::Jonestown_Hall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+#pragma region Wharfs
+
 		//TOPLEFIA AREA
 		else if (_STATE == "Toplefia Wharf")
 		{
 			_StructOptions[0].setText("Travel"); 
 			_StructOptions[1].setText("Speak");
 			AssignState(std::bind(&SYDEMapGame::Toplefia_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-		}
-		else if (_STATE == "Toplefia Town Hall")
-		{
-			_StructOptions[0].setText("Speak"); 
-			_StructOptions[1].setText("--");
-			AssignState(std::bind(&SYDEMapGame::Toplefia_TownHall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		//Ballistica
 		else if (_STATE == "Ballistica Wharf")
@@ -868,12 +896,6 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			AssignState(std::bind(&SYDEMapGame::CRTIsland_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		//Beached ***hole
-		else if (_STATE == "Jiman's House")
-		{
-			_StructOptions[0].setText("Speak"); 
-			_StructOptions[1].setText("--");
-			AssignState(std::bind(&SYDEMapGame::Jiman_House, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-		}
 		//REPAIRED COAST
 		else if (_STATE == "Repaired Wharf")
 		{
@@ -882,12 +904,6 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			AssignState(std::bind(&SYDEMapGame::Repaired_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		//JONESTOWN
-		else if (_STATE == "Jonestown Hall")
-		{
-			_StructOptions[0].setText("Speak"); 
-			_StructOptions[1].setText("--");
-			AssignState(std::bind(&SYDEMapGame::Jonestown_Hall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-		}
 		else if (_STATE == "Jonestown Wharf")
 		{
 			_StructOptions[0].setText("Travel"); 
@@ -947,6 +963,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			_StructOptions[1].setText("Speak");
 			AssignState(std::bind(&SYDEMapGame::Almon_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+#pragma endregion
 		//DUNGEONS
 		else if (_STATE == "Dragon Keep")
 		{
