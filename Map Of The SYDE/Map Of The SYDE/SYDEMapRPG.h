@@ -22,6 +22,8 @@ public:
 	//CUTSCENES
 	ConsoleWindow Sailing(ConsoleWindow window, int windowWidth, int windowHeight);
 	void setSail(string a_STATE) { sailingTime = 0.0f; _STATESail = a_STATE; _STATE = "Sailing"; }
+	ConsoleWindow Rest(ConsoleWindow window, int windowWidth, int windowHeight);
+	void sleepAt(string a_STATE) { _STATERest = a_STATE; _STATE = "Resting"; m_NIGHT_TO_DAY.setFrame(0); }
 
 	//MAIN
 	ConsoleWindow Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -89,6 +91,7 @@ public:
 	ConsoleWindow DragonKeepBoss_Header(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Wharf_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _NPCAnim);
 
+	void fightBody(int& enemy_hp, bool& enemy_attack, float swordMulti, float fireMulti, float waterMulti, float grassMulti);
 
 	//DUNGEONS
 	ConsoleWindow Dragon_Keep_Dungeon(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -144,10 +147,13 @@ private:
 	string _STATE = "MainMenu";
 	string _CurentSTATE = "MainMenu";
 	string _MenuReturnSTATE = "MainMap";
+	string _FightReturnSTATE = "MainMap";
 
 	string _STATESail = "Toplefia Wharf";
 	float sailingTime = 0.0f;
 	const float maxSailTime = 5.5f;
+
+	string _STATERest = "Toplefia Farm";
 
 	CustomAsset m_bg;
 	CustomAsset _LevelAsset;
@@ -188,6 +194,7 @@ private:
 
 	//CutScenes
 	CustomAnimationAsset m_SAIL; // PLACHOLDER USED ATM
+	CustomAnimationAsset m_NIGHT_TO_DAY;
 
 	//ENEMY ANIMATIONS
 	CustomAnimationAsset m_ORC;
@@ -239,6 +246,12 @@ private:
 	};
 	int west_syde_min_level = 2;
 	int west_syde_max_level = 5;
+
+	vector<string> DRAGON_KEEP_WILD = {
+	"ORC_FIGHT",
+	};
+	int dragon_keep_min_level = 35;
+	int dragon_keep_max_level = 43;
 
 	//STANDARD BUILDING
 	SYDEMenu _StructOptions;

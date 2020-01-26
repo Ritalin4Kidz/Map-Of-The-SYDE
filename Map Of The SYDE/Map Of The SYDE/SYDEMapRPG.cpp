@@ -173,7 +173,7 @@ void SYDEMapGame::enemy_dead()
 	player.setXP(player.getXP() + enemy_exp_gained);
 	lvlUP();
 	_FWindow.clear();
-	_STATE = "MainMap";
+	_STATE = _FightReturnSTATE;
 }
 
 vector<string> SYDEMapGame::Split(string a_String, char splitter)
@@ -755,6 +755,9 @@ SYDEMapGame::SYDEMapGame()
 	m_SAIL.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\SailingAnimation.bmp", astVars, 160, 20, 20, 20, 0, 8));
 	m_SAIL.setLooping(true);
 
+	m_NIGHT_TO_DAY.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\NightToDay.bmp", astVars, 80, 200, 20, 20, 0, 38));
+	m_NIGHT_TO_DAY.setLooping(false);
+
 	//NPC
 	m_PLACEHOLDER.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Bitmaps\\NPC_Placeholder.bmp", astVars, 10, 10, 10, 10, 0, 1));
 	m_PLACEHOLDER.setLooping(true);
@@ -777,10 +780,16 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			AssignState(std::bind(&SYDEMapGame::Main_Map_Scene, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
 		}
+#pragma region Cutscenes
 		else if (_STATE == "Sailing")
 		{
 			AssignState(std::bind(&SYDEMapGame::Sailing, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+		else if (_STATE == "Resting")
+		{
+			AssignState(std::bind(&SYDEMapGame::Rest, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+#pragma endregion
 		else if (_STATE == "MainMenu")
 		{
 			//window = Main_Menu(window, windowWidth, windowHeight);
@@ -1023,6 +1032,10 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		else if (_STATE == "Dragon Keep")
 		{
 			camera_Pos = Vector2(8, 93);
+			_STATE = "Dragon Keep Dungeon";
+		}
+		else if (_STATE == "Dragon Keep Dungeon")
+		{
 			AssignState(std::bind(&SYDEMapGame::Dragon_Keep_Dungeon, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		//ETC
@@ -1038,6 +1051,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 	window = DoState(window,windowWidth,windowHeight);
 	return window;
 }
+#pragma region Cutscenes
 
 ConsoleWindow SYDEMapGame::Sailing(ConsoleWindow window, int windowWidth, int windowHeight)
 {
@@ -1051,6 +1065,18 @@ ConsoleWindow SYDEMapGame::Sailing(ConsoleWindow window, int windowWidth, int wi
 	return window;
 }
 
+ConsoleWindow SYDEMapGame::Rest(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = m_NIGHT_TO_DAY.draw_asset(window, Vector2(0, 0));
+	window.setTextAtPoint(Vector2(0, 1), "Resting At '" + _STATERest + "'", BLACK_WHITE_BG);
+	if (m_NIGHT_TO_DAY.getFrame() >= m_NIGHT_TO_DAY.getFrameSize() - 1)
+	{
+		_STATE = _STATERest;
+	}
+	return window;
+}
+
+#pragma endregion
 ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = m_bg.draw_asset(window, Vector2(0, 0));
@@ -1106,6 +1132,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 			if (random_variable == 15)
 			{
 				// SET ENEMY AND LEVEL
+				_FightReturnSTATE = _STATE;
 				_STATE = getWFA_STATE(camera_Pos);
 				enemy_lvl = getWFA_LVL(camera_Pos);
 			}
@@ -1132,6 +1159,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 			if (random_variable == 26)
 			{
 				// SET ENEMY AND LEVEL
+				_FightReturnSTATE = _STATE;
 				_STATE = getWFA_STATE(camera_Pos);
 				enemy_lvl = getWFA_LVL(camera_Pos);
 			}
@@ -1156,6 +1184,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 			if (random_variable == 7)
 			{
 				// SET ENEMY AND LEVEL
+				_FightReturnSTATE = _STATE;
 				_STATE = getWFA_STATE(camera_Pos);
 				enemy_lvl = getWFA_LVL(camera_Pos);
 			}
@@ -1181,6 +1210,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 			if (random_variable == 30)
 			{
 				// SET ENEMY AND LEVEL
+				_FightReturnSTATE = _STATE;
 				_STATE = getWFA_STATE(camera_Pos);
 				enemy_lvl = getWFA_LVL(camera_Pos);
 			}
@@ -1467,51 +1497,7 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 	else if (_MoveOptions.getActive())
 	{
 		window = _MoveOptions.draw_menu(window);
-		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
-		{
-			_MoveOptions.nextSelect();
-		}
-		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
-		{
-			if (_MoveOptions.getSelected().m_Label == "0")
-			{
-				//FIGHT SEQUENCE SWORD
-				int dmgApplied = player.getSwordDmg() * 1 * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Sword");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "1")
-			{
-				int dmgApplied = player.getFireDmg() * 2 * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Fire");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "2")
-			{
-				int dmgApplied = player.getWaterDmg() * 0.5f * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Water");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "3")
-			{
-				int dmgApplied = player.getGrassDmg() * 0 * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Grass");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "4")
-			{
-				_FightOptions.setActive(true);
-				_MoveOptions.setActive(false);
-			}
-		}
+		fightBody(enemy_Health, enemy_attack, 1, 2, 0.5f, 0);		
 	}
 
 	if (enemy_Health <= 0)
@@ -1552,51 +1538,7 @@ ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int 
 	else if (_MoveOptions.getActive())
 	{
 		window = _MoveOptions.draw_menu(window);
-		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
-		{
-			_MoveOptions.nextSelect();
-		}
-		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
-		{
-			if (_MoveOptions.getSelected().m_Label == "0")
-			{
-				//FIGHT SEQUENCE SWORD
-				int dmgApplied = player.getSwordDmg() * 2 * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Sword");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "1")
-			{
-				int dmgApplied = player.getFireDmg() * 2 * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Fire");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "2")
-			{
-				int dmgApplied = player.getWaterDmg() * 0.5f * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Water");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "3")
-			{
-				int dmgApplied = player.getGrassDmg() * 0.5f * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Grass");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "4")
-			{
-				_FightOptions.setActive(true);
-				_MoveOptions.setActive(false);
-			}
-		}
+		fightBody(enemy_Health, enemy_attack, 2, 2, 0.5f, 0.5f);		
 	}
 
 	if (enemy_Health <= 0)
@@ -1637,51 +1579,7 @@ ConsoleWindow SYDEMapGame::HarmlessPig_Fight(ConsoleWindow window, int windowWid
 	else if (_MoveOptions.getActive())
 	{
 		window = _MoveOptions.draw_menu(window);
-		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
-		{
-			_MoveOptions.nextSelect();
-		}
-		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
-		{
-			if (_MoveOptions.getSelected().m_Label == "0")
-			{
-				//FIGHT SEQUENCE SWORD
-				int dmgApplied = player.getSwordDmg() * 2 * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Sword");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "1")
-			{
-				int dmgApplied = player.getFireDmg() * 2 * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Fire");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "2")
-			{
-				int dmgApplied = player.getWaterDmg() * 0.5f * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Water");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "3")
-			{
-				int dmgApplied = player.getGrassDmg() * 0.5f * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Grass");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "4")
-			{
-				_FightOptions.setActive(true);
-				_MoveOptions.setActive(false);
-			}
-		}
+		fightBody(enemy_Health, enemy_attack, 2, 2, 0.5f, 0.5f);
 	}
 
 	if (enemy_Health <= 0)
@@ -1726,51 +1624,7 @@ ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int
 	else if (_MoveOptions.getActive())
 	{
 		window = _MoveOptions.draw_menu(window);
-		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
-		{
-			_MoveOptions.nextSelect();
-		}
-		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
-		{
-			if (_MoveOptions.getSelected().m_Label == "0")
-			{
-				//FIGHT SEQUENCE SWORD
-				int dmgApplied = player.getSwordDmg() * 1 * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Sword");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "1")
-			{
-				int dmgApplied = player.getFireDmg() * 2 * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Fire");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "2")
-			{
-				int dmgApplied = player.getWaterDmg() * 0.5f * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Water");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "3")
-			{
-				int dmgApplied = player.getGrassDmg() * 0.5f * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Grass");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "4")
-			{
-				_FightOptions.setActive(true);
-				_MoveOptions.setActive(false);
-			}
-		}
+		fightBody(enemy_Health, enemy_attack, 1, 2, 0.5f, 0.5f);
 	}
 
 	if (enemy_Health <= 0)
@@ -1811,51 +1665,7 @@ ConsoleWindow SYDEMapGame::RED_DRAGON_Fight(ConsoleWindow window, int windowWidt
 	else if (_MoveOptions.getActive())
 	{
 		window = _MoveOptions.draw_menu(window);
-		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
-		{
-			_MoveOptions.nextSelect();
-		}
-		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
-		{
-			if (_MoveOptions.getSelected().m_Label == "0")
-			{
-				//FIGHT SEQUENCE SWORD
-				int dmgApplied = player.getSwordDmg() * 1 * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Sword");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "1")
-			{
-				int dmgApplied = player.getFireDmg() * 2 * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Fire");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "2")
-			{
-				int dmgApplied = player.getWaterDmg() * 0.5f * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Water");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "3")
-			{
-				int dmgApplied = player.getGrassDmg() * 0.5f * player.getLvl();
-				enemy_Health -= dmgApplied;
-				_FWindow.AddFString("Player Used Grass");
-				_FWindow.AddFString("Hit For " + to_string(dmgApplied));
-				enemy_attack = true;
-			}
-			else if (_MoveOptions.getSelected().m_Label == "4")
-			{
-				_FightOptions.setActive(true);
-				_MoveOptions.setActive(false);
-			}
-		}
+		fightBody(enemy_Health, enemy_attack, 2, 0.5f, 1, 0.5f);		
 	}
 
 	if (enemy_Health <= 0)
@@ -2666,18 +2476,20 @@ ConsoleWindow SYDEMapGame::Toplefia_Farm(ConsoleWindow window, int windowWidth, 
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
+			_FWindow.AddFString("Welcome To My Farm");
+			_FWindow.AddFString("I hope my animals didn't");
+			_FWindow.AddFString("give you much trouble");
+			_FWindow.AddFString("I love those fellas");
 			_FWindow.AddFString("");
-			_FWindow.AddFString("");
-			_FWindow.AddFString("");
-			_FWindow.AddFString("");
-			_FWindow.AddFString("");
-			_FWindow.AddFString("");
-			_FWindow.AddFString("");
+			_FWindow.AddFString("Please rest if you need");
+			_FWindow.AddFString("to. You look so tired");
 			_FWindow.AddFString("");
 		}
 		else if (_StructOptions.getSelected().m_Label == "1")
 		{
 			//REST
+			player.setHealth(player.getMaxHealth());
+			sleepAt(_STATE);
 		}
 		else if (_StructOptions.getSelected().m_Label == "2")
 		{
@@ -2884,7 +2696,7 @@ ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, i
 			{
 				//IF RUN WAS SUCCESSFUL
 				_FWindow.clear();
-				_STATE = "MainMap";
+				_STATE = _FightReturnSTATE;
 			}
 		}
 	}
@@ -2948,6 +2760,55 @@ ConsoleWindow SYDEMapGame::Wharf_Header(ConsoleWindow window, int windowWidth, i
 	return window;
 }
 
+void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMulti, float fireMulti, float waterMulti, float grassMulti)
+{
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_MoveOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_MoveOptions.getSelected().m_Label == "0")
+		{
+			//FIGHT SEQUENCE SWORD
+			int dmgApplied = player.getSwordDmg() * swordMulti * player.getLvl();
+			enemy_hp -= dmgApplied;
+			_FWindow.AddFString("Player Used Sword");
+			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+			enemy_attack = true;
+		}
+		else if (_MoveOptions.getSelected().m_Label == "1")
+		{
+			int dmgApplied = player.getFireDmg() * fireMulti * player.getLvl();
+			enemy_hp -= dmgApplied;
+			_FWindow.AddFString("Player Used Fire");
+			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+			enemy_attack = true;
+		}
+		else if (_MoveOptions.getSelected().m_Label == "2")
+		{
+			int dmgApplied = player.getWaterDmg() * waterMulti * player.getLvl();
+			enemy_hp -= dmgApplied;
+			_FWindow.AddFString("Player Used Water");
+			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+			enemy_attack = true;
+		}
+		else if (_MoveOptions.getSelected().m_Label == "3")
+		{
+			int dmgApplied = player.getGrassDmg() * grassMulti * player.getLvl();
+			enemy_hp -= dmgApplied;
+			_FWindow.AddFString("Player Used Grass");
+			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
+			enemy_attack = true;
+		}
+		else if (_MoveOptions.getSelected().m_Label == "4")
+		{
+			_FightOptions.setActive(true);
+			_MoveOptions.setActive(false);
+		}
+	}
+}
+
 ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	//NEED DUNGEON IMPLEMENTATION
@@ -2992,8 +2853,9 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 		int random_variable = std::rand() % 33 + 1;
 		if (random_variable == 15)
 		{
-			// SET ENEMY AND LEVEL
-			
+			_FightReturnSTATE = _STATE;
+			_STATE = getRandomFromList(DRAGON_KEEP_WILD);
+			enemy_lvl = (std::rand() % (dragon_keep_max_level - dragon_keep_min_level)) + dragon_keep_min_level;
 		}
 		// CASES FOR MOVEMENT NOT ALLOWED
 		if (temp.compare("0") != 0 && temp.compare("1") != 0)
@@ -3013,6 +2875,9 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 		if (random_variable == 26)
 		{
 			// SET ENEMY AND LEVEL
+			_FightReturnSTATE = _STATE;
+			_STATE = getRandomFromList(DRAGON_KEEP_WILD);
+			enemy_lvl = (std::rand() % (dragon_keep_max_level - dragon_keep_min_level)) + dragon_keep_min_level;
 		}
 		if (temp.compare("0") != 0 && temp.compare("1") != 0)
 		{
@@ -3030,6 +2895,9 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 		if (random_variable == 7)
 		{
 			// SET ENEMY AND LEVEL
+			_FightReturnSTATE = _STATE;
+			_STATE = getRandomFromList(DRAGON_KEEP_WILD);
+			enemy_lvl = (std::rand() % (dragon_keep_max_level - dragon_keep_min_level)) + dragon_keep_min_level;
 		}
 		//CASES FOR MOVEMENT NOT ALLOWED
 		if (temp.compare("0") != 0 && temp.compare("1") != 0)
@@ -3049,6 +2917,9 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 		if (random_variable == 30)
 		{
 			// SET ENEMY AND LEVEL
+			_FightReturnSTATE = _STATE;
+			_STATE = getRandomFromList(DRAGON_KEEP_WILD);
+			enemy_lvl = (std::rand() % (dragon_keep_max_level - dragon_keep_min_level)) + dragon_keep_min_level;
 		}
 		//CASES FOR MOVEMENT NOT ALLOWED
 		if (temp.compare("0") != 0 && temp.compare("1") != 0)
