@@ -23,6 +23,7 @@ public:
 
 	char getCharAtPoint(Vector2 Point);
 	int getColourAtPoint(Vector2 Point);
+	string getStringFromChar(char x) { return string(1, x); }
 private:
 	vector<vector<TextItem>> AssetVector;
 

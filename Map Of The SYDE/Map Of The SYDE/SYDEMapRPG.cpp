@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "SYDEMapRPG.h"
+#pragma region LandManipulation
 
 void SYDEMapGame::addLand(Vector2 a_Point)
 {
@@ -59,6 +60,9 @@ string SYDEMapGame::getSTRUCT_STATE(Vector2 point, vector<Structure> _list_struc
 	}
 	return "MainMap";
 }
+
+#pragma endregion
+#pragma region OtherFunc
 
 void SYDEMapGame::setUpFight()
 {
@@ -228,7 +232,7 @@ void SYDEMapGame::setByTag(string tag, int amtDone)
 		}
 	}
 }
-
+#pragma endregion
 SYDEMapGame::SYDEMapGame()
 {
 	AssignState(std::bind(&SYDEMapGame::Main_Menu, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
@@ -547,6 +551,14 @@ SYDEMapGame::SYDEMapGame()
 			AddAttachmentStructure(Vector2(i + 1, ii), "Toplefia Town Hall", 64);
 		}
 	}
+	for (int ii = 197; ii < 201; ii++)
+	{
+		for (int i = 242; i < 252; i += 2)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Toplefia Farm", 64);
+			AddAttachmentStructure(Vector2(i + 1, ii), "Toplefia Farm", 64);
+		}
+	}
 #pragma endregion
 
 #pragma region Dungeons
@@ -576,7 +588,21 @@ SYDEMapGame::SYDEMapGame()
 			}
 		}
 	}
-
+	//Toplefia
+	for (int ii = 176; ii < 201; ii++)
+	{
+		for (int i = 242; i < 282; i += 2)
+		{
+			int wfc = getColourFromLevel(Vector2(i, ii));
+			if (wfc == 32) // If Grass
+			{
+				string wfs = getRandomFromList(Toplefia_WILD);
+				int lvlEnemy = (std::rand() % (toplefia_max_level - toplefia_min_level)) + toplefia_min_level;
+				AddAttachmentWildFight(Vector2(i, ii), wfs, wfc, lvlEnemy); // NEED TO DO TWICE
+				AddAttachmentWildFight(Vector2(i + 1, ii), wfs, wfc);
+			}
+		}
+	}
 	//Beached Butthole
 	for (int ii = 225; ii < 233; ii++)
 	{
@@ -719,10 +745,10 @@ SYDEMapGame::SYDEMapGame()
 	m_ORC.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\UIAnimations\\TestEnemy.bmp", astVars, 100, 30, 10, 10, 0, 27));
 	m_ORC.setLooping(true);
 
-	m_PIG.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\UIAnimations\\TestEnemy.bmp", astVars, 100, 30, 10, 10, 0, 27)); // PLACEHOLDER ANIM
+	m_PIG.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\pig.bmp", astVars, 120, 10, 10, 10, 0, 12));
 	m_PIG.setLooping(true);
 
-	m_WOLF.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\UIAnimations\\TestEnemy.bmp", astVars, 100, 30, 10, 10, 0, 27)); // PLACEHOLDER ANIM
+	m_WOLF.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\Wolf.bmp", astVars, 50, 40, 10, 10, 0, 16));
 	m_WOLF.setLooping(true);
 
 	//CUTSCENES
@@ -834,6 +860,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			//window = Building_Test(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Quest, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+#pragma region Buildings
 		//BUILDINGS
 		else if (_STATE == "BUILDING_TEST")
 		{
@@ -848,6 +875,12 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			_StructOptions[1].setText("--");
 			AssignState(std::bind(&SYDEMapGame::Toplefia_TownHall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+		else if (_STATE == "Toplefia Farm")
+		{
+			_StructOptions[0].setText("Speak");
+			_StructOptions[1].setText("Rest");
+			AssignState(std::bind(&SYDEMapGame::Toplefia_Farm, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
 		else if (_STATE == "Jiman's House")
 		{
 			_StructOptions[0].setText("Speak");
@@ -860,6 +893,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			_StructOptions[1].setText("--");
 			AssignState(std::bind(&SYDEMapGame::Jonestown_Hall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+#pragma endregion
 #pragma region Wharfs
 
 		//TOPLEFIA AREA
@@ -1093,7 +1127,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		// ADD RANDOM CHANCE
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		int random_variable = std::rand() % 33 + 1;
-		if (tempChar == 'V')
+		if (tempChar == WildFightChar)
 		{
 			if (random_variable == 26)
 			{
@@ -1117,7 +1151,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		// ADD RANDOM CHANCE
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		int random_variable = std::rand() % 33 + 1;
-		if (tempChar == 'V')
+		if (tempChar == WildFightChar)
 		{
 			if (random_variable == 7)
 			{
@@ -1142,7 +1176,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		// ADD RANDOM CHANCE
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		int random_variable = std::rand() % 33 + 1;
-		if (tempChar == 'V')
+		if (tempChar == WildFightChar)
 		{
 			if (random_variable == 30)
 			{
@@ -1510,7 +1544,7 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_ORC);
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_PIG);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
 		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
@@ -2621,6 +2655,44 @@ ConsoleWindow SYDEMapGame::Toplefia_TownHall(ConsoleWindow window, int windowWid
 	return window;
 }
 
+ConsoleWindow SYDEMapGame::Toplefia_Farm(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			//REST
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
 ConsoleWindow SYDEMapGame::WestSYDE_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
@@ -2780,7 +2852,7 @@ ConsoleWindow SYDEMapGame::Cyprux_Wharf(ConsoleWindow window, int windowWidth, i
 
 #pragma endregion
 
-ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _EnemAnim)
+ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _EnemAnim)
 {
 	for (int l = 0; l < windowWidth; l++)
 	{
@@ -2860,7 +2932,7 @@ ConsoleWindow SYDEMapGame::DragonKeepBoss_Header(ConsoleWindow window, int windo
 	return window;
 }
 
-ConsoleWindow SYDEMapGame::Wharf_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _NPCAnim)
+ConsoleWindow SYDEMapGame::Wharf_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _NPCAnim)
 {
 	for (int l = 0; l < windowWidth; l++)
 	{

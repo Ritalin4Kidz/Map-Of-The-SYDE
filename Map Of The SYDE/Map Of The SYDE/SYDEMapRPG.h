@@ -72,6 +72,7 @@ public:
 	//TOPLEFIA PLACE
 	ConsoleWindow Toplefia_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Toplefia_TownHall(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Toplefia_Farm(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//NORTHERN SYDE COAST
 	ConsoleWindow WestSYDE_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -84,9 +85,9 @@ public:
 	ConsoleWindow Cyprux_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//OTHER
-	ConsoleWindow Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _EnemAnim);
+	ConsoleWindow Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _EnemAnim);
 	ConsoleWindow DragonKeepBoss_Header(ConsoleWindow window, int windowWidth, int windowHeight);
-	ConsoleWindow Wharf_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset _NPCAnim);
+	ConsoleWindow Wharf_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _NPCAnim);
 
 
 	//DUNGEONS
@@ -164,7 +165,7 @@ private:
 	vector<Structure> _list_structures;
 	vector<Structure> _list_structures_dragon_keep;
 
-	const char StructureChar = '0';
+	const char StructureChar = '-';
 	const char WildFightChar = 'V';
 
 	// PLAYER VALUES (GET LOADING FROM CONFIG FILE
@@ -218,6 +219,11 @@ private:
 		PURPLE
 	};
 	//WILD AREAS
+	vector<string> Toplefia_WILD = {
+		"PIG_FIGHT",
+	};
+	int toplefia_min_level = 1;
+	int toplefia_max_level = 3;
 	vector<string> Almon_WILD = {
 		"ORC_FIGHT",
 		"WOLF_FIGHT",
