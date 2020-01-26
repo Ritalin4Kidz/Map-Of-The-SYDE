@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "MOTSDefaults.h"
 
-bool MOTSDefaults::DEBUG_UI_ = true;
-bool MOTSDefaults::DEV_ON_ = true;
+bool MOTSDefaults::DEBUG_UI_ = false;
+bool MOTSDefaults::DEV_ON_ = false;
 
 ColourValues MOTSDefaults::_BLACK = ColourValues(12, 12, 12);
 ColourValues MOTSDefaults::_BLUE = ColourValues(0, 55, 218);
@@ -20,6 +20,8 @@ ColourValues MOTSDefaults::_BRIGHTRED = ColourValues(231, 72, 86);
 ColourValues MOTSDefaults::_LIGHTPURPLE = ColourValues(180, 0, 158);
 ColourValues MOTSDefaults::_BRIGHTYELLOW = ColourValues(249, 241, 165);
 ColourValues MOTSDefaults::_BRIGHTWHITE = ColourValues(242, 242, 242);
+
+std::vector<std::string> MOTSDefaults::DebugLogs = std::vector<std::string>();
 
 void MOTSDefaults::ColourPalette(HANDLE hOut)
 {

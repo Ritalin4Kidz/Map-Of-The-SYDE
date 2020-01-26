@@ -71,6 +71,10 @@ public:
 	// BEACHED ****Hole
 	ConsoleWindow Jiman_House(ConsoleWindow window, int windowWidth, int windowHeight);
 
+	//Arcoomer
+	ConsoleWindow Weapons_More(ConsoleWindow window, int windowWidth, int windowHeight);
+
+
 	//TOPLEFIA PLACE
 	ConsoleWindow Toplefia_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Toplefia_TownHall(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -127,6 +131,7 @@ public:
 
 	//OTHER VOIDS
 	void setUpFight();
+	void setUpWeaponShop();
 	void lvlUP();
 	void saveGame();
 	void loadSave();
@@ -256,6 +261,9 @@ private:
 	//STANDARD BUILDING
 	SYDEMenu _StructOptions;
 	SYDEMenu _StructTestOptions;
+
+	//Special Buildings
+	SYDEMenu _WeaponsMoreOptions;
 
 	// SAVED VARIABLES (e.g. quest booleans)
 	vector<__Quest> questVec = vector<__Quest>

@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DebugWindow.h" />
     <ClInclude Include="MOTSDefaults.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="SYDEMapRPG.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DebugWindow.cpp" />
     <ClCompile Include="Map Of The SYDE.cpp" />
     <ClCompile Include="MOTSDefaults.cpp" />
     <ClCompile Include="pch.cpp">

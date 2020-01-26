@@ -90,6 +90,39 @@ void SYDEMapGame::setUpFight()
 	_FightOptions.setActive(true);
 }
 
+void SYDEMapGame::setUpWeaponShop()
+{
+	_WeaponsMoreOptions[0].setText("Sword Upgrade - 1000");
+	_WeaponsMoreOptions[4].setText("Exit Shop");
+	if (player.getFireSpellUnlocked())
+	{
+		_WeaponsMoreOptions[1].setText("Fire Upgrade - 2500");
+		_WeaponsMoreOptions[1].m_Label = "1";
+	}
+	else {
+		_WeaponsMoreOptions[1].setText("???");
+		_WeaponsMoreOptions[1].m_Label = "N/A";
+	}
+	if (player.getWaterSpellUnlocked())
+	{
+		_WeaponsMoreOptions[2].setText("Water Upgrade - 2500");
+		_WeaponsMoreOptions[2].m_Label = "2";
+	}
+	else {
+		_WeaponsMoreOptions[2].setText("???");
+		_WeaponsMoreOptions[2].m_Label = "N/A";
+	}
+	if (player.getGrassSpellUnlocked())
+	{
+		_WeaponsMoreOptions[3].setText("Grass Upgrade - 2500");
+		_WeaponsMoreOptions[3].m_Label = "3";
+	}
+	else {
+		_WeaponsMoreOptions[3].setText("???");
+		_WeaponsMoreOptions[3].m_Label = "N/A";
+	}
+}
+
 void SYDEMapGame::lvlUP()
 {
 	while (player.getXP() >= player.getXPNxtLvl()) {
@@ -101,7 +134,6 @@ void SYDEMapGame::lvlUP()
 	}
 	//saveGame(); - Probs introduce fountains of saving or something
 }
-
 void SYDEMapGame::saveGame()
 {
 	json save_file;
@@ -113,6 +145,7 @@ void SYDEMapGame::saveGame()
 	save_file["PlayerXPNxt"] = player.getXPNxtLvl();
 	save_file["PlayerColour"] = player.getColour();
 	save_file["PlayerIcon"] = player.getIcon();
+	save_file["PlayerMoney"] = player.getMoney();
 	//PlayerWeapons
 	save_file["swordDmg"] = player.getSwordDmg();
 	save_file["waterUnlock"] = player.getWaterSpellUnlocked();
@@ -136,36 +169,70 @@ void SYDEMapGame::saveGame()
 }
 
 void SYDEMapGame::loadSave()
-{	
-	std::ifstream ifs{ "EngineFiles\\Settings\\MOTS_SaveFile.sc" };
-	json save_file = json::parse(ifs);
-	//string notes = release_notes["body"];
-	//PlayerStats
-	player.setLvl(save_file["PlayerLVL"]);
-	player.setHealth(save_file["PlayerHP"]);
-	player.setMaxHealth(save_file["PlayerHPMax"]);
-	player.setXP(save_file["PlayerXP"]);
-	player.setXPNxtLvl(save_file["PlayerXPNxt"]);
-	player.setColour(save_file["PlayerColour"]);
-	player.setIcon(save_file["PlayerIcon"]);
-	//PlayerWeapons
-	player.setSwordDmg(save_file["swordDmg"]);
-	player.setWaterSpellUnlocked(save_file["waterUnlock"]);
-	player.setWaterDmg(save_file["waterDmg"]);
-	player.setFireSpellUnlocked(save_file["fireUnlock"]);
-	player.setFireDmg(save_file["fireDmg"]);
-	player.setGrassSpellUnlocked(save_file["grassUnlock"]);
-	player.setGrassDmg(save_file["grassDmg"]);
-	//POSITION
-	camera_Pos.setX(save_file["PosX"]);
-	camera_Pos.setY(save_file["PosY"]);
-	//Quests
-	for (int i = 0; i < questVec.size(); i++)
-	{
-		questVec[i].setGiven(save_file["Quests"][to_string(i)]["Given"]); 
-		questVec[i].setAmtDone(save_file["Quests"][to_string(i)]["AmtDone"]);
-		questVec[i].setFinished(save_file["Quests"][to_string(i)]["Finished"]);
-	}
+{
+		std::ifstream ifs{ "EngineFiles\\Settings\\MOTS_SaveFile.sc" };
+		json save_file = json::parse(ifs);
+		//string notes = release_notes["body"];
+		try { //PlayerStats
+			player.setLvl(save_file["PlayerLVL"]);
+			player.setHealth(save_file["PlayerHP"]);
+			player.setMaxHealth(save_file["PlayerHPMax"]);
+			player.setXP(save_file["PlayerXP"]);
+			player.setXPNxtLvl(save_file["PlayerXPNxt"]);
+			player.setColour(save_file["PlayerColour"]);
+			player.setIcon(save_file["PlayerIcon"]);
+			player.setMoney(save_file["PlayerMoney"]);
+			MOTSDefaults::DebugLogs.push_back("Player Loaded Successfully");
+		}
+		catch (exception ex)
+		{
+			// DO SOMETHING
+			MOTSDefaults::DebugLogs.push_back("Load Error");
+			MOTSDefaults::DebugLogs.push_back(ex.what());
+		}
+		try { //PlayerWeapons
+			player.setSwordDmg(save_file["swordDmg"]);
+			player.setWaterSpellUnlocked(save_file["waterUnlock"]);
+			player.setWaterDmg(save_file["waterDmg"]);
+			player.setFireSpellUnlocked(save_file["fireUnlock"]);
+			player.setFireDmg(save_file["fireDmg"]);
+			player.setGrassSpellUnlocked(save_file["grassUnlock"]);
+			player.setGrassDmg(save_file["grassDmg"]);
+			MOTSDefaults::DebugLogs.push_back("Attack Loaded Successfully");
+		}
+		catch (exception ex)
+		{
+			// DO SOMETHING
+			MOTSDefaults::DebugLogs.push_back("Load Error");
+			MOTSDefaults::DebugLogs.push_back(ex.what());
+		}
+		try { 
+			//POSITION
+			camera_Pos.setX(save_file["PosX"]);
+			camera_Pos.setY(save_file["PosY"]);
+			MOTSDefaults::DebugLogs.push_back("Position Loaded Successfully");
+		}
+		catch (exception ex)
+		{
+			// DO SOMETHING
+			MOTSDefaults::DebugLogs.push_back("Load Error");
+			MOTSDefaults::DebugLogs.push_back(ex.what());
+		}
+		try { //QUESTS
+			for (int i = 0; i < questVec.size(); i++)
+			{
+				questVec[i].setGiven(save_file["Quests"][to_string(i)]["Given"]);
+				questVec[i].setAmtDone(save_file["Quests"][to_string(i)]["AmtDone"]);
+				questVec[i].setFinished(save_file["Quests"][to_string(i)]["Finished"]);
+			}
+			MOTSDefaults::DebugLogs.push_back("Quests Loaded Successfully");
+		}
+		catch (exception ex)
+		{
+			// DO SOMETHING
+			MOTSDefaults::DebugLogs.push_back("Load Error");
+			MOTSDefaults::DebugLogs.push_back(ex.what());
+		}
 }
 
 void SYDEMapGame::enemy_dead()
@@ -541,6 +608,16 @@ SYDEMapGame::SYDEMapGame()
 		}
 	}
 
+	// Arcoomer
+
+	for (int ii = 244; ii < 255; ii++)
+	{
+		for (int i = 602; i < 626; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Weapons & More", 112);
+		}
+	}
+
 	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID B:1 - Toplefia Place
 
 	for (int ii = 199; ii < 206; ii++)
@@ -686,6 +763,23 @@ SYDEMapGame::SYDEMapGame()
 
 	_FightOptions.setActive(true);
 	_FightOptions.setPos(Vector2(1, 2));
+
+	_WeaponsMoreOptions = SYDEMenu(vector<SYDEButton> {
+			SYDEButton("", Vector2(1, 2), Vector2(20, 1), BLACK, true),
+			SYDEButton("", Vector2(1, 3), Vector2(20, 1), BLACK, true),
+			SYDEButton("", Vector2(1, 4), Vector2(20, 1), BLACK, true),
+			SYDEButton("", Vector2(1, 5), Vector2(20, 1), BLACK, true),
+			SYDEButton("", Vector2(1, 6), Vector2(20, 1), BLACK, true)
+	});
+
+	for (int i = 0; i < _WeaponsMoreOptions.getSize(); i++)
+	{
+		_WeaponsMoreOptions[i].m_Label = to_string(i);
+		_WeaponsMoreOptions[i].setHighLight(RED);
+	}
+
+	_WeaponsMoreOptions.setActive(true);
+	_WeaponsMoreOptions.setPos(Vector2(1, 2));
 
 	for (int i = 0; i < _FightOptions.getSize(); i++)
 	{
@@ -889,6 +983,11 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			_StructOptions[0].setText("Speak");
 			_StructOptions[1].setText("Rest");
 			AssignState(std::bind(&SYDEMapGame::Toplefia_Farm, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "Weapons & More")
+		{
+			setUpWeaponShop();
+			AssignState(std::bind(&SYDEMapGame::Weapons_More, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Jiman's House")
 		{
@@ -2663,6 +2762,69 @@ ConsoleWindow SYDEMapGame::Cyprux_Wharf(ConsoleWindow window, int windowWidth, i
 
 
 #pragma endregion
+
+#pragma region Shops
+
+ConsoleWindow SYDEMapGame::Weapons_More(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", BLACK_WHITE_BG);
+		}
+	}
+	window.setTextAtPoint(Vector2(0, 1), _STATE, BLACK_WHITE_BG);
+	window = _WeaponsMoreOptions.draw_menu(window);
+	window = m_PLACEHOLDER.draw_asset(window, Vector2(20, 2));
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_WeaponsMoreOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_WeaponsMoreOptions.getSelected().m_Label == "0")
+		{
+			if (player.getMoney() >= 1000)
+			{
+				player.spendMoney(1000);
+				_FWindow.AddFString("Pleasure Doing Business");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("*Sword Upgraded*");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("-1000 Coins");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				player.setSwordDmg(player.getSwordDmg() + 1);
+			}
+			else {
+				_FWindow.AddFString("I have no time for the poor");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("Either bring me coins, or");
+				_FWindow.AddFString("leave my store");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+			}
+		}
+		else if (_WeaponsMoreOptions.getSelected().m_Label == "4")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BLACK_WHITE_BG);
+	}
+	return window;
+}
+
+#pragma endregion
+
 
 ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _EnemAnim)
 {

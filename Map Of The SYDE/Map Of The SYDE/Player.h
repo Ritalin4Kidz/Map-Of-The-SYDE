@@ -42,6 +42,7 @@ public:
 	void setMoney(int coins) { player_money = coins; }
 	void addMoney(int coins) { player_money += coins; }
 	int getMoney() { return player_money; }
+	void spendMoney(int coins) { player_money -= coins; }
 
 	void setIcon(string _ICON) { player_icon = _ICON; }
 	string getIcon() { return player_icon; }

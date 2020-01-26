@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <string>
+#include <vector>
 struct ColourValues {
 	ColourValues(int _r, int _g, int _b) { r = _r; dftr = _r; g = _g; dftg = _g; b = _b; dftb = _b; }
 	int r;
@@ -41,4 +42,6 @@ public:
 	static ColourValues _LIGHTPURPLE;
 	static ColourValues _BRIGHTYELLOW;
 	static ColourValues _BRIGHTWHITE;
+
+	static std::vector<std::string> DebugLogs;
 };

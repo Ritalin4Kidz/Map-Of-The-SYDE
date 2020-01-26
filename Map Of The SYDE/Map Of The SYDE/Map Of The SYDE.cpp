@@ -5,6 +5,7 @@
 #include <math.h>
 #include "SYDEstdafx.h"
 #include "SYDEMapRPG.h"
+#include "DebugWindow.h"
 #include <fstream>
 #include <istream>
 #include <sstream>
@@ -39,6 +40,7 @@ DWORD VOLUME_MED = DWORD(-1717986918);
 DWORD VOLUME_HIG = DWORD(-858993459);
 DWORD VOLUME_OFF = DWORD(0);
 
+bool _Debug_Window = false;
 
 void volumeControl(int volume){
 	switch (volume)
@@ -66,7 +68,7 @@ void volumeControl(int volume){
 }
 
 
-int main()
+int main(int argc, char* argv[])
 {
 	MOTSDefaults::ColourPalette(hOut);
 	volumeControl(1);
@@ -89,6 +91,21 @@ int main()
 		}
 	}
 	SYDEMapGame m_MapSYDE;
+	DebugW m_DEBUGGER;
+
+	for (int i = 0; i < argc; i++)
+	{
+		std::string arg = argv[i];
+		if (arg == "--dev_mode")
+		{
+			MOTSDefaults::DEV_ON_ = true;
+		}
+		else if (arg == "--debug_ui")
+		{
+			MOTSDefaults::DEBUG_UI_ = true;
+		}
+	}
+
 	if (MOTSDefaults::DEV_ON_)
 	{
 		SYDEGamePlay::activate_bySplashscreen(astVars.get_electronic_chime_file_path(), start, hOut, window, windowWidth, windowHeight, artVars);
@@ -100,6 +117,17 @@ int main()
 	while (true)
 	{
 		window = SYDEGamePlay::play_game(&m_MapSYDE, start, hOut, window, windowWidth, windowHeight, deltaTime);
+		if (MOTSDefaults::DEV_ON_)
+		{
+			if ((SYDEKeyCode::get(VK_SHIFT)._CompareState(KEYDOWN)))
+			{
+				_Debug_Window = !_Debug_Window;
+			}
+			if (_Debug_Window)
+			{
+				window = m_DEBUGGER.window_draw_game(window, windowHeight, windowWidth);
+			}
+		}
 		window.writeConsole();
 		SYDEFunctions::SYDESleep(30, SYDEDefaults::getDeltaTime());
 	}
