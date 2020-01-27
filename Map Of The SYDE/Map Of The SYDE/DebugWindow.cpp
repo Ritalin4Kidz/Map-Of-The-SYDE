@@ -28,5 +28,40 @@ ConsoleWindow DebugW::window_draw_game(ConsoleWindow window, int windowWidth, in
 	{
 		window.setTextAtPoint(Vector2(0, 19 - i), debugger.getDebugString(i), BRIGHTGREEN);
 	}
+	if ((SYDEKeyCode::get(VK_BACK)._CompareState(KEYDOWN)))
+	{
+		string cmd;
+		cin.clear();
+		cin >> cmd;
+		system("cls");
+		static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(hOut, WHITE);
+		CONSOLE_SCREEN_BUFFER_INFOEX pInfo;
+		pInfo.cbSize = sizeof(pInfo);
+		GetConsoleScreenBufferInfoEx(hOut, &pInfo);
+		SetConsoleScreenBufferInfoEx(hOut, &pInfo);
+		CONSOLE_SCREEN_BUFFER_INFO SBInfo;
+		GetConsoleScreenBufferInfo(hOut, &SBInfo);
+		COORD removebuffer = {
+			SBInfo.srWindow.Right - SBInfo.srWindow.Left + 10,
+			SBInfo.srWindow.Bottom - SBInfo.srWindow.Top + 10
+		};
+		SetConsoleScreenBufferSize(hOut, removebuffer);
+		SYDEGamePlay::initialize_window(hOut, window);
+		for (int l = 0; l < windowWidth; l++)
+		{
+			for (int m = 0; m < windowHeight; m++)
+			{
+				window.setTextAtPoint(Vector2(l, m), " ", BLACK);
+			}
+		}
+
+		//HANDLE COMMAND
+		if (cmd.compare("savegame") == 0)
+		{
+			MOTSDefaults::_CMD = "savegame";
+			MOTSDefaults::HandleCMD = true;
+		}
+	}
 	return window;
 }

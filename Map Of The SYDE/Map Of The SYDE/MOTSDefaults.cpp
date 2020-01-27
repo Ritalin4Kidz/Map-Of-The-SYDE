@@ -3,6 +3,9 @@
 
 bool MOTSDefaults::DEBUG_UI_ = false;
 bool MOTSDefaults::DEV_ON_ = false;
+bool MOTSDefaults::HandleCMD = false;
+
+std::string MOTSDefaults::_CMD = "";
 
 ColourValues MOTSDefaults::_BLACK = ColourValues(12, 12, 12);
 ColourValues MOTSDefaults::_BLUE = ColourValues(0, 55, 218);

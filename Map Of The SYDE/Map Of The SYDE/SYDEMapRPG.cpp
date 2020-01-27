@@ -867,6 +867,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 	if (_CurentSTATE.compare(_STATE) != 0)
 	{
 		// SO NOW IT IS THE CURRENT STATE
+		MOTSDefaults::DebugLogs.push_back(_CurentSTATE + "->" + _STATE);
 		_CurentSTATE = _STATE;
 		if (_STATE == "MainMap")
 		{

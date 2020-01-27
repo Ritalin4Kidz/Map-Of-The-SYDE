@@ -24,6 +24,7 @@ class MOTSDefaults {
 public:
 	static bool DEBUG_UI_;
 	static bool DEV_ON_;
+	static bool HandleCMD;
 	static void ColourPalette(HANDLE hOut);
 
 	static ColourValues _BLACK;
@@ -44,4 +45,5 @@ public:
 	static ColourValues _BRIGHTWHITE;
 
 	static std::vector<std::string> DebugLogs;
+	static std::string _CMD;
 };

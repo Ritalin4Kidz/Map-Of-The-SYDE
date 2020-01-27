@@ -90,8 +90,6 @@ int main(int argc, char* argv[])
 			window.setTextAtPoint(Vector2(i, j), " ", BRIGHTWHITE_BRIGHTWHITE_BG);
 		}
 	}
-	SYDEMapGame m_MapSYDE;
-	DebugW m_DEBUGGER;
 
 	for (int i = 0; i < argc; i++)
 	{
@@ -105,6 +103,9 @@ int main(int argc, char* argv[])
 			MOTSDefaults::DEBUG_UI_ = true;
 		}
 	}
+
+	SYDEMapGame m_MapSYDE;
+	DebugW m_DEBUGGER;
 
 	if (MOTSDefaults::DEV_ON_)
 	{
@@ -126,6 +127,14 @@ int main(int argc, char* argv[])
 			if (_Debug_Window)
 			{
 				window = m_DEBUGGER.window_draw_game(window, windowHeight, windowWidth);
+			}
+			if (MOTSDefaults::HandleCMD)
+			{
+				MOTSDefaults::HandleCMD = false;
+				if (MOTSDefaults::_CMD.compare("savegame") == 0)
+				{
+					m_MapSYDE.saveGame();
+				}
 			}
 		}
 		window.writeConsole();
