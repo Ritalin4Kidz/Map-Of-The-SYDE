@@ -26,6 +26,8 @@ ColourValues MOTSDefaults::_BRIGHTWHITE = ColourValues(242, 242, 242);
 
 std::vector<std::string> MOTSDefaults::DebugLogs = std::vector<std::string>();
 
+SYDELabel MOTSDefaults::m_fps = SYDELabel("", Vector2(35, 1), Vector2(5, 1), BRIGHTGREEN, true);;
+
 void MOTSDefaults::ColourPalette(HANDLE hOut)
 {
 	CONSOLE_SCREEN_BUFFER_INFOEX pInfo;

@@ -74,6 +74,8 @@ public:
 	//Arcoomer
 	ConsoleWindow Weapons_More(ConsoleWindow window, int windowWidth, int windowHeight);
 
+	//Island Centre
+	ConsoleWindow Island_Fitters(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//TOPLEFIA PLACE
 	ConsoleWindow Toplefia_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -214,13 +216,23 @@ private:
 	//ETC
 	vector<_Town_Square> vecTowns;
 	vector<string> vecIcons = {
-		"><",
-		"[]",
-		"()",
-		"<>",
-		"{}",
-		"**",
-		"##"
+		"><",	"//",	"nn",	":|",	"/\\",
+		"[]",	"XX",	"ii",	":)",	"\\/",
+		"()",	"$$",	"ll",	":(",	"\\\\",
+		"<>",	"!!",	"00",	";)",	"\"\"",
+		"{}",	"AA",	"96",	";(",	":\\",
+		"**",	"VV",	"bd",	";|",	";\\",
+		"##",	"--",	"''",	");",	"pi",
+		"++",	"ZZ",	"YY",	"(;",	"..",
+		"::",	"TT",	"xx",	"|;",	";:",
+		"HH",	"~~",	"pq",	"(:",	"db",
+		"@@",	"GG",	",,",	"):",	"vv",
+		"??",	"JK",	"^^",	"|:",	"uu",
+		";;",	"WP",	"hi",	"/:",	"UU",
+		"II",	"MM",	":;",	"/;",	"zz",
+		"WW",	"NN",	"ww",	"qp",	"yy",
+		"||",	"OO",	"oo",	"tt",	"``",
+		"%%",	"Pq",	"ae",	"bb",	"  ",
 	};
 	int iconNo = 0;
 	vector<ColourClass> vecIconCol = {
@@ -228,7 +240,10 @@ private:
 		BLUE,
 		RED,
 		YELLOW,
-		PURPLE
+		PURPLE,
+		DARKBLUE,
+		BRIGHTRED, 
+		BRIGHTWHITE
 	};
 	//WILD AREAS
 	vector<string> Toplefia_WILD = {

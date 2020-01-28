@@ -137,6 +137,12 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
+		if (MOTSDefaults::DEBUG_UI_)
+		{
+			float fps = 1.0f / SYDEDefaults::getDeltaTime();
+			MOTSDefaults::m_fps.setText(std::to_string((int)fps) + "fps");
+			window = MOTSDefaults::m_fps.draw_ui(window);
+		}
 		window.writeConsole();
 		SYDEFunctions::SYDESleep(30, SYDEDefaults::getDeltaTime());
 	}

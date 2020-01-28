@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <string>
 #include <vector>
+#include "SYDELabel.h"
 struct ColourValues {
 	ColourValues(int _r, int _g, int _b) { r = _r; dftr = _r; g = _g; dftg = _g; b = _b; dftb = _b; }
 	int r;
@@ -46,4 +47,6 @@ public:
 
 	static std::vector<std::string> DebugLogs;
 	static std::string _CMD;
+
+	static SYDELabel m_fps;
 };

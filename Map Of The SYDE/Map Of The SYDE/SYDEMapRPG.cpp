@@ -608,6 +608,16 @@ SYDEMapGame::SYDEMapGame()
 		}
 	}
 
+	//Island Centre
+
+	for (int ii = 402; ii < 412; ii++)
+	{
+		for (int i = 790; i < 816; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Island Fitters", 112);
+		}
+	}
+
 	// Arcoomer
 
 	for (int ii = 244; ii < 255; ii++)
@@ -823,6 +833,9 @@ SYDEMapGame::SYDEMapGame()
 			SYDEButton("RED", Vector2(1, 4), Vector2(20, 1), BLACK, true),
 			SYDEButton("YELLOW", Vector2(1, 5), Vector2(20, 1), BLACK, true),
 			SYDEButton("PURPLE", Vector2(1, 6), Vector2(20, 1), BLACK, true),
+			SYDEButton("DARK BLUE", Vector2(1, 7), Vector2(20, 1), BLACK, true),
+			SYDEButton("BRIGHT RED", Vector2(1, 8), Vector2(20, 1), BLACK, true),
+			SYDEButton("BRIGHT WHITE", Vector2(1, 9), Vector2(20, 1), BLACK, true)
 	});
 
 	for (int i = 0; i < _ColourOptions.getSize(); i++)
@@ -984,6 +997,10 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			_StructOptions[0].setText("Speak");
 			_StructOptions[1].setText("Rest");
 			AssignState(std::bind(&SYDEMapGame::Toplefia_Farm, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "Island Fitters")
+		{
+			AssignState(std::bind(&SYDEMapGame::Island_Fitters, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Weapons & More")
 		{
@@ -2822,6 +2839,11 @@ ConsoleWindow SYDEMapGame::Weapons_More(ConsoleWindow window, int windowWidth, i
 		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BLACK_WHITE_BG);
 	}
 	return window;
+}
+
+ConsoleWindow SYDEMapGame::Island_Fitters(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	return Player_Customization(window,windowWidth, windowHeight);
 }
 
 #pragma endregion
