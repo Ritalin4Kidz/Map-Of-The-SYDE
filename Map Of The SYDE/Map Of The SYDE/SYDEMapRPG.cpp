@@ -221,9 +221,17 @@ void SYDEMapGame::loadSave()
 		try { //QUESTS
 			for (int i = 0; i < questVec.size(); i++)
 			{
-				questVec[i].setGiven(save_file["Quests"][to_string(i)]["Given"]);
-				questVec[i].setAmtDone(save_file["Quests"][to_string(i)]["AmtDone"]);
-				questVec[i].setFinished(save_file["Quests"][to_string(i)]["Finished"]);
+				try {
+					questVec[i].setGiven(save_file["Quests"][to_string(i)]["Given"]);
+					questVec[i].setAmtDone(save_file["Quests"][to_string(i)]["AmtDone"]);
+					questVec[i].setFinished(save_file["Quests"][to_string(i)]["Finished"]);
+				}
+				catch (exception exc)
+				{
+					// DO SOMETHING
+					MOTSDefaults::DebugLogs.push_back("Quest" + to_string(i) + "Load Failure");
+					MOTSDefaults::DebugLogs.push_back(exc.what());
+				}
 			}
 			MOTSDefaults::DebugLogs.push_back("Quests Loaded Successfully");
 		}
