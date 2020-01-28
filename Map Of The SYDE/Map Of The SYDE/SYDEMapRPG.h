@@ -93,8 +93,8 @@ public:
 	ConsoleWindow Cyprux_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//OTHER
-	ConsoleWindow Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _EnemAnim);
-	ConsoleWindow DragonKeepBoss_Header(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _EnemAnim, int _run, bool& enemyAttk);
+	ConsoleWindow DragonKeepBoss_Header(ConsoleWindow window, int windowWidth, int windowHeight, bool& enemyAttk);
 	ConsoleWindow Wharf_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _NPCAnim);
 
 	void fightBody(int& enemy_hp, bool& enemy_attack, float swordMulti, float fireMulti, float waterMulti, float grassMulti);
@@ -106,6 +106,7 @@ public:
 
 	string getWFA_STATE(Vector2 point);
 	int getWFA_LVL(Vector2 point);
+	int getWFA_RUN(Vector2 point);
 	string getSTRUCT_STATE(Vector2 point);
 	string getSTRUCT_STATE(vector<Structure> _list, Vector2 point);
 	string getTown(Vector2 point);
@@ -133,7 +134,8 @@ public:
 
 	//OTHER VOIDS
 	void setUpFight();
-	void setUpWeaponShop();
+	void setUpWeaponShop(WeaponStore _store);
+	void weaponStoreBody(int storeNo);
 	void lvlUP();
 	void saveGame();
 	void loadSave();
@@ -189,6 +191,7 @@ private:
 	float enemy_Damage = 2;
 	int enemy_exp_gained = 50;
 	int enemy_lvl = 1;
+	int enemy_run_chance = 100;
 
 	//MENUS
 	SYDEMenu _Options;
@@ -297,5 +300,13 @@ private:
 			"Jiman wants you to get rid of the",
 			"'monsters' surrounding his house"}, "Beached_Pigs_Quest", 5)
 	};
+
+	vector<WeaponStore> _WeaponStores = vector<WeaponStore>{ 
+	WeaponStore( //WEAPON & MORE
+		vector<int>{1000, 1500, 2500},
+		vector<int>{2500, 4500, 6500},
+		vector<int>{3000, 6500, 9500},
+		vector<int>{5000, 7500, 12500}
+	) };
 	int questPage = 0;
  };

@@ -90,36 +90,190 @@ void SYDEMapGame::setUpFight()
 	_FightOptions.setActive(true);
 }
 
-void SYDEMapGame::setUpWeaponShop()
+void SYDEMapGame::setUpWeaponShop(WeaponStore _store)
 {
-	_WeaponsMoreOptions[0].setText("Sword Upgrade - 1000");
-	_WeaponsMoreOptions[4].setText("Exit Shop");
-	if (player.getFireSpellUnlocked())
+	if (_store.swordSoldOut())
 	{
-		_WeaponsMoreOptions[1].setText("Fire Upgrade - 2500");
+		_WeaponsMoreOptions[0].setText("SOLD OUT");
+		_WeaponsMoreOptions[0].m_Label = "N/A";
+	}
+	else {
+		_WeaponsMoreOptions[0].setText("Sword Upgrade - " + to_string(_store.getSwordCost()));
+	}
+	_WeaponsMoreOptions[4].setText("Exit Shop");
+
+	if (_store.fireSoldOut())
+	{
+		_WeaponsMoreOptions[1].setText("SOLD OUT");
+		_WeaponsMoreOptions[1].m_Label = "N/A";
+	}
+	else if (player.getFireSpellUnlocked())
+	{
+		_WeaponsMoreOptions[1].setText("Fire Upgrade - " + to_string(_store.getFireCost()));
 		_WeaponsMoreOptions[1].m_Label = "1";
 	}
 	else {
 		_WeaponsMoreOptions[1].setText("???");
 		_WeaponsMoreOptions[1].m_Label = "N/A";
 	}
-	if (player.getWaterSpellUnlocked())
+
+	if (_store.waterSoldOut())
 	{
-		_WeaponsMoreOptions[2].setText("Water Upgrade - 2500");
+		_WeaponsMoreOptions[2].setText("SOLD OUT");
+		_WeaponsMoreOptions[2].m_Label = "N/A";
+	}
+	else if (player.getWaterSpellUnlocked())
+	{
+		_WeaponsMoreOptions[2].setText("Water Upgrade - " + to_string(_store.getWaterCost()));
 		_WeaponsMoreOptions[2].m_Label = "2";
 	}
 	else {
 		_WeaponsMoreOptions[2].setText("???");
 		_WeaponsMoreOptions[2].m_Label = "N/A";
 	}
-	if (player.getGrassSpellUnlocked())
+
+	if (_store.grassSoldOut())
 	{
-		_WeaponsMoreOptions[3].setText("Grass Upgrade - 2500");
+		_WeaponsMoreOptions[3].setText("SOLD OUT");
+		_WeaponsMoreOptions[3].m_Label = "N/A";
+	}
+	else if (player.getGrassSpellUnlocked())
+	{
+		_WeaponsMoreOptions[3].setText("Grass Upgrade - " + to_string(_store.getGrassCost()));
 		_WeaponsMoreOptions[3].m_Label = "3";
 	}
 	else {
 		_WeaponsMoreOptions[3].setText("???");
 		_WeaponsMoreOptions[3].m_Label = "N/A";
+	}
+}
+
+void SYDEMapGame::weaponStoreBody(int storeNo)
+{
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_WeaponsMoreOptions.getSelected().m_Label == "0")
+		{
+			if (player.getMoney() >= _WeaponStores[storeNo].getSwordCost())
+			{
+				player.spendMoney(_WeaponStores[storeNo].getSwordCost());
+				_FWindow.AddFString("Pleasure Doing Business");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("*Sword Upgraded*");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("-" + to_string(_WeaponStores[0].getSwordCost()) + " Coins");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				player.setSwordDmg(player.getSwordDmg() + 1);
+				_WeaponStores[storeNo].buySword();
+				setUpWeaponShop(_WeaponStores[storeNo]);
+			}
+			else {
+				_FWindow.AddFString("I have no time for the poor");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("Either bring me coins, or");
+				_FWindow.AddFString("leave my store");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+			}
+		}
+
+		if (_WeaponsMoreOptions.getSelected().m_Label == "1")
+		{
+			if (player.getMoney() >= _WeaponStores[storeNo].getFireCost())
+			{
+				player.spendMoney(_WeaponStores[storeNo].getFireCost());
+				_FWindow.AddFString("Pleasure Doing Business");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("*Fire Spell Upgraded*");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("-" + to_string(_WeaponStores[storeNo].getFireCost()) + " Coins");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				player.setFireDmg(player.getFireDmg() + 1);
+				_WeaponStores[storeNo].buyFire();
+				setUpWeaponShop(_WeaponStores[storeNo]);
+			}
+			else {
+				_FWindow.AddFString("I have no time for the poor");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("Either bring me coins, or");
+				_FWindow.AddFString("leave my store");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+			}
+		}
+
+		if (_WeaponsMoreOptions.getSelected().m_Label == "2")
+		{
+			if (player.getMoney() >= _WeaponStores[storeNo].getWaterCost())
+			{
+				player.spendMoney(_WeaponStores[storeNo].getWaterCost());
+				_FWindow.AddFString("Pleasure Doing Business");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("*Water Spell Upgraded*");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("-" + to_string(_WeaponStores[storeNo].getWaterCost()) + " Coins");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				player.setWaterDmg(player.getWaterDmg() + 1);
+				_WeaponStores[storeNo].buyWater();
+				setUpWeaponShop(_WeaponStores[storeNo]);
+			}
+			else {
+				_FWindow.AddFString("I have no time for the poor");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("Either bring me coins, or");
+				_FWindow.AddFString("leave my store");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+			}
+		}
+
+		if (_WeaponsMoreOptions.getSelected().m_Label == "3")
+		{
+			if (player.getMoney() >= _WeaponStores[storeNo].getGrassCost())
+			{
+				player.spendMoney(_WeaponStores[storeNo].getGrassCost());
+				_FWindow.AddFString("Pleasure Doing Business");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("*Grass Spell Upgraded*");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("-" + to_string(_WeaponStores[storeNo].getGrassCost()) + " Coins");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				player.setGrassDmg(player.getGrassDmg() + 1);
+				_WeaponStores[storeNo].buyGrass();
+				setUpWeaponShop(_WeaponStores[storeNo]);
+			}
+			else {
+				_FWindow.AddFString("I have no time for the poor");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("Either bring me coins, or");
+				_FWindow.AddFString("leave my store");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+			}
+		}
+
+		else if (_WeaponsMoreOptions.getSelected().m_Label == "4")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
 	}
 }
 
@@ -163,6 +317,14 @@ void SYDEMapGame::saveGame()
 		save_file["Quests"][to_string(i)]["Given"] = questVec[i].getGiven();
 		save_file["Quests"][to_string(i)]["AmtDone"] = questVec[i].getAmtDone();
 		save_file["Quests"][to_string(i)]["Finished"] = questVec[i].getFinished();
+	}
+	// Weapon Stores
+	for (int i = 0; i < _WeaponStores.size(); i++)
+	{
+		save_file["WeaponStore"][to_string(i)]["swordBought"] = _WeaponStores[i].getSwordBght();
+		save_file["WeaponStore"][to_string(i)]["fireBought"] = _WeaponStores[i].getFireBght();
+		save_file["WeaponStore"][to_string(i)]["waterBought"] = _WeaponStores[i].getWaterBght();
+		save_file["WeaponStore"][to_string(i)]["grassBought"] = _WeaponStores[i].getGrassBght();
 	}
 	std::ofstream ofs("EngineFiles\\Settings\\MOTS_SaveFile.sc");
 	ofs << save_file;
@@ -238,6 +400,28 @@ void SYDEMapGame::loadSave()
 		catch (exception ex)
 		{
 			// DO SOMETHING
+			MOTSDefaults::DebugLogs.push_back("Load Error");
+			MOTSDefaults::DebugLogs.push_back(ex.what());
+		}
+		try {
+			for (int i = 0; i < _WeaponStores.size(); i++)
+			{
+				try {
+					save_file["WeaponStore"][to_string(i)]["swordBought"] = _WeaponStores[i].getSwordBght();
+					save_file["WeaponStore"][to_string(i)]["fireBought"] = _WeaponStores[i].getFireBght();
+					save_file["WeaponStore"][to_string(i)]["waterBought"] = _WeaponStores[i].getWaterBght();
+					save_file["WeaponStore"][to_string(i)]["grassBought"] = _WeaponStores[i].getGrassBght();
+				}
+				catch (exception exc)
+				{
+					MOTSDefaults::DebugLogs.push_back("Quest" + to_string(i) + "Load Failure");
+					MOTSDefaults::DebugLogs.push_back(exc.what());
+				}
+			}
+			MOTSDefaults::DebugLogs.push_back("Weapon Stores Loaded Successfully");
+		}
+		catch (exception ex)
+		{
 			MOTSDefaults::DebugLogs.push_back("Load Error");
 			MOTSDefaults::DebugLogs.push_back(ex.what());
 		}
@@ -1012,7 +1196,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		}
 		else if (_STATE == "Weapons & More")
 		{
-			setUpWeaponShop();
+			setUpWeaponShop(_WeaponStores[0]);
 			AssignState(std::bind(&SYDEMapGame::Weapons_More, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Jiman's House")
@@ -1260,6 +1444,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 				_FightReturnSTATE = _STATE;
 				_STATE = getWFA_STATE(camera_Pos);
 				enemy_lvl = getWFA_LVL(camera_Pos);
+				enemy_run_chance = getWFA_RUN(camera_Pos);
 			}
 		}
 		
@@ -1287,6 +1472,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 				_FightReturnSTATE = _STATE;
 				_STATE = getWFA_STATE(camera_Pos);
 				enemy_lvl = getWFA_LVL(camera_Pos);
+				enemy_run_chance = getWFA_RUN(camera_Pos);
 			}
 		}
 
@@ -1312,6 +1498,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 				_FightReturnSTATE = _STATE;
 				_STATE = getWFA_STATE(camera_Pos);
 				enemy_lvl = getWFA_LVL(camera_Pos);
+				enemy_run_chance = getWFA_RUN(camera_Pos);
 			}
 		}
 
@@ -1338,6 +1525,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 				_FightReturnSTATE = _STATE;
 				_STATE = getWFA_STATE(camera_Pos);
 				enemy_lvl = getWFA_LVL(camera_Pos);
+				enemy_run_chance = getWFA_RUN(camera_Pos);
 			}
 		}
 
@@ -1614,7 +1802,7 @@ ConsoleWindow SYDEMapGame::Building_Test(ConsoleWindow window, int windowWidth, 
 ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_ORC);
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_ORC, enemy_run_chance, enemy_attack);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
 		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
@@ -1655,7 +1843,7 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_PIG);
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_PIG, enemy_run_chance, enemy_attack);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
 		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
@@ -1696,7 +1884,7 @@ ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int 
 ConsoleWindow SYDEMapGame::HarmlessPig_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_PIG);
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_PIG, enemy_run_chance, enemy_attack);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
 		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
@@ -1741,7 +1929,7 @@ ConsoleWindow SYDEMapGame::HarmlessPig_Fight(ConsoleWindow window, int windowWid
 ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_WOLF);
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_WOLF, enemy_run_chance, enemy_attack);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
 		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
@@ -1782,7 +1970,7 @@ ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int
 ConsoleWindow SYDEMapGame::RED_DRAGON_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	window = DragonKeepBoss_Header(window, windowWidth, windowHeight);
+	window = DragonKeepBoss_Header(window, windowWidth, windowHeight, enemy_attack);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
 		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
@@ -2807,41 +2995,7 @@ ConsoleWindow SYDEMapGame::Weapons_More(ConsoleWindow window, int windowWidth, i
 	{
 		_WeaponsMoreOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
-	{
-		if (_WeaponsMoreOptions.getSelected().m_Label == "0")
-		{
-			if (player.getMoney() >= 1000)
-			{
-				player.spendMoney(1000);
-				_FWindow.AddFString("Pleasure Doing Business");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("*Sword Upgraded*");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("-1000 Coins");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				player.setSwordDmg(player.getSwordDmg() + 1);
-			}
-			else {
-				_FWindow.AddFString("I have no time for the poor");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("Either bring me coins, or");
-				_FWindow.AddFString("leave my store");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-			}
-		}
-		else if (_WeaponsMoreOptions.getSelected().m_Label == "4")
-		{
-			// LEAVE BUILDING
-			_STATE = "MainMap";
-			_FWindow.clear();
-		}
-	}
+	weaponStoreBody(0);
 	for (int i = 0; i < 8; i++)
 	{
 		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BLACK_WHITE_BG);
@@ -2857,7 +3011,7 @@ ConsoleWindow SYDEMapGame::Island_Fitters(ConsoleWindow window, int windowWidth,
 #pragma endregion
 
 
-ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _EnemAnim)
+ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _EnemAnim, int _run, bool& enemyAttk)
 {
 	for (int l = 0; l < windowWidth; l++)
 	{
@@ -2888,8 +3042,16 @@ ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, i
 			else if (_FightOptions.getSelected().m_Label == "1")
 			{
 				//IF RUN WAS SUCCESSFUL
-				_FWindow.clear();
-				_STATE = _FightReturnSTATE;
+				int _chance = std::rand() % 100;
+				if (_chance < _run)
+				{
+					_FWindow.clear();
+					_STATE = _FightReturnSTATE;
+				}
+				else {
+					enemyAttk = true;
+					_FWindow.AddFString("Player Failed To Run Away");
+				}
 			}
 		}
 	}
@@ -2897,7 +3059,7 @@ ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, i
 	return window;
 }
 
-ConsoleWindow SYDEMapGame::DragonKeepBoss_Header(ConsoleWindow window, int windowWidth, int windowHeight)
+ConsoleWindow SYDEMapGame::DragonKeepBoss_Header(ConsoleWindow window, int windowWidth, int windowHeight, bool &attk)
 {
 	for (int l = 0; l < windowWidth; l++)
 	{
@@ -2927,9 +3089,16 @@ ConsoleWindow SYDEMapGame::DragonKeepBoss_Header(ConsoleWindow window, int windo
 			}
 			else if (_FightOptions.getSelected().m_Label == "1")
 			{
-				//IF RUN WAS SUCCESSFUL
-				_FWindow.clear();
-				_STATE = "MainMap";
+				int _chance = std::rand() % 100;
+				if (_chance < 0)
+				{
+					_FWindow.clear();
+					_STATE = _FightReturnSTATE;
+				}
+				else {
+					_FWindow.AddFString("Player Failed To Run Away");
+					attk = true;
+				}
 			}
 		}
 	}
@@ -3049,6 +3218,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 			_FightReturnSTATE = _STATE;
 			_STATE = getRandomFromList(DRAGON_KEEP_WILD);
 			enemy_lvl = (std::rand() % (dragon_keep_max_level - dragon_keep_min_level)) + dragon_keep_min_level;
+			enemy_run_chance = 15;
 		}
 		// CASES FOR MOVEMENT NOT ALLOWED
 		if (temp.compare("0") != 0 && temp.compare("1") != 0)
@@ -3071,6 +3241,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 			_FightReturnSTATE = _STATE;
 			_STATE = getRandomFromList(DRAGON_KEEP_WILD);
 			enemy_lvl = (std::rand() % (dragon_keep_max_level - dragon_keep_min_level)) + dragon_keep_min_level;
+			enemy_run_chance = 15;
 		}
 		if (temp.compare("0") != 0 && temp.compare("1") != 0)
 		{
@@ -3091,6 +3262,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 			_FightReturnSTATE = _STATE;
 			_STATE = getRandomFromList(DRAGON_KEEP_WILD);
 			enemy_lvl = (std::rand() % (dragon_keep_max_level - dragon_keep_min_level)) + dragon_keep_min_level;
+			enemy_run_chance = 15;
 		}
 		//CASES FOR MOVEMENT NOT ALLOWED
 		if (temp.compare("0") != 0 && temp.compare("1") != 0)
@@ -3113,6 +3285,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 			_FightReturnSTATE = _STATE;
 			_STATE = getRandomFromList(DRAGON_KEEP_WILD);
 			enemy_lvl = (std::rand() % (dragon_keep_max_level - dragon_keep_min_level)) + dragon_keep_min_level;
+			enemy_run_chance = 15;
 		}
 		//CASES FOR MOVEMENT NOT ALLOWED
 		if (temp.compare("0") != 0 && temp.compare("1") != 0)
@@ -3145,6 +3318,18 @@ int SYDEMapGame::getWFA_LVL(Vector2 point)
 		}
 	}
 	return 0;
+}
+
+int SYDEMapGame::getWFA_RUN(Vector2 point)
+{
+	for (int i = 0; i < _list_fight_cases.size(); i++)
+	{
+		if (_list_fight_cases[i].getPoint() == point)
+		{
+			return _list_fight_cases[i].getRunChance();
+		}
+	}
+	return 100;
 }
 
 string SYDEMapGame::getSTRUCT_STATE(Vector2 point)
