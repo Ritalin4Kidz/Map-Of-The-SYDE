@@ -36,7 +36,12 @@ public:
 	void setGrassSpellUnlocked(bool unlocked) { play_grass_spell = unlocked; }
 	bool getGrassSpellUnlocked() { return play_grass_spell; }
 	void setGrassDmg(int dmg) { play_grass_dmg = dmg; }
-	int getGrassDmg() { return play_grass_dmg; }
+	int  getGrassDmg() { return play_grass_dmg; }
+
+	void setMoneySpellUnlocked(bool unlocked) { play_money_spell = unlocked; }
+	bool getMoneySpellUnlocked() { return play_money_spell; }
+	void setMoneyDmg(int dmg) { play_money_multi = dmg; }
+	int  getMoneyDmg() { return play_money_multi; }
 
 	//etc values
 	void setMoney(int coins) { player_money = coins; }
@@ -63,10 +68,12 @@ private:
 	bool play_fire_spell = false;
 	bool play_water_spell = false;
 	bool play_grass_spell = false;
+	bool play_money_spell = false;
 
 	int play_fire_dmg = 5;
 	int play_water_dmg = 5;
 	int play_grass_dmg = 5;
+	int play_money_multi = 2;
 
 	// etc values
 	int player_money = 0;

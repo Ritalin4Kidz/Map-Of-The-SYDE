@@ -71,14 +71,16 @@ void SYDEMapGame::setUpFight()
 			SYDEButton(___IfUnlocked(player.getFireSpellUnlocked(), "Fire Spell"), Vector2(1, 3), Vector2(20, 1), WHITE, true),
 			SYDEButton(___IfUnlocked(player.getWaterSpellUnlocked(), "Water Spell"), Vector2(1, 4), Vector2(20, 1), WHITE, true),
 			SYDEButton(___IfUnlocked(player.getGrassSpellUnlocked(), "Grass Spell"), Vector2(1, 5), Vector2(20, 1), WHITE, true),
-			SYDEButton("Back", Vector2(1, 6), Vector2(20, 1), WHITE, true)
+			SYDEButton(___IfUnlocked(player.getMoneySpellUnlocked(), "Money Spell"), Vector2(1, 6), Vector2(20, 1), WHITE, true),
+			SYDEButton("Back", Vector2(1, 7), Vector2(20, 1), WHITE, true)
 	});
 
 	_MoveOptions[0].m_Label = "0";
 	_MoveOptions[1].m_Label = ___IfUnlocked(player.getFireSpellUnlocked(), "1");
 	_MoveOptions[2].m_Label = ___IfUnlocked(player.getWaterSpellUnlocked(), "2");
 	_MoveOptions[3].m_Label = ___IfUnlocked(player.getGrassSpellUnlocked(), "3");
-	_MoveOptions[4].m_Label = "4";
+	_MoveOptions[4].m_Label = ___IfUnlocked(player.getMoneySpellUnlocked(), "4");
+	_MoveOptions[5].m_Label = "5";
 
 	_MoveOptions.setActive(false);
 	_MoveOptions.setPos(Vector2(1, 2));
@@ -308,6 +310,8 @@ void SYDEMapGame::saveGame()
 	save_file["fireDmg"] = player.getFireDmg();
 	save_file["grassUnlock"] = player.getGrassSpellUnlocked();
 	save_file["grassDmg"] = player.getGrassDmg();
+	save_file["moneySpellUnlock"] = player.getMoneySpellUnlocked();
+	save_file["moneySpellMulti"] = player.getMoneyDmg();
 	//POSITION
 	save_file["PosX"] = camera_Pos.getX();
 	save_file["PosY"] = camera_Pos.getY();
@@ -360,6 +364,8 @@ void SYDEMapGame::loadSave()
 			player.setFireDmg(save_file["fireDmg"]);
 			player.setGrassSpellUnlocked(save_file["grassUnlock"]);
 			player.setGrassDmg(save_file["grassDmg"]);
+			player.setMoneySpellUnlocked(save_file["moneySpellUnlock"]);
+			player.setMoneyDmg(save_file["moneySpellMulti"]);
 			MOTSDefaults::DebugLogs.push_back("Attack Loaded Successfully");
 		}
 		catch (exception ex)
@@ -853,7 +859,14 @@ SYDEMapGame::SYDEMapGame()
 			AddAttachmentStructure(Vector2(i, ii), "Weapons & More", 112);
 		}
 	}
-
+	//CRT ISLAND
+	for (int ii = 426; ii < 432; ii++)
+	{
+		for (int i = 1850; i < 1862; i ++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "The Retroist", 64);
+		}
+	}
 	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID B:1 - Toplefia Place
 
 	for (int ii = 199; ii < 206; ii++)
@@ -1072,6 +1085,20 @@ SYDEMapGame::SYDEMapGame()
 
 	_ColourOptions.setActive(true);
 	_ColourOptions.setPos(Vector2(1, 2));
+
+	for (int i = 0; i < _TextAdvOptions.getSize(); i++)
+	{
+		_TextAdvOptions[i].m_Label = to_string(i);
+		_TextAdvOptions[i].setHighLight(RED);
+	}
+
+	_TextAdvOptions.setActive(true);
+	_TextAdvOptions.setPos(Vector2(3, 16));
+
+	for (int i = 0; i < _TextAdvOptions.getSize(); i++)
+	{
+		_TextAdvOptions[i].setHighLight(RED);
+	}
 #pragma endregion
 
 	//ENEMY ANIMATIONS
@@ -1236,6 +1263,12 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		{
 			AssignState(std::bind(&SYDEMapGame::Island_Fitters, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+		else if (_STATE == "The Retroist")
+		{
+			_StructOptions[0].setText("Speak");
+			_StructOptions[1].setText("Play The Game");
+			AssignState(std::bind(&SYDEMapGame::Retroist, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
 		else if (_STATE == "Weapons & More")
 		{
 			setUpWeaponShop(_WeaponStores[0]);
@@ -1388,6 +1421,16 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		{
 			AssignState(std::bind(&SYDEMapGame::Dragon_Keep_Dungeon, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+		else if (_STATE == "TextAdvent")
+		{
+			setWarp("Text Adventure", m_bg, Vector2(20, 10));
+			_TXT_VARS = TxtAdvVars();
+			_AdvRoom_ = "Start_Room";
+		}
+		else if (_STATE == "Text Adventure")
+		{
+			AssignState(std::bind(&SYDEMapGame::Text_Adventure_Dungeon, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
 		//ETC
 		else if (_STATE == "Customize")
 		{
@@ -1443,6 +1486,7 @@ ConsoleWindow SYDEMapGame::Warp(ConsoleWindow window, int windowWidth, int windo
 }
 
 #pragma endregion
+#pragma region MainFunc
 ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = m_bg.draw_asset(window, Vector2(0, 0));
@@ -1724,27 +1768,35 @@ ConsoleWindow SYDEMapGame::Player_Stats(ConsoleWindow window, int windowWidth, i
 	}
 
 	window.setTextAtPoint(Vector2(15, 1), "GAME PAUSED", BLACK_BRIGHTYELLOW_BG);
-	window.setTextAtPoint(Vector2(0, 10), "PLAYER STATS", BLACK_BRIGHTYELLOW_BG);
-	window.setTextAtPoint(Vector2(0, 12), "Health: " + to_string(player.getHealth()) + "/" + to_string(player.getMaxHealth()), BLACK_BRIGHTYELLOW_BG);
-	window.setTextAtPoint(Vector2(0, 13), "LvL: " + to_string(player.getLvl()), BLACK_BRIGHTYELLOW_BG);
-	window.setTextAtPoint(Vector2(0, 14), "Sword DMG: " + to_string(player.getSwordDmg()), BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 9), "PLAYER STATS", BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 10), "Money: " + to_string(player.getMoney()), BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 11), "Health: " + to_string(player.getHealth()) + "/" + to_string(player.getMaxHealth()), BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 12), "LvL: " + to_string(player.getLvl()), BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 13), "Sword DMG: " + to_string(player.getSwordDmg()), BLACK_BRIGHTYELLOW_BG);
 	if (player.getFireSpellUnlocked())
 	{
-		window.setTextAtPoint(Vector2(0, 15), "Fire DMG: " + to_string(player.getFireDmg()), BLACK_BRIGHTYELLOW_BG);
+		window.setTextAtPoint(Vector2(0, 13), "Fire DMG: " + to_string(player.getFireDmg()), BLACK_BRIGHTYELLOW_BG);
+	}
+	else {
+		window.setTextAtPoint(Vector2(0, 14), "???", BLACK_BRIGHTYELLOW_BG);
+	}
+	if (player.getWaterSpellUnlocked())
+	{
+		window.setTextAtPoint(Vector2(0, 15), "Water DMG: " + to_string(player.getWaterDmg()), BLACK_BRIGHTYELLOW_BG);
 	}
 	else {
 		window.setTextAtPoint(Vector2(0, 15), "???", BLACK_BRIGHTYELLOW_BG);
 	}
-	if (player.getWaterSpellUnlocked())
+	if (player.getGrassSpellUnlocked())
 	{
-		window.setTextAtPoint(Vector2(0, 16), "Water DMG: " + to_string(player.getWaterDmg()), BLACK_BRIGHTYELLOW_BG);
+		window.setTextAtPoint(Vector2(0, 16), "Grass DMG: " + to_string(player.getGrassDmg()), BLACK_BRIGHTYELLOW_BG);
 	}
 	else {
 		window.setTextAtPoint(Vector2(0, 16), "???", BLACK_BRIGHTYELLOW_BG);
 	}
-	if (player.getGrassSpellUnlocked())
+	if (player.getMoneySpellUnlocked())
 	{
-		window.setTextAtPoint(Vector2(0, 17), "Grass DMG: " + to_string(player.getGrassDmg()), BLACK_BRIGHTYELLOW_BG);
+		window.setTextAtPoint(Vector2(0, 17), "Money Spell Multi: " + to_string(player.getMoneyDmg()), BLACK_BRIGHTYELLOW_BG);
 	}
 	else {
 		window.setTextAtPoint(Vector2(0, 17), "???", BLACK_BRIGHTYELLOW_BG);
@@ -1797,7 +1849,7 @@ ConsoleWindow SYDEMapGame::Player_Customization(ConsoleWindow window, int window
 	}
 	return window;
 }
-
+#pragma endregion
 
 ConsoleWindow SYDEMapGame::Building_Test(ConsoleWindow window, int windowWidth, int windowHeight)
 {
@@ -2076,6 +2128,8 @@ ConsoleWindow SYDEMapGame::RED_DRAGON_Fight(ConsoleWindow window, int windowWidt
 
 #pragma endregion
 
+#pragma region BuildingsFunc
+
 ConsoleWindow SYDEMapGame::Jonestown_Hall(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
@@ -2138,6 +2192,125 @@ ConsoleWindow SYDEMapGame::Jonestown_Hall(ConsoleWindow window, int windowWidth,
 	}
 	return window;
 }
+
+ConsoleWindow SYDEMapGame::Jiman_House(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			if (getByTag("Beached_Pigs_Quest").getFinished())
+			{
+				//Do Quest Cutscene
+				_FWindow.AddFString("I am no longer in need");
+				_FWindow.AddFString("of your services kind stranger");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				//setByTag("Beached_Pigs_Quest", true, true);
+			}
+			else if (!getByTag("Beached_Pigs_Quest").getGiven())
+			{
+				//Do Quest Cutscene
+				_FWindow.AddFString("Help me stranger");
+				_FWindow.AddFString("I haven't left home in 3 days");
+				_FWindow.AddFString("my place is surrounded by...");
+				_FWindow.AddFString("!!MONSTERS!!");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("if you get rid of them");
+				_FWindow.AddFString("i will reward you");
+				_FWindow.AddFString("");
+				//Do Quest Cutscene
+				setByTag("Beached_Pigs_Quest", true, true);
+			}
+			else if (getByTag("Beached_Pigs_Quest").getGiven() && getByTag("Beached_Pigs_Quest").getAmtDone() < getByTag("Beached_Pigs_Quest").getAmtRequired())
+			{
+				_FWindow.AddFString("pls kill those monsters");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("i'm running low on food");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+			}
+			else if (getByTag("Beached_Pigs_Quest").getGiven() && getByTag("Beached_Pigs_Quest").getAmtDone() >= getByTag("Beached_Pigs_Quest").getAmtRequired())
+			{
+				_FWindow.AddFString("Thank you kind stranger");
+				_FWindow.AddFString("here is your reward");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("*SWORD UPGRADED*");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				_FWindow.AddFString("");
+				setByTag("Beached_Pigs_Quest", true, false);
+				player.setSwordDmg(player.getSwordDmg() + 1);
+			}
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Retroist(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			_FWindow.AddFString("Play My Game");
+			_FWindow.AddFString("...if you dare");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("hehehehehe");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			_STATE = "TextAdvent";
+			_FWindow.clear();
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+#pragma endregion
+
 #pragma region WharfsFunc
 
 ConsoleWindow SYDEMapGame::Jonestown_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
@@ -2686,83 +2859,6 @@ ConsoleWindow SYDEMapGame::Almon_Wharf(ConsoleWindow window, int windowWidth, in
 	return window;
 }
 
-ConsoleWindow SYDEMapGame::Jiman_House(ConsoleWindow window, int windowWidth, int windowHeight)
-{
-	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
-	{
-		_StructOptions.nextSelect();
-	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
-	{
-		if (_StructOptions.getSelected().m_Label == "0")
-		{
-			if (getByTag("Beached_Pigs_Quest").getFinished())
-			{
-				//Do Quest Cutscene
-				_FWindow.AddFString("I am no longer in need");
-				_FWindow.AddFString("of your services kind stranger");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				//setByTag("Beached_Pigs_Quest", true, true);
-			}
-			else if (!getByTag("Beached_Pigs_Quest").getGiven())
-			{
-				//Do Quest Cutscene
-				_FWindow.AddFString("Help me stranger");
-				_FWindow.AddFString("I haven't left home in 3 days");
-				_FWindow.AddFString("my place is surrounded by...");
-				_FWindow.AddFString("!!MONSTERS!!");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("if you get rid of them");
-				_FWindow.AddFString("i will reward you");
-				_FWindow.AddFString("");
-				//Do Quest Cutscene
-				setByTag("Beached_Pigs_Quest", true, true);
-			}
-			else if (getByTag("Beached_Pigs_Quest").getGiven() && getByTag("Beached_Pigs_Quest").getAmtDone() < getByTag("Beached_Pigs_Quest").getAmtRequired())
-			{
-				_FWindow.AddFString("pls kill those monsters");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("i'm running low on food");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-			}
-			else if (getByTag("Beached_Pigs_Quest").getGiven() && getByTag("Beached_Pigs_Quest").getAmtDone() >= getByTag("Beached_Pigs_Quest").getAmtRequired())
-			{
-				_FWindow.AddFString("Thank you kind stranger");
-				_FWindow.AddFString("here is your reward");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("*SWORD UPGRADED*");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				_FWindow.AddFString("");
-				setByTag("Beached_Pigs_Quest", true, false);
-				player.setSwordDmg(player.getSwordDmg() + 1);
-			}
-		}
-		else if (_StructOptions.getSelected().m_Label == "2")
-		{
-			// LEAVE BUILDING
-			_STATE = "MainMap";
-			_FWindow.clear();
-		}
-	}
-	for (int i = 0; i < 8; i++)
-	{
-		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
-	}
-	return window;
-}
-
 ConsoleWindow SYDEMapGame::Toplefia_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
@@ -3069,6 +3165,7 @@ ConsoleWindow SYDEMapGame::Island_Fitters(ConsoleWindow window, int windowWidth,
 
 #pragma endregion
 
+#pragma region Headers
 
 ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _EnemAnim, int _run, bool& enemyAttk)
 {
@@ -3224,12 +3321,27 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 		}
 		else if (_MoveOptions.getSelected().m_Label == "4")
 		{
+			int cMax = player.getMoneyDmg() * enemy_lvl;
+			if (cMax  <= 0) { cMax = 1; }
+			int cMin = (player.getMoneyDmg() - 1) * enemy_lvl;
+			if (cMin < 0) { cMin = 0; }
+			int coinsGained = std::rand() % (cMax- cMin) + cMin;
+			_FWindow.AddFString("Player Used Raining Cash");
+			_FWindow.AddFString("Player Gained $" + to_string(coinsGained));
+			player.addMoney(coinsGained);
+			enemy_attack = true;
+		}
+		else if (_MoveOptions.getSelected().m_Label == "5")
+		{
 			_FightOptions.setActive(true);
 			_MoveOptions.setActive(false);
 		}
 	}
 }
 
+#pragma endregion
+
+#pragma region Dungeons
 ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	//NEED DUNGEON IMPLEMENTATION
@@ -3354,6 +3466,167 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 	}
 	return window;
 }
+ConsoleWindow SYDEMapGame::Text_Adventure_Dungeon(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = m_bg.draw_asset(window, Vector2(0));
+	if (_CurrentAdvRoom_.compare(_AdvRoom_) != 0)
+	{
+		MOTSDefaults::DebugLogs.push_back("TextAdv" + _CurrentAdvRoom_ + "->" + _AdvRoom_);
+		_CurrentAdvRoom_ = _AdvRoom_;
+		if (_AdvRoom_ == "Start_Room")
+		{
+			_TextWindow.AddFString("You wake up in a cold and damp prison");
+			_TextWindow.AddFString("You hear a menacing laugh");
+			_TextWindow.AddFString("???: HAHAHA FOOL, WELCOME TO MY DUNGEON");
+			_TextWindow.AddFString("???: ");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextAdvOptions[0].setText("Open Cell Door");
+			_TextAdvOptions[1].setText("Search For Rock");
+			_TextAdvOptions[2].setText("Wait For Death");
+
+			_TextAdvOptions[0].m_Label = "OpenDoor_Cell";
+			_TextAdvOptions[1].m_Label = "Rock_Search";
+			_TextAdvOptions[2].m_Label = "WaitDie";
+		}
+		
+		else if (_AdvRoom_ == "Guard_Room")
+		{
+			_TextWindow.AddFString("You enter the room where the guard");
+			_TextWindow.AddFString("should be");
+			_TextWindow.AddFString("It seems it hasn't been implemented");
+			_TextWindow.AddFString("yet");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextAdvOptions[0].setText("");
+			_TextAdvOptions[1].setText("");
+			_TextAdvOptions[2].setText("");
+
+			_TextAdvOptions[0].m_Label = "";
+			_TextAdvOptions[1].m_Label = "";
+			_TextAdvOptions[2].m_Label = "";
+		}
+		
+		else if (_AdvRoom_ == "Money_Room")
+		{
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextAdvOptions[0].setText("");
+			_TextAdvOptions[1].setText("");
+			_TextAdvOptions[2].setText("");
+
+			_TextAdvOptions[0].m_Label = "";
+			_TextAdvOptions[1].m_Label = "";
+			_TextAdvOptions[2].m_Label = "";
+		}
+	}
+	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_TextAdvOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_TextAdvOptions.getSelected().m_Label == "OpenDoor_Cell")
+		{
+			if (_TXT_VARS._ROCK_FOUND)
+			{
+				_TextWindow.AddFString("You force the door open with the rock");
+				_TextWindow.AddFString("You don't know how it worked");
+				_TextWindow.AddFString("But you also don't really care");
+				_TextWindow.AddFString("");
+				_TextWindow.AddFString("The rock crumbles afterwards");
+				_TextWindow.AddFString("You say goodbye to your only friend");
+				_TextWindow.AddFString("and move onwards");
+				_TextWindow.AddFString("");
+
+				_TextAdvOptions[0].setText("Yell 'HA' & Move On");
+				_TextAdvOptions[1].setText("Yell 'Get F**Ked' & Move On");
+				_TextAdvOptions[2].setText("Say nothing and walk on");
+
+				_TextAdvOptions[0].m_Label = "Move_To_GuardRoom";
+				_TextAdvOptions[1].m_Label = "Move_To_GuardRoom";
+				_TextAdvOptions[2].m_Label = "Move_To_GuardRoom";
+				_TXT_VARS._ROCK_FOUND = false;
+			}
+			else {
+				_TextWindow.AddFString("You try to open the door to the cell");
+				_TextWindow.AddFString("Unsuprisingly it doesn't open");
+				_TextWindow.AddFString("");
+				_TextWindow.AddFString("Like really what did you expect");
+				_TextWindow.AddFString("Come on who leaves a door unlocked?");
+				_TextWindow.AddFString("");
+				_TextWindow.AddFString("");
+				_TextWindow.AddFString("");
+			}
+		}
+
+		else if (_TextAdvOptions.getSelected().m_Label == "Move_To_GuardRoom")
+		{
+			_AdvRoom_ = "Guard_Room";
+		}
+
+		else if (_TextAdvOptions.getSelected().m_Label == "Rock_Throw_Out")
+		{
+			_TextWindow.AddFString("You throw the rock outside through a");
+			_TextWindow.AddFString("small window in the wall");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("Now you don't have a rock anymore");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextAdvOptions[1].setText("Search For Rock");
+
+			_TextAdvOptions[1].m_Label = "Rock_Search";
+			_TXT_VARS._ROCK_FOUND = false;
+		}
+		else if (_TextAdvOptions.getSelected().m_Label == "Rock_Search")
+		{
+			_TextWindow.AddFString("You find a large rock in the corner");
+			_TextWindow.AddFString("You don't know why it was left there");
+			_TextWindow.AddFString("but you simply do not care");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextAdvOptions[1].setText("Throw Rock Outside");
+
+			_TextAdvOptions[1].m_Label = "Rock_Throw_Out";
+			_TXT_VARS._ROCK_FOUND = true;
+		}
+		else if (_TextAdvOptions.getSelected().m_Label == "WaitDie")
+		{
+			_TextWindow.AddFString("You decide to wait for the embrace of death");
+			_TextWindow.AddFString("???: Ummm, i haven't programmed starving");
+			_TextWindow.AddFString("???: That means you ain't gonna die bud");
+			_TextWindow.AddFString("???: May as well try to do something");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(0, i + 1), _TextWindow.getFString(i), BRIGHTWHITE);
+	}
+	window = _TextAdvOptions.draw_menu(window);
+	return window;
+}
+#pragma endregion
+
+#pragma region State Stuff
 
 string SYDEMapGame::getWFA_STATE(Vector2 point)
 {
@@ -3456,3 +3729,4 @@ string SYDEMapGame::getRandomFromList(vector<string> _list)
 	int random_var = std::rand() %  _list.size();
 	return _list[random_var];
 }
+#pragma endregion

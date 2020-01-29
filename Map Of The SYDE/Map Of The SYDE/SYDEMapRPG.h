@@ -9,6 +9,7 @@
 #include "Structures.h"
 #include "Player.h"
 #include "Quest.h"
+#include "TxtAdvVars.h"
 #include "json.hpp"
 using json = nlohmann::json;
 
@@ -73,6 +74,9 @@ public:
 	// BEACHED ****Hole
 	ConsoleWindow Jiman_House(ConsoleWindow window, int windowWidth, int windowHeight);
 
+	//CRT ISLAND
+	ConsoleWindow Retroist(ConsoleWindow window, int windowWidth, int windowHeight);
+
 	//Arcoomer
 	ConsoleWindow Weapons_More(ConsoleWindow window, int windowWidth, int windowHeight);
 
@@ -103,6 +107,7 @@ public:
 
 	//DUNGEONS
 	ConsoleWindow Dragon_Keep_Dungeon(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Text_Adventure_Dungeon(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	string ___IfUnlocked(bool unlocked, string use) { if (unlocked) { return use; } return "???"; }
 
@@ -318,4 +323,15 @@ private:
 		vector<int>{5000, 7500, 12500}
 	) };
 	int questPage = 0;
+
+	//TEXT ADVENTURE DUNGEON
+	SYDEMenu _TextAdvOptions = SYDEMenu(vector<SYDEButton>{
+		SYDEButton("", Vector2(3, 16), Vector2(36, 1), WHITE, true),
+		SYDEButton("", Vector2(3, 17), Vector2(36, 1), WHITE, true),
+		SYDEButton("", Vector2(3, 18), Vector2(36, 1), WHITE, true),
+	});
+	string _CurrentAdvRoom_ = "NULL";
+	string _AdvRoom_ = "Room1";
+	FightWindow _TextWindow;
+	TxtAdvVars _TXT_VARS = TxtAdvVars();
  };

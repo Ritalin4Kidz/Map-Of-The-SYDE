@@ -1,38 +1,141 @@
-﻿  SYDEMapRPG.cpp
-c:\users\chands\documents\github\map-of-the-syde\map of the syde\include\consolewindow.h(297): warning C4018: '<': signed/unsigned mismatch
-c:\users\chands\documents\github\map-of-the-syde\map of the syde\include\consolewindow.h(299): warning C4018: '<': signed/unsigned mismatch
-c:\users\chands\documents\github\map-of-the-syde\map of the syde\include\consolewindow.h(300): warning C4018: '<': signed/unsigned mismatch
-c:\users\chands\documents\github\map-of-the-syde\map of the syde\include\settings.h(12): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\chands\documents\github\map-of-the-syde\map of the syde\include\defaults.h(15): warning C4091: 'static ': ignored on left of 'SYDEDefaults' when no variable is declared
-c:\users\chands\documents\github\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(249): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\chands\documents\github\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(425): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\chands\documents\github\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(459): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\chands\documents\github\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(488): warning C4018: '<': signed/unsigned mismatch
-c:\users\chands\documents\github\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(500): warning C4018: '<': signed/unsigned mismatch
-c:\users\chands\documents\github\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(512): warning C4018: '<': signed/unsigned mismatch
+﻿  Map Of The SYDE.cpp
+g:\github repos\map-of-the-syde\map of the syde\include\consolewindow.h(297): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\include\consolewindow.h(299): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\include\consolewindow.h(300): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\include\settings.h(12): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\include\defaults.h(15): warning C4091: 'static ': ignored on left of 'SYDEDefaults' when no variable is declared
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\player.h(91): warning C4018: '>=': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.h(153): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\debugwindow.h(12): warning C4018: '>=': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\map of the syde.cpp(75): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\map of the syde.cpp(90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  SYDEMapRPG.cpp
+g:\github repos\map-of-the-syde\map of the syde\include\consolewindow.h(297): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\include\consolewindow.h(299): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\include\consolewindow.h(300): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\include\settings.h(12): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\include\defaults.h(15): warning C4091: 'static ': ignored on left of 'SYDEDefaults' when no variable is declared
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\player.h(91): warning C4018: '>=': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.h(153): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(54): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(289): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(319): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(326): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(390): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(413): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(461): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(467): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(487): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(498): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(515): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(532): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(634): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(650): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(666): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(674): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(683): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(690): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(698): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(705): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(714): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(723): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(732): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(740): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(749): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(759): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(767): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(775): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(784): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(793): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(831): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(839): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(849): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(859): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(867): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(876): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(877): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(884): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(885): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(893): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(907): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(912): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(913): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(922): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(927): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(928): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(937): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(941): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(951): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(956): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(957): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1198): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1199): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1228): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1229): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1498): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1697): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1715): warning C4018: '>': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1722): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1724): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1740): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1815): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1839): warning C4018: '>=': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1860): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1905): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1933): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1941): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1974): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(1982): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2019): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2027): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2060): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2068): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2109): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2117): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2191): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2268): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2307): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2377): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2417): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2457): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2497): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2537): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2577): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2617): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2657): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2697): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2737): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2777): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2817): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2857): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2897): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2931): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(2971): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3047): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3087): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3127): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3143): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3156): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3176): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3224): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3271): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3292): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3300): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3308): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3316): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3354): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3622): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3633): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3645): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3657): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3669): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3681): warning C4018: '<': signed/unsigned mismatch
+g:\github repos\map-of-the-syde\map of the syde\map of the syde\sydemaprpg.cpp(3693): warning C4018: '<': signed/unsigned mismatch
 LINK : warning C4727: PCH named g:\github repos\custom-console\drawableconsole\release\sydeengine.pch with same timestamp found in g:\github repos\custom-console\drawableconsole\release\vector2.obj and g:\github repos\custom-console\drawableconsole\release\sydetime.obj.  Using first PCH.
-LINK : warning C4727: PCH named g:\github repos\custom-console\drawableconsole\release\sydeengine.pch with same timestamp found in g:\github repos\custom-console\drawableconsole\release\customanimationasset.obj and g:\github repos\custom-console\drawableconsole\release\customasset.obj.  Using first PCH.
+LINK : warning C4727: PCH named g:\github repos\custom-console\drawableconsole\release\sydeengine.pch with same timestamp found in g:\github repos\custom-console\drawableconsole\release\sydemenu.obj and g:\github repos\custom-console\drawableconsole\release\sydelabel.obj.  Using first PCH.
   Generating code
-  0 of 1694 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  11 of 3319 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+    4 functions were new in current compilation
+    46 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-SYDEEngine.lib(Defaults.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(Defaults.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(Settings.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(Settings.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(ConsoleWindow.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(ConsoleWindow.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(SYDECredits.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(SYDECredits.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(SYDETime.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(SYDETime.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(SYDEGamePlay.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(SYDEGamePlay.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(Vector2.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(Vector2.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(CustomAsset.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(CustomAsset.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(CustomAnimationAsset.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(CustomAnimationAsset.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(SYDEButton.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(SYDEButton.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(AssetsClass.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(AssetsClass.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(SYDEKey.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(SYDEKey.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(SYDEKeyCode.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(SYDEKeyCode.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(SYDEMenu.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(SYDEMenu.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(TextItem.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(TextItem.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(Line.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(Line.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(Artwork.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(Artwork.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-SYDEEngine.lib(Activation.obj) : warning LNK4099: PDB 'DrawableConsole.pdb' was not found with 'SYDEEngine.lib(Activation.obj)' or at 'C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\DrawableConsole.pdb'; linking object as if no debug info
-  Map Of The SYDE.vcxproj -> C:\Users\chands\Documents\GitHub\Map-Of-The-SYDE\Map Of The SYDE\Release\Map Of The SYDE.exe
+  Map Of The SYDE.vcxproj -> G:\Github Repos\Map-Of-The-SYDE\Map Of The SYDE\Release\Map Of The SYDE.exe
