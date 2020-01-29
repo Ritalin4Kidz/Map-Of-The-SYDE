@@ -24,6 +24,8 @@ public:
 	void setSail(string a_STATE) { sailingTime = 0.0f; _STATESail = a_STATE; _STATE = "Sailing"; }
 	ConsoleWindow Rest(ConsoleWindow window, int windowWidth, int windowHeight);
 	void sleepAt(string a_STATE) { _STATERest = a_STATE; _STATE = "Resting"; m_NIGHT_TO_DAY.setFrame(0); }
+	ConsoleWindow Warp(ConsoleWindow window, int windowWidth, int windowHeight);
+	void setWarp(string a_STATE, CustomAsset _Level, Vector2 pos) { _STATEWarp = a_STATE; _STATE = "Warp"; m_DunegonWarp.setFrame(0); _levelWarp = _Level; _WarpPOS = pos; }
 
 	//MAIN
 	ConsoleWindow Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -139,6 +141,7 @@ public:
 	void lvlUP();
 	void saveGame();
 	void loadSave();
+	void loadDefaults();
 	void enemy_dead();
 
 	vector<string> Split(string a_String, char splitter);
@@ -163,6 +166,11 @@ private:
 	const float maxSailTime = 5.5f;
 
 	string _STATERest = "Toplefia Farm";
+
+	//WARP
+	string _STATEWarp = "Dragon Keep";
+	CustomAsset _levelWarp = CustomAsset();
+	Vector2 _WarpPOS = Vector2(0);
 
 	CustomAsset m_bg;
 	CustomAsset _LevelAsset;
@@ -205,6 +213,7 @@ private:
 	//CutScenes
 	CustomAnimationAsset m_SAIL; // PLACHOLDER USED ATM
 	CustomAnimationAsset m_NIGHT_TO_DAY;
+	CustomAnimationAsset m_DunegonWarp;
 
 	//ENEMY ANIMATIONS
 	CustomAnimationAsset m_ORC;
@@ -219,23 +228,23 @@ private:
 	//ETC
 	vector<_Town_Square> vecTowns;
 	vector<string> vecIcons = {
-		"><",	"//",	"nn",	":|",	"/\\",
-		"[]",	"XX",	"ii",	":)",	"\\/",
-		"()",	"$$",	"ll",	":(",	"\\\\",
-		"<>",	"!!",	"00",	";)",	"\"\"",
-		"{}",	"AA",	"96",	";(",	":\\",
-		"**",	"VV",	"bd",	";|",	";\\",
-		"##",	"--",	"''",	");",	"pi",
-		"++",	"ZZ",	"YY",	"(;",	"..",
-		"::",	"TT",	"xx",	"|;",	";:",
-		"HH",	"~~",	"pq",	"(:",	"db",
-		"@@",	"GG",	",,",	"):",	"vv",
-		"??",	"JK",	"^^",	"|:",	"uu",
-		";;",	"WP",	"hi",	"/:",	"UU",
-		"II",	"MM",	":;",	"/;",	"zz",
-		"WW",	"NN",	"ww",	"qp",	"yy",
-		"||",	"OO",	"oo",	"tt",	"``",
-		"%%",	"Pq",	"ae",	"bb",	"  ",
+		"><",	"//",	"nn",	":|",	"][",	"/\\",
+		"[]",	"XX",	"ii",	":)",	")(",	"\\/",
+		"()",	"$$",	"ll",	":(",	"}{",	"\\\\",
+		"<>",	"!!",	"00",	";)",	"S2",	"\"\"",
+		"{}",	"AA",	"96",	";(",	"2S",	":\\",
+		"**",	"VV",	"bd",	";|",	"<3",	";\\",
+		"##",	"--",	"''",	");",	":3",	"pi",
+		"++",	"ZZ",	"YY",	"(;",	":D",	"..",
+		"::",	"TT",	"xx",	"|;",	"D:",	";:",
+		"HH",	"~~",	"pq",	"(:",	":C",	"db",
+		"@@",	"GG",	",,",	"):",	"C:",	"vv",
+		"??",	"JK",	"^^",	"|:",	"3:",	"uu",
+		";;",	"WP",	"hi",	"/:",	"<:",	"UU",
+		"II",	"MM",	":;",	"/;",	">:",	"zz",
+		"WW",	"NN",	"ww",	"qp",	":>",	"yy",
+		"||",	"OO",	"oo",	"tt",	":<",	"``",
+		"%%",	"Pq",	"ae",	"bb",	":O",	"  ",
 	};
 	int iconNo = 0;
 	vector<ColourClass> vecIconCol = {

@@ -391,7 +391,7 @@ void SYDEMapGame::loadSave()
 				catch (exception exc)
 				{
 					// DO SOMETHING
-					MOTSDefaults::DebugLogs.push_back("Quest" + to_string(i) + "Load Failure");
+					MOTSDefaults::DebugLogs.push_back("Quest " + to_string(i) + " Load Failure");
 					MOTSDefaults::DebugLogs.push_back(exc.what());
 				}
 			}
@@ -407,14 +407,14 @@ void SYDEMapGame::loadSave()
 			for (int i = 0; i < _WeaponStores.size(); i++)
 			{
 				try {
-					save_file["WeaponStore"][to_string(i)]["swordBought"] = _WeaponStores[i].getSwordBght();
-					save_file["WeaponStore"][to_string(i)]["fireBought"] = _WeaponStores[i].getFireBght();
-					save_file["WeaponStore"][to_string(i)]["waterBought"] = _WeaponStores[i].getWaterBght();
-					save_file["WeaponStore"][to_string(i)]["grassBought"] = _WeaponStores[i].getGrassBght();
+					_WeaponStores[i].setSwordBght(save_file["WeaponStore"][to_string(i)]["swordBought"]);
+					_WeaponStores[i].setFireBght(save_file["WeaponStore"][to_string(i)]["fireBought"]);
+					_WeaponStores[i].setWaterBght(save_file["WeaponStore"][to_string(i)]["waterBought"]);
+					_WeaponStores[i].setGrassBght(save_file["WeaponStore"][to_string(i)]["grassBought"]);
 				}
 				catch (exception exc)
 				{
-					MOTSDefaults::DebugLogs.push_back("Quest" + to_string(i) + "Load Failure");
+					MOTSDefaults::DebugLogs.push_back("WeaponStore " + to_string(i) + " Load Failure");
 					MOTSDefaults::DebugLogs.push_back(exc.what());
 				}
 			}
@@ -425,6 +425,46 @@ void SYDEMapGame::loadSave()
 			MOTSDefaults::DebugLogs.push_back("Load Error");
 			MOTSDefaults::DebugLogs.push_back(ex.what());
 		}
+}
+
+void SYDEMapGame::loadDefaults()
+{
+	camera_Pos = Vector2(214, 173);
+	//DEV
+	if (MOTSDefaults::DEV_ON_)
+	{
+		camera_Pos = Vector2(2030, 750);
+	}
+	player.setLvl(1);
+	player.setHealth(100);
+	player.setMaxHealth(100);
+	player.setXP(0);
+	player.setXPNxtLvl(1000);
+	player.setColour(BLACK);
+	player.setIcon("><");
+	player.setMoney(0);
+
+	player.setSwordDmg(5);
+	player.setWaterSpellUnlocked(false);
+	player.setWaterDmg(5);
+	player.setFireSpellUnlocked(false);
+	player.setFireDmg(5);
+	player.setGrassSpellUnlocked(false);
+	player.setGrassDmg(5);
+
+	for (int i = 0; i < questVec.size(); i++)
+	{
+		questVec[i].setGiven(false);
+		questVec[i].setAmtDone(0);
+		questVec[i].setFinished(false);				
+	}
+	for (int i = 0; i < _WeaponStores.size(); i++)
+	{
+		_WeaponStores[i].setSwordBght(0);
+		_WeaponStores[i].setFireBght(0);
+		_WeaponStores[i].setWaterBght(0);
+		_WeaponStores[i].setGrassBght(0);
+	}
 }
 
 void SYDEMapGame::enemy_dead()
@@ -581,12 +621,6 @@ SYDEMapGame::SYDEMapGame()
 		_Town_Square(Vector2(1792,	672), Vector2(2047,	767), "South East Ocean"), // THANKS ME
 	};
 #pragma endregion
-	camera_Pos = Vector2(214, 173);
-	//DEV
-	if (MOTSDefaults::DEV_ON_)
-	{
-		camera_Pos = Vector2(2030, 750);	
-	}
 	for (int ii = 746; ii < 754; ii++)
 	{
 		for (int i = 2022; i < 2038; i++)
@@ -1057,6 +1091,9 @@ SYDEMapGame::SYDEMapGame()
 	m_NIGHT_TO_DAY.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\NightToDay.bmp", astVars, 80, 200, 20, 20, 0, 38));
 	m_NIGHT_TO_DAY.setLooping(false);
 
+	m_DunegonWarp.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\DungeonWarp_001.bmp", astVars, 200, 100, 20, 20, 0, 45));
+	m_DunegonWarp.setLooping(false);
+
 	//NPC
 	m_PLACEHOLDER.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Bitmaps\\NPC_Placeholder.bmp", astVars, 10, 10, 10, 10, 0, 1));
 	m_PLACEHOLDER.setLooping(true);
@@ -1064,6 +1101,7 @@ SYDEMapGame::SYDEMapGame()
 	m_RED_DRAGON.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\DragonAnimation.bmp", astVars, 150, 30, 15, 10, 0, 30));
 	m_RED_DRAGON.setLooping(true);
 
+	loadDefaults();
 }
 
 ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidth, int windowHeight)
@@ -1088,6 +1126,10 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		else if (_STATE == "Resting")
 		{
 			AssignState(std::bind(&SYDEMapGame::Rest, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "Warp")
+		{
+			AssignState(std::bind(&SYDEMapGame::Warp, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 #pragma endregion
 		else if (_STATE == "MainMenu")
@@ -1340,8 +1382,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		//DUNGEONS
 		else if (_STATE == "Dragon Keep")
 		{
-			camera_Pos = Vector2(8, 93);
-			_STATE = "Dragon Keep Dungeon";
+			setWarp("Dragon Keep Dungeon", _DragonKeepAsset, Vector2(8, 93));
 		}
 		else if (_STATE == "Dragon Keep Dungeon")
 		{
@@ -1382,6 +1423,22 @@ ConsoleWindow SYDEMapGame::Rest(ConsoleWindow window, int windowWidth, int windo
 	{
 		_STATE = _STATERest;
 	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Warp(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	if (m_DunegonWarp.getFrame() >= 35)
+	{
+		camera_Pos = _WarpPOS;
+		window = m_bg.draw_asset(window, Vector2(0));
+		window = _levelWarp.draw_asset(window, Vector2(camera_Pos.getX() - 20, camera_Pos.getY() - 10), windowWidth, windowHeight);
+	}
+	if (m_DunegonWarp.getFrame() >= m_DunegonWarp.getFrameSize() - 1)
+	{
+		_STATE = _STATEWarp;
+	}
+	window = m_DunegonWarp.draw_asset(window, Vector2(0, 0));
 	return window;
 }
 
@@ -1576,6 +1633,7 @@ ConsoleWindow SYDEMapGame::Main_Menu(ConsoleWindow window, int windowWidth, int 
 		else if (_Options.getSelected().m_Label == "1")
 		{
 			// REVERT EVERYTHING TO DEFAULT VARS
+			loadDefaults();
 			_STATE = "Customize";
 		}
 		else if (_Options.getSelected().m_Label == "2")
@@ -1988,6 +2046,7 @@ ConsoleWindow SYDEMapGame::RED_DRAGON_Fight(ConsoleWindow window, int windowWidt
 		if (getByTag("Jonestown_Main_Quest").getGiven())
 		{
 			getByTag("Jonestown_Main_Quest").addAmtDone(1);
+			getByTag("Jonestown_Main_Quest").setFinished(true);
 		}
 		//Credits <---Add these to credits scene --->
 		camera_Pos = Vector2(1522, 259);
