@@ -3502,13 +3502,13 @@ ConsoleWindow SYDEMapGame::Text_Adventure_Dungeon(ConsoleWindow window, int wind
 			_TextWindow.AddFString("");
 			_TextWindow.AddFString("");
 			_TextWindow.AddFString("");
-			_TextAdvOptions[0].setText("");
-			_TextAdvOptions[1].setText("");
-			_TextAdvOptions[2].setText("");
+			_TextAdvOptions[0].setText("Exit Prison");
+			_TextAdvOptions[1].setText("Go West");
+			_TextAdvOptions[2].setText("Go East");
 
-			_TextAdvOptions[0].m_Label = "";
-			_TextAdvOptions[1].m_Label = "";
-			_TextAdvOptions[2].m_Label = "";
+			_TextAdvOptions[0].m_Label = "Prison_Exit";
+			_TextAdvOptions[1].m_Label = "Break_Room";
+			_TextAdvOptions[2].m_Label = "Cell_Block";
 		}
 		
 		else if (_AdvRoom_ == "Money_Room")
@@ -3615,6 +3615,11 @@ ConsoleWindow SYDEMapGame::Text_Adventure_Dungeon(ConsoleWindow window, int wind
 			_TextWindow.AddFString("");
 			_TextWindow.AddFString("");
 			_TextWindow.AddFString("");
+		}
+		//GUARD ROOM STUFF
+		else if (_TextAdvOptions.getSelected().m_Label == "---")
+		{
+			
 		}
 	}
 	for (int i = 0; i < 8; i++)
