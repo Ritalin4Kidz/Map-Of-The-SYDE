@@ -137,6 +137,11 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
+		else if (MOTSDefaults::DebugLogs.size() >= 50)
+		{
+			// DOn't Fuck UP THE RAMMMM
+			MOTSDefaults::DebugLogs.clear();
+		}
 		if (MOTSDefaults::DEBUG_UI_)
 		{
 			float fps = 1.0f / SYDEDefaults::getDeltaTime();
