@@ -148,12 +148,15 @@ public:
 	void loadSave();
 	void loadDefaults();
 	void enemy_dead();
+	bool fexists(const char *filename);
 
 	vector<string> Split(string a_String, char splitter);
 	__Quest getByTag(string tag) { for (int i = 0; i < questVec.size(); i++) { if (tag.compare(questVec[i].getTag()) == 0) { return questVec[i]; } } return __Quest(); }
 
 	void setByTag(string tag, bool newState, bool isSettingGiven);
 	void setByTag(string tag, int amtDone);
+
+	void setState(string newS) { _STATE = newS; }
 
 	void _PlayerPage() {
 		_MenuReturnSTATE = _STATE;

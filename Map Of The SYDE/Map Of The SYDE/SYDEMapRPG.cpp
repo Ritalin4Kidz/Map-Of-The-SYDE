@@ -330,107 +330,117 @@ void SYDEMapGame::saveGame()
 		save_file["WeaponStore"][to_string(i)]["waterBought"] = _WeaponStores[i].getWaterBght();
 		save_file["WeaponStore"][to_string(i)]["grassBought"] = _WeaponStores[i].getGrassBght();
 	}
+	// OTHER
+	save_file["STATE_GAME"] = _STATE;
 	std::ofstream ofs("EngineFiles\\Settings\\MOTS_SaveFile.sc");
 	ofs << save_file;
 }
 
 void SYDEMapGame::loadSave()
 {
-		std::ifstream ifs{ "EngineFiles\\Settings\\MOTS_SaveFile.sc" };
-		json save_file = json::parse(ifs);
-		//string notes = release_notes["body"];
-		try { //PlayerStats
-			player.setLvl(save_file["PlayerLVL"]);
-			player.setHealth(save_file["PlayerHP"]);
-			player.setMaxHealth(save_file["PlayerHPMax"]);
-			player.setXP(save_file["PlayerXP"]);
-			player.setXPNxtLvl(save_file["PlayerXPNxt"]);
-			player.setColour(save_file["PlayerColour"]);
-			player.setIcon(save_file["PlayerIcon"]);
-			player.setMoney(save_file["PlayerMoney"]);
-			MOTSDefaults::DebugLogs.push_back("Player Loaded Successfully");
-		}
-		catch (exception ex)
+	std::ifstream ifs{ "EngineFiles\\Settings\\MOTS_SaveFile.sc" };
+	json save_file = json::parse(ifs);
+	//string notes = release_notes["body"];
+	try { //PlayerStats
+		player.setLvl(save_file["PlayerLVL"]);
+		player.setHealth(save_file["PlayerHP"]);
+		player.setMaxHealth(save_file["PlayerHPMax"]);
+		player.setXP(save_file["PlayerXP"]);
+		player.setXPNxtLvl(save_file["PlayerXPNxt"]);
+		player.setColour(save_file["PlayerColour"]);
+		player.setIcon(save_file["PlayerIcon"]);
+		player.setMoney(save_file["PlayerMoney"]);
+		MOTSDefaults::DebugLogs.push_back("Player Loaded Successfully");
+	}
+	catch (exception ex)
+	{
+		// DO SOMETHING
+		MOTSDefaults::DebugLogs.push_back("Load Error");
+		MOTSDefaults::DebugLogs.push_back(ex.what());
+	}
+	try { //PlayerWeapons
+		player.setSwordDmg(save_file["swordDmg"]);
+		player.setWaterSpellUnlocked(save_file["waterUnlock"]);
+		player.setWaterDmg(save_file["waterDmg"]);
+		player.setFireSpellUnlocked(save_file["fireUnlock"]);
+		player.setFireDmg(save_file["fireDmg"]);
+		player.setGrassSpellUnlocked(save_file["grassUnlock"]);
+		player.setGrassDmg(save_file["grassDmg"]);
+		player.setMoneySpellUnlocked(save_file["moneySpellUnlock"]);
+		player.setMoneyDmg(save_file["moneySpellMulti"]);
+		MOTSDefaults::DebugLogs.push_back("Attack Loaded Successfully");
+	}
+	catch (exception ex)
+	{
+		// DO SOMETHING
+		MOTSDefaults::DebugLogs.push_back("Load Error");
+		MOTSDefaults::DebugLogs.push_back(ex.what());
+	}
+	try { 
+		//POSITION
+		camera_Pos.setX(save_file["PosX"]);
+		camera_Pos.setY(save_file["PosY"]);
+		MOTSDefaults::DebugLogs.push_back("Position Loaded Successfully");
+	}
+	catch (exception ex)
+	{
+		// DO SOMETHING
+		MOTSDefaults::DebugLogs.push_back("Load Error");
+		MOTSDefaults::DebugLogs.push_back(ex.what());
+	}
+	try { //QUESTS
+		for (int i = 0; i < questVec.size(); i++)
 		{
-			// DO SOMETHING
-			MOTSDefaults::DebugLogs.push_back("Load Error");
-			MOTSDefaults::DebugLogs.push_back(ex.what());
-		}
-		try { //PlayerWeapons
-			player.setSwordDmg(save_file["swordDmg"]);
-			player.setWaterSpellUnlocked(save_file["waterUnlock"]);
-			player.setWaterDmg(save_file["waterDmg"]);
-			player.setFireSpellUnlocked(save_file["fireUnlock"]);
-			player.setFireDmg(save_file["fireDmg"]);
-			player.setGrassSpellUnlocked(save_file["grassUnlock"]);
-			player.setGrassDmg(save_file["grassDmg"]);
-			player.setMoneySpellUnlocked(save_file["moneySpellUnlock"]);
-			player.setMoneyDmg(save_file["moneySpellMulti"]);
-			MOTSDefaults::DebugLogs.push_back("Attack Loaded Successfully");
-		}
-		catch (exception ex)
-		{
-			// DO SOMETHING
-			MOTSDefaults::DebugLogs.push_back("Load Error");
-			MOTSDefaults::DebugLogs.push_back(ex.what());
-		}
-		try { 
-			//POSITION
-			camera_Pos.setX(save_file["PosX"]);
-			camera_Pos.setY(save_file["PosY"]);
-			MOTSDefaults::DebugLogs.push_back("Position Loaded Successfully");
-		}
-		catch (exception ex)
-		{
-			// DO SOMETHING
-			MOTSDefaults::DebugLogs.push_back("Load Error");
-			MOTSDefaults::DebugLogs.push_back(ex.what());
-		}
-		try { //QUESTS
-			for (int i = 0; i < questVec.size(); i++)
-			{
-				try {
-					questVec[i].setGiven(save_file["Quests"][to_string(i)]["Given"]);
-					questVec[i].setAmtDone(save_file["Quests"][to_string(i)]["AmtDone"]);
-					questVec[i].setFinished(save_file["Quests"][to_string(i)]["Finished"]);
-				}
-				catch (exception exc)
-				{
-					// DO SOMETHING
-					MOTSDefaults::DebugLogs.push_back("Quest " + to_string(i) + " Load Failure");
-					MOTSDefaults::DebugLogs.push_back(exc.what());
-				}
+			try {
+				questVec[i].setGiven(save_file["Quests"][to_string(i)]["Given"]);
+				questVec[i].setAmtDone(save_file["Quests"][to_string(i)]["AmtDone"]);
+				questVec[i].setFinished(save_file["Quests"][to_string(i)]["Finished"]);
 			}
-			MOTSDefaults::DebugLogs.push_back("Quests Loaded Successfully");
-		}
-		catch (exception ex)
-		{
-			// DO SOMETHING
-			MOTSDefaults::DebugLogs.push_back("Load Error");
-			MOTSDefaults::DebugLogs.push_back(ex.what());
-		}
-		try {
-			for (int i = 0; i < _WeaponStores.size(); i++)
+			catch (exception exc)
 			{
-				try {
-					_WeaponStores[i].setSwordBght(save_file["WeaponStore"][to_string(i)]["swordBought"]);
-					_WeaponStores[i].setFireBght(save_file["WeaponStore"][to_string(i)]["fireBought"]);
-					_WeaponStores[i].setWaterBght(save_file["WeaponStore"][to_string(i)]["waterBought"]);
-					_WeaponStores[i].setGrassBght(save_file["WeaponStore"][to_string(i)]["grassBought"]);
-				}
-				catch (exception exc)
-				{
-					MOTSDefaults::DebugLogs.push_back("WeaponStore " + to_string(i) + " Load Failure");
-					MOTSDefaults::DebugLogs.push_back(exc.what());
-				}
+				// DO SOMETHING
+				MOTSDefaults::DebugLogs.push_back("Quest " + to_string(i) + " Load Failure");
+				MOTSDefaults::DebugLogs.push_back(exc.what());
 			}
-			MOTSDefaults::DebugLogs.push_back("Weapon Stores Loaded Successfully");
 		}
-		catch (exception ex)
+		MOTSDefaults::DebugLogs.push_back("Quests Loaded Successfully");
+	}
+	catch (exception ex)
+	{
+		// DO SOMETHING
+		MOTSDefaults::DebugLogs.push_back("Load Error");
+		MOTSDefaults::DebugLogs.push_back(ex.what());
+	}
+	try {
+		for (int i = 0; i < _WeaponStores.size(); i++)
 		{
-			MOTSDefaults::DebugLogs.push_back("Load Error");
-			MOTSDefaults::DebugLogs.push_back(ex.what());
+			try {
+				_WeaponStores[i].setSwordBght(save_file["WeaponStore"][to_string(i)]["swordBought"]);
+				_WeaponStores[i].setFireBght(save_file["WeaponStore"][to_string(i)]["fireBought"]);
+				_WeaponStores[i].setWaterBght(save_file["WeaponStore"][to_string(i)]["waterBought"]);
+				_WeaponStores[i].setGrassBght(save_file["WeaponStore"][to_string(i)]["grassBought"]);
+			}
+			catch (exception exc)
+			{
+				MOTSDefaults::DebugLogs.push_back("WeaponStore " + to_string(i) + " Load Failure");
+				MOTSDefaults::DebugLogs.push_back(exc.what());
+			}
 		}
+		MOTSDefaults::DebugLogs.push_back("Weapon Stores Loaded Successfully");
+	}
+	catch (exception ex)
+	{
+		MOTSDefaults::DebugLogs.push_back("Load Error");
+		MOTSDefaults::DebugLogs.push_back(ex.what());
+	}
+	try {
+		setState(save_file["STATE_GAME"]);
+	}
+	catch (exception ex)
+	{
+		MOTSDefaults::DebugLogs.push_back("Load Error");
+		MOTSDefaults::DebugLogs.push_back(ex.what());
+	}
 }
 
 void SYDEMapGame::loadDefaults()
@@ -479,6 +489,12 @@ void SYDEMapGame::enemy_dead()
 	lvlUP();
 	_FWindow.clear();
 	_STATE = _FightReturnSTATE;
+}
+
+bool SYDEMapGame::fexists(const char * filename)
+{
+	ifstream ifile(filename);
+	return ifile.good();
 }
 
 vector<string> SYDEMapGame::Split(string a_String, char splitter)
@@ -1412,6 +1428,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			AssignState(std::bind(&SYDEMapGame::Almon_Wharf, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 #pragma endregion
+#pragma region Dungeons
 		//DUNGEONS
 		else if (_STATE == "Dragon Keep")
 		{
@@ -1431,6 +1448,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		{
 			AssignState(std::bind(&SYDEMapGame::Text_Adventure_Dungeon, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+#pragma endregion
 		//ETC
 		else if (_STATE == "Customize")
 		{
@@ -1671,8 +1689,14 @@ ConsoleWindow SYDEMapGame::Main_Menu(ConsoleWindow window, int windowWidth, int 
 		if (_Options.getSelected().m_Label == "0")
 		{
 			//LOAD SAVE
-			loadSave();
-			_STATE = "MainMap";
+			if (!fexists("EngineFiles\\Settings\\MOTS_SaveFile.sc"))
+			{
+				MOTSDefaults::DebugLogs.push_back("Save File Not Found");				
+			}
+			else {
+				loadSave();
+				_STATE = "MainMap";
+			}
 		}
 		else if (_Options.getSelected().m_Label == "1")
 		{
@@ -3617,9 +3641,36 @@ ConsoleWindow SYDEMapGame::Text_Adventure_Dungeon(ConsoleWindow window, int wind
 			_TextWindow.AddFString("");
 		}
 		//GUARD ROOM STUFF
+		else if (_TextAdvOptions.getSelected().m_Label == "Prison_Exit")
+		{
+			//EXIT FOR NOW
+			_STATE = "The Retroist";
+			camera_Pos = Vector2(1860, 426);
+		}
+		else if (_TextAdvOptions.getSelected().m_Label == "Break_Room")
+		{
+			_TextWindow.AddFString("This Feature Hasn't Been Added Into The");
+			_TextWindow.AddFString("Game As Of Yet. Please Exit The Prison");
+			_TextWindow.AddFString("As Soon As You Can");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+		}
+		else if (_TextAdvOptions.getSelected().m_Label == "Cell_Block")
+		{
+			_TextWindow.AddFString("This Feature Hasn't Been Added Into The");
+			_TextWindow.AddFString("Game As Of Yet. Please Exit The Prison");
+			_TextWindow.AddFString("As Soon As You Can");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+			_TextWindow.AddFString("");
+		}
 		else if (_TextAdvOptions.getSelected().m_Label == "---")
 		{
-			
 		}
 	}
 	for (int i = 0; i < 8; i++)
