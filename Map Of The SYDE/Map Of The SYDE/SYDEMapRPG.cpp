@@ -960,20 +960,20 @@ SYDEMapGame::SYDEMapGame()
 		}
 	}
 	//North Muric Coast
-	//for (int ii = 143; ii < 147; ii++)
-	//{
-	//	for (int i = 292; i < 364; i+=2)
-	//	{
-	//		int wfc = getColourFromLevel(Vector2(i, ii));
-	//		if (wfc == 224 || wfc == 238)
-	//		{
-	//			string wfs = getRandomFromList(NORTH_MURIC_BEACH_WILD);
-	//			int lvlEnemy = (std::rand() % (north_muric_beach_max_level - north_muric_beach_min_level)) + north_muric_beach_min_level;
-	//			AddAttachmentWildFight(Vector2(i, ii), wfs, wfc, lvlEnemy); // NEED TO DO TWICE
-	//			AddAttachmentWildFight(Vector2(i + 1, ii), wfs, wfc);
-	//		}
-	//	}
-	//}
+	for (int ii = 143; ii < 147; ii++)
+	{
+		for (int i = 292; i < 386; i += 2)
+		{
+			int wfc = getColourFromLevel(Vector2(i, ii));
+			if (wfc == 224)
+			{
+				string wfs = getRandomFromList(NORTH_MURIC_BEACH_WILD);
+				int lvlEnemy = (std::rand() % (north_muric_beach_max_level - north_muric_beach_min_level)) + north_muric_beach_min_level;
+				AddAttachmentWildFight(Vector2(i, ii), wfs, wfc, lvlEnemy); // NEED TO DO TWICE
+				AddAttachmentWildFight(Vector2(i + 1, ii), wfs, wfc);
+			}
+		}
+	}
 
 	//ENEMY CODE, ADD WHEN ENEMIES MADE, MAKE DIFFERENT FROM ALMON ISLAND
 	for (int ii = 285; ii < 306; ii++)
@@ -3903,6 +3903,9 @@ int SYDEMapGame::getColourFromLevel(Vector2 point)
 	int wf_colour = _LevelAsset.getColourAtPoint(point);
 	switch (wf_colour)
 	{
+	case 16:
+		wf_colour = 16;
+		break;
 	case 32:
 		wf_colour = 32;
 		break;
@@ -3914,8 +3917,9 @@ int SYDEMapGame::getColourFromLevel(Vector2 point)
 		break;
 	case 238:
 		wf_colour = 224;
+		break;
 	default:
-		wf_colour = 224;
+		wf_colour = 16;
 		break;
 	}
 
