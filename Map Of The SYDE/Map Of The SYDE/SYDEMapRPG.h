@@ -44,6 +44,8 @@ public:
 	ConsoleWindow HarmlessPig_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Wolf_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow RED_DRAGON_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Crab_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Smoking_Crab_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//Jonestown//Repaired Coast
 	ConsoleWindow Jonestown_Hall(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -99,7 +101,7 @@ public:
 	ConsoleWindow Cyprux_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//OTHER
-	ConsoleWindow Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _EnemAnim, int _run, bool& enemyAttk);
+	ConsoleWindow Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _EnemAnim, int _run, bool& enemyAttk, bool bg_needed);
 	ConsoleWindow DragonKeepBoss_Header(ConsoleWindow window, int windowWidth, int windowHeight, bool& enemyAttk);
 	ConsoleWindow Wharf_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _NPCAnim);
 
@@ -181,6 +183,7 @@ private:
 	Vector2 _WarpPOS = Vector2(0);
 
 	CustomAsset m_bg;
+	CustomAsset m_crab_bg;
 	CustomAsset _LevelAsset;
 	CustomAsset _DragonKeepAsset;
 
@@ -227,8 +230,12 @@ private:
 	CustomAnimationAsset m_ORC;
 	CustomAnimationAsset m_PIG; // PLACHOLDER USED ATM
 	CustomAnimationAsset m_WOLF; // PLACHOLDER USED ATM
+	CustomAnimationAsset m_CRAB;
+	CustomAnimationAsset m_FLAME_SKULL;
+	CustomAnimationAsset m_BLOOD_GHOST;
 
 	CustomAnimationAsset m_RED_DRAGON; // PLACHOLDER USED ATM
+	CustomAnimationAsset m_SMOKING_CRAB;
 
 	//NPC
 	CustomAnimationAsset m_PLACEHOLDER;

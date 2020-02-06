@@ -561,6 +561,7 @@ SYDEMapGame::SYDEMapGame()
 	_list_structures = vector<Structure>();
 	_list_structures_dragon_keep = vector<Structure>();
 	m_bg = CustomAsset(60, 30, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\bg.bmp", 30, 30));
+	m_crab_bg = CustomAsset(46, 23, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\crab_bg.bmp", 23, 23));
 	_LevelAsset = CustomAsset(2048, 768, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Level_SYDE.bmp", 1024, 768));
 	_DragonKeepAsset = CustomAsset(200, 100, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Swan Lake Dungeon.bmp", 100, 100));
 
@@ -1116,6 +1117,8 @@ SYDEMapGame::SYDEMapGame()
 		_TextAdvOptions[i].setHighLight(RED);
 	}
 #pragma endregion
+#pragma region Animations
+
 
 	//ENEMY ANIMATIONS
 	m_ORC.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\UIAnimations\\TestEnemy.bmp", astVars, 100, 30, 10, 10, 0, 27));
@@ -1126,6 +1129,15 @@ SYDEMapGame::SYDEMapGame()
 
 	m_WOLF.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\Wolf.bmp", astVars, 50, 40, 10, 10, 0, 16));
 	m_WOLF.setLooping(true);
+
+	m_CRAB.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\CrabAnimation.bmp", astVars, 40, 30, 10, 10, 0, 11));
+	m_CRAB.setLooping(true);
+
+	m_BLOOD_GHOST.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\BloodGhost.bmp", astVars, 50, 110, 10, 10, 0, 55));
+	m_BLOOD_GHOST.setLooping(true);
+
+	m_FLAME_SKULL.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\FlamingSkull.bmp", astVars, 40, 70, 10, 10, 0, 27));
+	m_FLAME_SKULL.setLooping(true);
 
 	//CUTSCENES
 	m_SAIL.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\SailingAnimation.bmp", astVars, 160, 20, 20, 20, 0, 8));
@@ -1144,6 +1156,11 @@ SYDEMapGame::SYDEMapGame()
 	m_RED_DRAGON.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\DragonAnimation.bmp", astVars, 150, 30, 15, 10, 0, 30));
 	m_RED_DRAGON.setLooping(true);
 
+	m_SMOKING_CRAB.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\CrabAnimationSmoking.bmp", astVars, 40, 130, 10, 10, 0, 51));
+	m_SMOKING_CRAB.setLooping(true);
+
+
+#pragma endregion
 	loadDefaults();
 }
 
@@ -1227,6 +1244,27 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			setUpFight();
 			//window = Orc_Fight(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Pig_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "CRAB_FIGHT")
+		{
+			enemy_Damage = 1.35f;
+			enemy_exp_gained = 35 * (enemy_lvl);
+			enemy_Health = 30 * (enemy_lvl);
+
+			setUpFight();
+			//window = Orc_Fight(window, windowWidth, windowHeight);
+			AssignState(std::bind(&SYDEMapGame::Crab_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "SMOKING_CRAB_FIGHT")
+		{
+			enemy_Damage = 35;
+			enemy_exp_gained = 50000;
+			enemy_Health = 10120;
+			enemy_lvl = 75;
+
+			setUpFight();
+			//window = Orc_Fight(window, windowWidth, windowHeight);
+			AssignState(std::bind(&SYDEMapGame::Smoking_Crab_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Harmless Pig")
 		{
@@ -1694,8 +1732,8 @@ ConsoleWindow SYDEMapGame::Main_Menu(ConsoleWindow window, int windowWidth, int 
 				MOTSDefaults::DebugLogs.push_back("Save File Not Found");				
 			}
 			else {
-				loadSave();
 				_STATE = "MainMap";
+				loadSave();
 			}
 		}
 		else if (_Options.getSelected().m_Label == "1")
@@ -1936,7 +1974,7 @@ ConsoleWindow SYDEMapGame::Building_Test(ConsoleWindow window, int windowWidth, 
 ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_ORC, enemy_run_chance, enemy_attack);
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_ORC, enemy_run_chance, enemy_attack, true);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
 		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
@@ -1977,7 +2015,7 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_PIG, enemy_run_chance, enemy_attack);
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_PIG, enemy_run_chance, enemy_attack, true);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
 		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
@@ -2018,7 +2056,7 @@ ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int 
 ConsoleWindow SYDEMapGame::HarmlessPig_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_PIG, enemy_run_chance, enemy_attack);
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_PIG, enemy_run_chance, enemy_attack, true);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
 		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
@@ -2063,7 +2101,7 @@ ConsoleWindow SYDEMapGame::HarmlessPig_Fight(ConsoleWindow window, int windowWid
 ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_WOLF, enemy_run_chance, enemy_attack);
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_WOLF, enemy_run_chance, enemy_attack, true);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
 		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
@@ -2133,6 +2171,90 @@ ConsoleWindow SYDEMapGame::RED_DRAGON_Fight(ConsoleWindow window, int windowWidt
 		int dmgAppliedOrc = enemy_Damage * 4.5f;
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Dragon Used Bite");
+		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
+	if (player.getHealth() <= 0)
+	{
+		_FWindow.clear();
+		player.setHealth(1);
+		_STATE = "MainMenu";
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Crab_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	bool enemy_attack = false;
+	window = m_crab_bg.draw_asset(window,Vector2(0));
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_CRAB, enemy_run_chance, enemy_attack, false);
+	if (_MoveOptions.getActive() && _FightOptions.getActive())
+	{
+		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
+	}
+	else if (_MoveOptions.getActive())
+	{
+		window = _MoveOptions.draw_menu(window);
+		fightBody(enemy_Health, enemy_attack, 3, 2.5f, 0.15f, 2.5f);
+	}
+
+	if (enemy_Health <= 0)
+	{
+		enemy_dead();
+		enemy_attack = false;
+	}
+	if (enemy_attack)
+	{
+		int dmgAppliedOrc = enemy_Damage * 2.2f;
+		player.setHealth(player.getHealth() - dmgAppliedOrc);
+		_FWindow.AddFString("Crab Used Claw Attack");
+		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
+	if (player.getHealth() <= 0)
+	{
+		_FWindow.clear();
+		player.setHealth(1);
+		_STATE = "MainMenu";
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Smoking_Crab_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	bool enemy_attack = false;
+	window = m_crab_bg.draw_asset(window, Vector2(0));
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_SMOKING_CRAB, enemy_run_chance, enemy_attack, false);
+	if (_MoveOptions.getActive() && _FightOptions.getActive())
+	{
+		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
+	}
+	else if (_MoveOptions.getActive())
+	{
+		window = _MoveOptions.draw_menu(window);
+		fightBody(enemy_Health, enemy_attack, 2.5f, 0.2f, 0.05f, 1.5f);
+	}
+
+	if (enemy_Health <= 0)
+	{
+		enemy_dead();
+		enemy_attack = false;
+	}
+	if (enemy_attack)
+	{
+		int dmgAppliedOrc = enemy_Damage * 2;
+		player.setHealth(player.getHealth() - dmgAppliedOrc);
+		_FWindow.AddFString("Crab Used Smoke");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
 
 	}
@@ -3191,13 +3313,16 @@ ConsoleWindow SYDEMapGame::Island_Fitters(ConsoleWindow window, int windowWidth,
 
 #pragma region Headers
 
-ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _EnemAnim, int _run, bool& enemyAttk)
+ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, int windowHeight, string _Name, CustomAnimationAsset& _EnemAnim, int _run, bool& enemyAttk, bool bg_needed)
 {
-	for (int l = 0; l < windowWidth; l++)
+	if (bg_needed)
 	{
-		for (int m = 0; m < windowHeight; m++)
+		for (int l = 0; l < windowWidth; l++)
 		{
-			window.setTextAtPoint(Vector2(l, m), " ", BLACK);
+			for (int m = 0; m < windowHeight; m++)
+			{
+				window.setTextAtPoint(Vector2(l, m), " ", BLACK);
+			}
 		}
 	}
 	window.setTextAtPoint(Vector2(0, 1), _STATE, BLACK_WHITE_BG);
