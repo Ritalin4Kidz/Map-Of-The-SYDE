@@ -294,6 +294,12 @@ private:
 	int west_syde_min_level = 2;
 	int west_syde_max_level = 5;
 
+	vector<string> NORTH_MURIC_BEACH_WILD = {
+		"CRAB_FIGHT"
+	};
+	int north_muric_beach_min_level = 1;
+	int north_muric_beach_max_level = 4;
+
 	vector<string> DRAGON_KEEP_WILD = {
 	"ORC_FIGHT",
 	};

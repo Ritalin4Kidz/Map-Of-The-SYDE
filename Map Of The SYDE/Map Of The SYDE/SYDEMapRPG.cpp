@@ -959,6 +959,21 @@ SYDEMapGame::SYDEMapGame()
 			}
 		}
 	}
+	//North Muric Coast
+	//for (int ii = 143; ii < 147; ii++)
+	//{
+	//	for (int i = 292; i < 364; i+=2)
+	//	{
+	//		int wfc = getColourFromLevel(Vector2(i, ii));
+	//		if (wfc == 224 || wfc == 238)
+	//		{
+	//			string wfs = getRandomFromList(NORTH_MURIC_BEACH_WILD);
+	//			int lvlEnemy = (std::rand() % (north_muric_beach_max_level - north_muric_beach_min_level)) + north_muric_beach_min_level;
+	//			AddAttachmentWildFight(Vector2(i, ii), wfs, wfc, lvlEnemy); // NEED TO DO TWICE
+	//			AddAttachmentWildFight(Vector2(i + 1, ii), wfs, wfc);
+	//		}
+	//	}
+	//}
 
 	//ENEMY CODE, ADD WHEN ENEMIES MADE, MAKE DIFFERENT FROM ALMON ISLAND
 	for (int ii = 285; ii < 306; ii++)
@@ -1821,7 +1836,9 @@ ConsoleWindow SYDEMapGame::Player_Stats(ConsoleWindow window, int windowWidth, i
 		else if (_MenuOptions.getSelected().m_Label == "1")
 		{
 			//SAVE STATE
+			_STATE = _MenuReturnSTATE;
 			saveGame();
+			_STATE = "Player_Stats";
 		}
 		else if (_MenuOptions.getSelected().m_Label == "2")
 		{
