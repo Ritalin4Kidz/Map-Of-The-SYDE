@@ -27,6 +27,8 @@ public:
 	void sleepAt(string a_STATE) { _STATERest = a_STATE; _STATE = "Resting"; m_NIGHT_TO_DAY.setFrame(0); }
 	ConsoleWindow Warp(ConsoleWindow window, int windowWidth, int windowHeight);
 	void setWarp(string a_STATE, CustomAsset _Level, Vector2 pos) { _STATEWarp = a_STATE; _STATE = "Warp"; m_DunegonWarp.setFrame(0); _levelWarp = _Level; _WarpPOS = pos; }
+	ConsoleWindow Animation_UI_EVENT(ConsoleWindow window, CustomAnimationAsset& _anim);
+	void setAnimation_UI_EVENT(CustomAnimationAsset _Anim) { m_MoveAnimation = _Anim; m_MoveAnimation.setFrame(0); UI_STATE_EVENT = true; }
 
 	//MAIN
 	ConsoleWindow Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -167,6 +169,7 @@ public:
 	}
 
 private:
+#pragma region state
 	string _STATE = "MainMenu";
 	string _CurentSTATE = "MainMenu";
 	string _MenuReturnSTATE = "MainMap";
@@ -182,6 +185,9 @@ private:
 	string _STATEWarp = "Dragon Keep";
 	CustomAsset _levelWarp = CustomAsset();
 	Vector2 _WarpPOS = Vector2(0);
+
+	bool UI_STATE_EVENT = false;
+#pragma endregion
 
 	CustomAsset m_bg;
 	CustomAsset m_crab_bg;
@@ -226,6 +232,11 @@ private:
 	CustomAnimationAsset m_SAIL; // PLACHOLDER USED ATM
 	CustomAnimationAsset m_NIGHT_TO_DAY;
 	CustomAnimationAsset m_DunegonWarp;
+
+	//MOVES
+	CustomAnimationAsset m_MoveAnimation;
+	vector<CustomAnimationAsset> m_Moves;
+
 
 	//ENEMY ANIMATIONS
 	CustomAnimationAsset m_ORC;
@@ -277,7 +288,7 @@ private:
 		BRIGHTRED, 
 		BRIGHTWHITE
 	};
-	//WILD AREAS
+#pragma region WILD AREAS
 	vector<string> Toplefia_WILD = {
 		"PIG_FIGHT",
 	};
@@ -311,6 +322,8 @@ private:
 	};
 	int dragon_keep_min_level = 35;
 	int dragon_keep_max_level = 43;
+
+#pragma endregion
 
 	//STANDARD BUILDING
 	SYDEMenu _StructOptions;

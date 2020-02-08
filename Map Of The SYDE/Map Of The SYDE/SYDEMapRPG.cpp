@@ -488,7 +488,10 @@ void SYDEMapGame::enemy_dead()
 	player.setXP(player.getXP() + enemy_exp_gained);
 	lvlUP();
 	_FWindow.clear();
-	_STATE = _FightReturnSTATE;
+	if (!UI_STATE_EVENT)
+	{
+		_STATE = _FightReturnSTATE;
+	}
 }
 
 bool SYDEMapGame::fexists(const char * filename)
@@ -1169,6 +1172,13 @@ SYDEMapGame::SYDEMapGame()
 	m_FLAME_SKULL.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\FlamingSkull.bmp", astVars, 40, 70, 10, 10, 0, 27));
 	m_FLAME_SKULL.setLooping(true);
 
+	m_Moves = vector<CustomAnimationAsset>{
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SwordAnimation.bmp", astVars, 100, 100, 20, 20, 0, 25),
+	};
+
+	m_MoveAnimation = m_Moves[0];
+	m_MoveAnimation.setLooping(false);
+
 	//FISHIES
 	m_Fishies = vector<CustomAnimationAsset>{
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\BlueFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
@@ -1590,6 +1600,11 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		}
 	}
 	window = DoState(window,windowWidth,windowHeight);
+
+	//IF UI EVENT
+	if (UI_STATE_EVENT) {
+		window = Animation_UI_EVENT(window, m_MoveAnimation);
+	}
 	return window;
 }
 #pragma region Cutscenes
@@ -1630,6 +1645,16 @@ ConsoleWindow SYDEMapGame::Warp(ConsoleWindow window, int windowWidth, int windo
 		_STATE = _STATEWarp;
 	}
 	window = m_DunegonWarp.draw_asset(window, Vector2(0, 0));
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Animation_UI_EVENT(ConsoleWindow window, CustomAnimationAsset & _anim)
+{
+	window = _anim.draw_asset(window, Vector2(0));
+	if (_anim.getFrame() == _anim.getFrameSize() - 1)
+	{
+		UI_STATE_EVENT = false;
+	}
 	return window;
 }
 
@@ -3465,7 +3490,7 @@ ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, i
 
 	window.setTextAtPoint(Vector2(20, 11), "Health:" + std::to_string(enemy_Health) + ",LVL:" + std::to_string(enemy_lvl), BLACK_WHITE_BG);
 
-	if (_FightOptions.getActive())
+	if (_FightOptions.getActive() && !UI_STATE_EVENT)
 	{
 		window = _FightOptions.draw_menu(window);
 		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
@@ -3564,6 +3589,10 @@ ConsoleWindow SYDEMapGame::Wharf_Header(ConsoleWindow window, int windowWidth, i
 
 void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMulti, float fireMulti, float waterMulti, float grassMulti)
 {
+	if (UI_STATE_EVENT)
+	{
+		return;
+	}
 	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_MoveOptions.nextSelect();
@@ -3578,6 +3607,7 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 			_FWindow.AddFString("Player Used Sword");
 			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
 			enemy_attack = true;
+			setAnimation_UI_EVENT(m_Moves[0]); // SWORD ANIMATION
 		}
 		else if (_MoveOptions.getSelected().m_Label == "1")
 		{
