@@ -2312,8 +2312,7 @@ ConsoleWindow SYDEMapGame::Crab_Fight(ConsoleWindow window, int windowWidth, int
 ConsoleWindow SYDEMapGame::Fish_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	bool enemy_attack = false;
-	window = m_crab_bg.draw_asset(window, Vector2(0));
-	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_FISH, enemy_run_chance, enemy_attack, false);
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_FISH, enemy_run_chance, enemy_attack, true);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
 		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
