@@ -975,6 +975,21 @@ SYDEMapGame::SYDEMapGame()
 		}
 	}
 
+	for (int ii = 38; ii < 51; ii++)
+	{
+		for (int i = 546; i < 598; i += 2)
+		{
+			int wfc = getColourFromLevel(Vector2(i, ii));
+			if (wfc == 224)
+			{
+				string wfs = getRandomFromList(NORTH_MURIC_BEACH_WILD); //BEACH ENEMIES
+				int lvlEnemy = (std::rand() % (17 - 14)) + 14; // BETWEEN LVL 14-17
+				AddAttachmentWildFight(Vector2(i, ii), wfs, wfc, lvlEnemy); // NEED TO DO TWICE
+				AddAttachmentWildFight(Vector2(i + 1, ii), wfs, wfc);
+			}
+		}
+	}
+
 	//ENEMY CODE, ADD WHEN ENEMIES MADE, MAKE DIFFERENT FROM ALMON ISLAND
 	for (int ii = 285; ii < 306; ii++)
 	{
@@ -1235,41 +1250,41 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			int random_var = std::rand() % 100;
 			if (random_var >= 0 && random_var < 21)
 			{
-				enemy_Damage = 1.0f;
+				enemy_Damage = 1.0f * enemy_lvl;
 				enemy_exp_gained = 25 * (enemy_lvl);
 				enemy_Health = 15 * (enemy_lvl);
 				m_FISH = m_Fishies[0];
 			}
 			else if (random_var >= 21 && random_var < 40)
 			{
-				enemy_Damage = 3.0f;
+				enemy_Damage = 3.0f * enemy_lvl;
 				enemy_exp_gained = 25 * (enemy_lvl);
 				enemy_Health = 5 * (enemy_lvl);
 				m_FISH = m_Fishies[1];
 			}
 			else if (random_var >= 40 && random_var < 55)
 			{
-				enemy_Damage = 1.10f;
+				enemy_Damage = 1.10f * enemy_lvl;
 				enemy_exp_gained = 45 * (enemy_lvl);
 				enemy_Health = 35 * (enemy_lvl);
 				m_FISH = m_Fishies[2];
 			}
 			else if (random_var >= 55 && random_var < 75)
 			{
-				enemy_Damage = 0.75f;
+				enemy_Damage = 0.75f * enemy_lvl;
 				enemy_exp_gained = 25 * (enemy_lvl);
 				enemy_Health = 45 * (enemy_lvl);
 				m_FISH = m_Fishies[3];
 			}
 			else if (random_var >= 75 && random_var < 99)
 			{
-				enemy_Damage = 0.5f;
+				enemy_Damage = 0.5f * enemy_lvl;
 				enemy_exp_gained = 3 * (enemy_lvl);
 				enemy_Health = 15 * (enemy_lvl);
 				m_FISH = m_Fishies[4];
 			}
 			else {
-				enemy_Damage = 5.0f;
+				enemy_Damage = 5.0f * enemy_lvl;
 				enemy_exp_gained = 125 * (enemy_lvl);
 				enemy_Health = 25 * (enemy_lvl);
 				m_FISH = m_Fishies[5];
@@ -1324,7 +1339,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		}
 		else if (_STATE == "CRAB_FIGHT")
 		{
-			enemy_Damage = 1.35f;
+			enemy_Damage = 1.35f * enemy_lvl;
 			enemy_exp_gained = 35 * (enemy_lvl);
 			enemy_Health = 30 * (enemy_lvl);
 
