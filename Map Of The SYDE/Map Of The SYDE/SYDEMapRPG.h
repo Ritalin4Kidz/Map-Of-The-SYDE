@@ -45,6 +45,7 @@ public:
 	ConsoleWindow Wolf_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow RED_DRAGON_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Crab_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Fish_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Smoking_Crab_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//Jonestown//Repaired Coast
@@ -231,6 +232,10 @@ private:
 	CustomAnimationAsset m_PIG; // PLACHOLDER USED ATM
 	CustomAnimationAsset m_WOLF; // PLACHOLDER USED ATM
 	CustomAnimationAsset m_CRAB;
+	CustomAnimationAsset m_FISH;
+
+	vector<CustomAnimationAsset> m_Fishies;
+
 	CustomAnimationAsset m_FLAME_SKULL;
 	CustomAnimationAsset m_BLOOD_GHOST;
 
@@ -295,7 +300,8 @@ private:
 	int west_syde_max_level = 5;
 
 	vector<string> NORTH_MURIC_BEACH_WILD = {
-		"CRAB_FIGHT"
+		"CRAB_FIGHT",
+		"FISH_FIGHT"
 	};
 	int north_muric_beach_min_level = 1;
 	int north_muric_beach_max_level = 4;

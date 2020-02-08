@@ -1154,6 +1154,17 @@ SYDEMapGame::SYDEMapGame()
 	m_FLAME_SKULL.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\FlamingSkull.bmp", astVars, 40, 70, 10, 10, 0, 27));
 	m_FLAME_SKULL.setLooping(true);
 
+	//FISHIES
+	m_Fishies = vector<CustomAnimationAsset>{
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\BlueFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\RedFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\YellowFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\GreenFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\PurpleFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\GhostFish.bmp", astVars, 40, 100, 10, 10, 0, 39)
+	};
+	m_FISH = m_Fishies[0];
+	m_FISH.setLooping(true);
 	//CUTSCENES
 	m_SAIL.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\SailingAnimation.bmp", astVars, 160, 20, 20, 20, 0, 8));
 	m_SAIL.setLooping(true);
@@ -1217,6 +1228,57 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			//window = Main_Menu(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Player_Stats, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+#pragma region FishFight
+		else if (_STATE == "FISH_FIGHT")
+		{
+			//RANDOMIZE WHATEVER FISH COLOUR WE FIGHT
+			int random_var = std::rand() % 100;
+			if (random_var >= 0 && random_var < 21)
+			{
+				enemy_Damage = 1.0f;
+				enemy_exp_gained = 25 * (enemy_lvl);
+				enemy_Health = 15 * (enemy_lvl);
+				m_FISH = m_Fishies[0];
+			}
+			else if (random_var >= 21 && random_var < 40)
+			{
+				enemy_Damage = 3.0f;
+				enemy_exp_gained = 25 * (enemy_lvl);
+				enemy_Health = 5 * (enemy_lvl);
+				m_FISH = m_Fishies[1];
+			}
+			else if (random_var >= 40 && random_var < 55)
+			{
+				enemy_Damage = 1.10f;
+				enemy_exp_gained = 45 * (enemy_lvl);
+				enemy_Health = 35 * (enemy_lvl);
+				m_FISH = m_Fishies[2];
+			}
+			else if (random_var >= 55 && random_var < 75)
+			{
+				enemy_Damage = 0.75f;
+				enemy_exp_gained = 25 * (enemy_lvl);
+				enemy_Health = 45 * (enemy_lvl);
+				m_FISH = m_Fishies[3];
+			}
+			else if (random_var >= 75 && random_var < 99)
+			{
+				enemy_Damage = 0.5f;
+				enemy_exp_gained = 3 * (enemy_lvl);
+				enemy_Health = 15 * (enemy_lvl);
+				m_FISH = m_Fishies[4];
+			}
+			else {
+				enemy_Damage = 5.0f;
+				enemy_exp_gained = 125 * (enemy_lvl);
+				enemy_Health = 25 * (enemy_lvl);
+				m_FISH = m_Fishies[5];
+			}
+			setUpFight();
+			//window = Orc_Fight(window, windowWidth, windowHeight);
+			AssignState(std::bind(&SYDEMapGame::Fish_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+#pragma endregion
 #pragma region Fights
 
 		else if (_STATE == "ORC_TEST")
@@ -2230,6 +2292,48 @@ ConsoleWindow SYDEMapGame::Crab_Fight(ConsoleWindow window, int windowWidth, int
 		int dmgAppliedOrc = enemy_Damage * 2.2f;
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Crab Used Claw Attack");
+		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
+	if (player.getHealth() <= 0)
+	{
+		_FWindow.clear();
+		player.setHealth(1);
+		_STATE = "MainMenu";
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Fish_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	bool enemy_attack = false;
+	window = m_crab_bg.draw_asset(window, Vector2(0));
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_FISH, enemy_run_chance, enemy_attack, false);
+	if (_MoveOptions.getActive() && _FightOptions.getActive())
+	{
+		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
+	}
+	else if (_MoveOptions.getActive())
+	{
+		window = _MoveOptions.draw_menu(window);
+		fightBody(enemy_Health, enemy_attack, 3, 0.25f, 0.15f, 5.5f);
+	}
+
+	if (enemy_Health <= 0)
+	{
+		enemy_dead();
+		enemy_attack = false;
+	}
+	if (enemy_attack)
+	{
+		int dmgAppliedOrc = enemy_Damage * 3.2f;
+		player.setHealth(player.getHealth() - dmgAppliedOrc);
+		_FWindow.AddFString("Fish Used Swarm");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
 
 	}
