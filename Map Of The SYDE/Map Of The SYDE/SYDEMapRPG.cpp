@@ -1178,6 +1178,10 @@ SYDEMapGame::SYDEMapGame()
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\CrabAttack.bmp", astVars, 100, 100, 20, 20, 0, 25),
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SwarmAttack.bmp", astVars, 100, 240, 20, 20, 0, 57),
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\BiteAttack.bmp", astVars, 100, 60, 20, 20, 0, 15),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\WaveAttack.bmp", astVars, 60, 140, 20, 20, 0, 20), //4
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\GrassAttack.bmp", astVars, 100, 100, 20, 20, 0, 25), //5
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\Fireball.bmp", astVars, 100, 160, 20, 20, 0, 39), //6
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\MoneySpell.bmp", astVars, 100, 160, 20, 20, 0, 39), //7
 	};
 
 	m_MoveAnimation = m_Moves[0];
@@ -3626,6 +3630,7 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 			_FWindow.AddFString("Player Used Fire");
 			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
 			enemy_attack = true;
+			setAnimation_UI_EVENT(m_Moves[6]); // FIRE ANIMATION
 		}
 		else if (_MoveOptions.getSelected().m_Label == "2")
 		{
@@ -3634,6 +3639,7 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 			_FWindow.AddFString("Player Used Water");
 			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
 			enemy_attack = true;
+			setAnimation_UI_EVENT(m_Moves[4]); // WATER ANIMATION
 		}
 		else if (_MoveOptions.getSelected().m_Label == "3")
 		{
@@ -3642,6 +3648,7 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 			_FWindow.AddFString("Player Used Grass");
 			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
 			enemy_attack = true;
+			setAnimation_UI_EVENT(m_Moves[5]); // GRASS ANIMATION
 		}
 		else if (_MoveOptions.getSelected().m_Label == "4")
 		{
@@ -3654,6 +3661,7 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 			_FWindow.AddFString("Player Gained $" + to_string(coinsGained));
 			player.addMoney(coinsGained);
 			enemy_attack = true;
+			setAnimation_UI_EVENT(m_Moves[7]); // MONEY ANIMATION
 		}
 		else if (_MoveOptions.getSelected().m_Label == "5")
 		{
