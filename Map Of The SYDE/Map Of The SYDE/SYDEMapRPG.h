@@ -218,6 +218,7 @@ private:
 	int enemy_exp_gained = 50;
 	int enemy_lvl = 1;
 	int enemy_run_chance = 100;
+	bool enemy_attack = false;
 
 	//MENUS
 	SYDEMenu _Options;

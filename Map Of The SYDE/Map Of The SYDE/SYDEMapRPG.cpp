@@ -90,6 +90,7 @@ void SYDEMapGame::setUpFight()
 		_MoveOptions[i].setHighLight(RED);
 	}
 	_FightOptions.setActive(true);
+	enemy_attack = false;
 }
 
 void SYDEMapGame::setUpWeaponShop(WeaponStore _store)
@@ -1174,6 +1175,9 @@ SYDEMapGame::SYDEMapGame()
 
 	m_Moves = vector<CustomAnimationAsset>{
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SwordAnimation.bmp", astVars, 100, 100, 20, 20, 0, 25),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\CrabAttack.bmp", astVars, 100, 100, 20, 20, 0, 25),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SwarmAttack.bmp", astVars, 100, 240, 20, 20, 0, 57),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\BiteAttack.bmp", astVars, 100, 60, 20, 20, 0, 15),
 	};
 
 	m_MoveAnimation = m_Moves[0];
@@ -2092,7 +2096,7 @@ ConsoleWindow SYDEMapGame::Building_Test(ConsoleWindow window, int windowWidth, 
 
 ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	bool enemy_attack = false;
+	//bool enemy_attack = false;
 	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_ORC, enemy_run_chance, enemy_attack, true);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
@@ -2109,13 +2113,13 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 		enemy_dead();
 		enemy_attack = false;
 	}
-	if (enemy_attack)
+	if (enemy_attack && !UI_STATE_EVENT)
 	{
 		int dmgAppliedOrc = enemy_Damage * 2;
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Orc Used Club");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
-
+		enemy_attack = false;
 	}
 	for (int i = 0; i < 8; i++)
 	{
@@ -2133,7 +2137,7 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 
 ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	bool enemy_attack = false;
+	//bool enemy_attack = false;
 	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_PIG, enemy_run_chance, enemy_attack, true);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
@@ -2150,13 +2154,13 @@ ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int 
 		enemy_dead();
 		enemy_attack = false;
 	}
-	if (enemy_attack)
+	if (enemy_attack && !UI_STATE_EVENT)
 	{
 		int dmgAppliedOrc = enemy_Damage * 2;
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Pig Used Mud Throw");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
-
+		enemy_attack = false;
 	}
 	for (int i = 0; i < 8; i++)
 	{
@@ -2174,7 +2178,7 @@ ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int 
 
 ConsoleWindow SYDEMapGame::HarmlessPig_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	bool enemy_attack = false;
+	//bool enemy_attack = false;
 	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_PIG, enemy_run_chance, enemy_attack, true);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
@@ -2195,13 +2199,13 @@ ConsoleWindow SYDEMapGame::HarmlessPig_Fight(ConsoleWindow window, int windowWid
 		}
 		enemy_attack = false;
 	}
-	if (enemy_attack)
+	if (enemy_attack && !UI_STATE_EVENT)
 	{
 		int dmgAppliedOrc = enemy_Damage * 2;
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Pig Used Roll Around");
 		_FWindow.AddFString("It Didn't Do A Thing");
-
+		enemy_attack = false;
 	}
 	for (int i = 0; i < 8; i++)
 	{
@@ -2219,7 +2223,7 @@ ConsoleWindow SYDEMapGame::HarmlessPig_Fight(ConsoleWindow window, int windowWid
 
 ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	bool enemy_attack = false;
+	//bool enemy_attack = false;
 	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_WOLF, enemy_run_chance, enemy_attack, true);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
@@ -2236,13 +2240,14 @@ ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int
 		enemy_dead();
 		enemy_attack = false;
 	}
-	if (enemy_attack)
+	if (enemy_attack && !UI_STATE_EVENT)
 	{
 		int dmgAppliedOrc = enemy_Damage * 1.5f;
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Wolf Used Bite");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
-
+		setAnimation_UI_EVENT(m_Moves[3]);
+		enemy_attack = false;
 	}
 	for (int i = 0; i < 8; i++)
 	{
@@ -2260,7 +2265,7 @@ ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int
 
 ConsoleWindow SYDEMapGame::RED_DRAGON_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	bool enemy_attack = false;
+	//bool enemy_attack = false;
 	window = DragonKeepBoss_Header(window, windowWidth, windowHeight, enemy_attack);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
@@ -2285,13 +2290,13 @@ ConsoleWindow SYDEMapGame::RED_DRAGON_Fight(ConsoleWindow window, int windowWidt
 		camera_Pos = Vector2(1522, 259);
 		setSail("Jonestown Wharf");
 	}
-	if (enemy_attack)
+	if (enemy_attack && !UI_STATE_EVENT)
 	{
 		int dmgAppliedOrc = enemy_Damage * 4.5f;
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Dragon Used Bite");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
-
+		enemy_attack = false;
 	}
 	for (int i = 0; i < 8; i++)
 	{
@@ -2309,7 +2314,7 @@ ConsoleWindow SYDEMapGame::RED_DRAGON_Fight(ConsoleWindow window, int windowWidt
 
 ConsoleWindow SYDEMapGame::Crab_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	bool enemy_attack = false;
+	//bool enemy_attack = false;
 	window = m_crab_bg.draw_asset(window,Vector2(0));
 	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_CRAB, enemy_run_chance, enemy_attack, false);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
@@ -2327,12 +2332,14 @@ ConsoleWindow SYDEMapGame::Crab_Fight(ConsoleWindow window, int windowWidth, int
 		enemy_dead();
 		enemy_attack = false;
 	}
-	if (enemy_attack)
+	if (enemy_attack && !UI_STATE_EVENT)
 	{
 		int dmgAppliedOrc = enemy_Damage * 2.2f;
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Crab Used Claw Attack");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+		setAnimation_UI_EVENT(m_Moves[1]);
+		enemy_attack = false;
 
 	}
 	for (int i = 0; i < 8; i++)
@@ -2340,7 +2347,7 @@ ConsoleWindow SYDEMapGame::Crab_Fight(ConsoleWindow window, int windowWidth, int
 		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
 	}
 	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
-	if (player.getHealth() <= 0)
+	if (player.getHealth() <= 0 && !UI_STATE_EVENT)
 	{
 		_FWindow.clear();
 		player.setHealth(1);
@@ -2351,7 +2358,7 @@ ConsoleWindow SYDEMapGame::Crab_Fight(ConsoleWindow window, int windowWidth, int
 
 ConsoleWindow SYDEMapGame::Fish_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	bool enemy_attack = false;
+	//bool enemy_attack = false;
 	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_FISH, enemy_run_chance, enemy_attack, true);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
 	{
@@ -2368,12 +2375,14 @@ ConsoleWindow SYDEMapGame::Fish_Fight(ConsoleWindow window, int windowWidth, int
 		enemy_dead();
 		enemy_attack = false;
 	}
-	if (enemy_attack)
+	if (enemy_attack && !UI_STATE_EVENT)
 	{
 		int dmgAppliedOrc = enemy_Damage * 3.2f;
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Fish Used Swarm");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+		setAnimation_UI_EVENT(m_Moves[2]);
+		enemy_attack = false;
 
 	}
 	for (int i = 0; i < 8; i++)
@@ -2381,7 +2390,7 @@ ConsoleWindow SYDEMapGame::Fish_Fight(ConsoleWindow window, int windowWidth, int
 		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
 	}
 	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
-	if (player.getHealth() <= 0)
+	if (player.getHealth() <= 0 && !UI_STATE_EVENT)
 	{
 		_FWindow.clear();
 		player.setHealth(1);
@@ -2392,7 +2401,7 @@ ConsoleWindow SYDEMapGame::Fish_Fight(ConsoleWindow window, int windowWidth, int
 
 ConsoleWindow SYDEMapGame::Smoking_Crab_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	bool enemy_attack = false;
+	//bool enemy_attack = false;
 	window = m_crab_bg.draw_asset(window, Vector2(0));
 	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_SMOKING_CRAB, enemy_run_chance, enemy_attack, false);
 	if (_MoveOptions.getActive() && _FightOptions.getActive())
@@ -2410,12 +2419,13 @@ ConsoleWindow SYDEMapGame::Smoking_Crab_Fight(ConsoleWindow window, int windowWi
 		enemy_dead();
 		enemy_attack = false;
 	}
-	if (enemy_attack)
+	if (enemy_attack && !UI_STATE_EVENT)
 	{
 		int dmgAppliedOrc = enemy_Damage * 2;
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Crab Used Smoke");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+		enemy_attack = false;
 
 	}
 	for (int i = 0; i < 8; i++)
