@@ -153,7 +153,7 @@ void SYDEMapGame::setUpWeaponShop(WeaponStore _store)
 
 void SYDEMapGame::weaponStoreBody(int storeNo)
 {
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_WeaponsMoreOptions.getSelected().m_Label == "0")
 		{
@@ -1693,7 +1693,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		window.setTextAtPoint(Vector2(0, 19), "'" + getSTRUCT_STATE(camera_Pos) + "' Press Space To Enter", BLACK_WHITE_BG);
 	}
 
-	if (SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN))
 	{
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		int random_variable = std::rand() % 33 + 1;
@@ -1702,17 +1702,17 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 			_STATE = getSTRUCT_STATE(camera_Pos);
 		}
 	}
-	if (SYDEKeyCode::get('I')._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key('I')._CompareState(KEYDOWN))
 	{
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		_STATE = "QUEST_PAGE";
 	}
-	if (SYDEKeyCode::get('T')._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key('T')._CompareState(KEYDOWN))
 	{
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		_PlayerPage();
 	}
-	if (SYDEKeyCode::get('S')._CompareState(KEY))
+	if (SYDEKeyCode::get_key('S')._CompareState(KEY))
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 11)));
 		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
@@ -1739,7 +1739,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 			camera_Pos.addY(1);
 		}
 	}
-	if (SYDEKeyCode::get('D')._CompareState(KEY))
+	if (SYDEKeyCode::get_key('D')._CompareState(KEY))
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(22, 10)));
 		//CASES FOR MOVEMENT NOT ALLOWED
@@ -1766,7 +1766,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 			camera_Pos.addX(2);
 		}
 	}
-	if (SYDEKeyCode::get('W')._CompareState(KEY))
+	if (SYDEKeyCode::get_key('W')._CompareState(KEY))
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 9)));
 		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
@@ -1793,7 +1793,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 			camera_Pos.addY(-1);
 		}
 	}
-	if (SYDEKeyCode::get('A')._CompareState(KEY))
+	if (SYDEKeyCode::get_key('A')._CompareState(KEY))
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(18, 10)));
 		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
@@ -1846,11 +1846,11 @@ ConsoleWindow SYDEMapGame::Main_Menu(ConsoleWindow window, int windowWidth, int 
 		time_passed = 0.0f;
 	}
 	window = _Options.draw_menu(window);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_Options.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_Options.getSelected().m_Label == "0")
 		{
@@ -1887,11 +1887,11 @@ ConsoleWindow SYDEMapGame::Quest(ConsoleWindow window, int windowWidth, int wind
 			window.setTextAtPoint(Vector2(l, m), " ", WHITE_WHITE_BG);
 		}
 	}
-	if (SYDEKeyCode::get('I')._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key('I')._CompareState(KEYDOWN))
 	{
 		_STATE = "MainMap";
 	}
-	if (SYDEKeyCode::get('A')._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key('A')._CompareState(KEYDOWN))
 	{
 		questPage--;
 		if (questPage < 0)
@@ -1899,7 +1899,7 @@ ConsoleWindow SYDEMapGame::Quest(ConsoleWindow window, int windowWidth, int wind
 			questPage = questVec.size() - 1;
 		}
 	}
-	if (SYDEKeyCode::get('D')._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key('D')._CompareState(KEYDOWN))
 	{
 		questPage++;
 		if (questPage > questVec.size() - 1)
@@ -1930,17 +1930,17 @@ ConsoleWindow SYDEMapGame::Player_Stats(ConsoleWindow window, int windowWidth, i
 			window.setTextAtPoint(Vector2(l, m), " ", BLACK_BRIGHTYELLOW_BG);
 		}
 	}
-	if (SYDEKeyCode::get('T')._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key('T')._CompareState(KEYDOWN))
 	{
 		_STATE = _MenuReturnSTATE;
 	}
 
 	window = _MenuOptions.draw_menu(window);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_MenuOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_MenuOptions.getSelected().m_Label == "0")
 		{
@@ -2013,11 +2013,11 @@ ConsoleWindow SYDEMapGame::Player_Customization(ConsoleWindow window, int window
 	window.setTextAtPoint(Vector2(0, 18), "A or D: Change Icon", BLACK_WHITE_BG);
 	window.setTextAtPoint(Vector2(0, 19), "Space: Start Game", BLACK_WHITE_BG);
 	window.setTextAtPoint(Vector2(25, 10), vecIcons[iconNo], window.determineColourAtPoint(Vector2(25, 10), vecIconCol[_ColourOptions.getSelectedNumber()], true));
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_ColourOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get('A')._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key('A')._CompareState(KEYDOWN)))
 	{
 		iconNo--;
 		if (iconNo < 0)
@@ -2025,7 +2025,7 @@ ConsoleWindow SYDEMapGame::Player_Customization(ConsoleWindow window, int window
 			iconNo = vecIcons.size() - 1;
 		}
 	}
-	else if ((SYDEKeyCode::get('D')._CompareState(KEYDOWN)))
+	else if ((SYDEKeyCode::get_key('D')._CompareState(KEYDOWN)))
 	{
 		iconNo++;
 		if (iconNo >= vecIcons.size())
@@ -2033,7 +2033,7 @@ ConsoleWindow SYDEMapGame::Player_Customization(ConsoleWindow window, int window
 			iconNo = 0;
 		}
 	}
-	else if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	else if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		player.setColour(vecIconCol[_ColourOptions.getSelectedNumber()]);
 		player.setIcon(vecIcons[iconNo]);
@@ -2055,11 +2055,11 @@ ConsoleWindow SYDEMapGame::Building_Test(ConsoleWindow window, int windowWidth, 
 	window.setTextAtPoint(Vector2(0, 1), "BUILDING_TEST", BLACK_WHITE_BG);
 
 	window = _StructTestOptions.draw_menu(window);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructTestOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructTestOptions.getSelected().m_Label == "0")
 		{
@@ -2457,11 +2457,11 @@ ConsoleWindow SYDEMapGame::Smoking_Crab_Fight(ConsoleWindow window, int windowWi
 ConsoleWindow SYDEMapGame::Jonestown_Hall(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -2520,11 +2520,11 @@ ConsoleWindow SYDEMapGame::Jonestown_Hall(ConsoleWindow window, int windowWidth,
 ConsoleWindow SYDEMapGame::Jiman_House(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -2597,11 +2597,11 @@ ConsoleWindow SYDEMapGame::Jiman_House(ConsoleWindow window, int windowWidth, in
 ConsoleWindow SYDEMapGame::Retroist(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -2640,11 +2640,11 @@ ConsoleWindow SYDEMapGame::Retroist(ConsoleWindow window, int windowWidth, int w
 ConsoleWindow SYDEMapGame::Jonestown_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -2706,11 +2706,11 @@ ConsoleWindow SYDEMapGame::Jonestown_Wharf(ConsoleWindow window, int windowWidth
 ConsoleWindow SYDEMapGame::SouthBlankis_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -2746,11 +2746,11 @@ ConsoleWindow SYDEMapGame::SouthBlankis_Wharf(ConsoleWindow window, int windowWi
 ConsoleWindow SYDEMapGame::EastBlankis_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -2786,11 +2786,11 @@ ConsoleWindow SYDEMapGame::EastBlankis_Wharf(ConsoleWindow window, int windowWid
 ConsoleWindow SYDEMapGame::Ballistica_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -2826,11 +2826,11 @@ ConsoleWindow SYDEMapGame::Ballistica_Wharf(ConsoleWindow window, int windowWidt
 ConsoleWindow SYDEMapGame::Aliran_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -2866,11 +2866,11 @@ ConsoleWindow SYDEMapGame::Aliran_Wharf(ConsoleWindow window, int windowWidth, i
 ConsoleWindow SYDEMapGame::Repaired_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -2906,11 +2906,11 @@ ConsoleWindow SYDEMapGame::Repaired_Wharf(ConsoleWindow window, int windowWidth,
 ConsoleWindow SYDEMapGame::Taumata_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -2946,11 +2946,11 @@ ConsoleWindow SYDEMapGame::Taumata_Wharf(ConsoleWindow window, int windowWidth, 
 ConsoleWindow SYDEMapGame::CRTCoast_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -2986,11 +2986,11 @@ ConsoleWindow SYDEMapGame::CRTCoast_Wharf(ConsoleWindow window, int windowWidth,
 ConsoleWindow SYDEMapGame::CRTIsland_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -3026,11 +3026,11 @@ ConsoleWindow SYDEMapGame::CRTIsland_Wharf(ConsoleWindow window, int windowWidth
 ConsoleWindow SYDEMapGame::SwanLake_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -3066,11 +3066,11 @@ ConsoleWindow SYDEMapGame::SwanLake_Wharf(ConsoleWindow window, int windowWidth,
 ConsoleWindow SYDEMapGame::NorthSwanLake_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -3106,11 +3106,11 @@ ConsoleWindow SYDEMapGame::NorthSwanLake_Wharf(ConsoleWindow window, int windowW
 ConsoleWindow SYDEMapGame::Dragon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -3146,11 +3146,11 @@ ConsoleWindow SYDEMapGame::Dragon_Wharf(ConsoleWindow window, int windowWidth, i
 ConsoleWindow SYDEMapGame::Almon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -3186,11 +3186,11 @@ ConsoleWindow SYDEMapGame::Almon_Wharf(ConsoleWindow window, int windowWidth, in
 ConsoleWindow SYDEMapGame::Toplefia_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -3226,11 +3226,11 @@ ConsoleWindow SYDEMapGame::Toplefia_Wharf(ConsoleWindow window, int windowWidth,
 ConsoleWindow SYDEMapGame::Toplefia_TownHall(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -3260,11 +3260,11 @@ ConsoleWindow SYDEMapGame::Toplefia_TownHall(ConsoleWindow window, int windowWid
 ConsoleWindow SYDEMapGame::Toplefia_Farm(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -3300,11 +3300,11 @@ ConsoleWindow SYDEMapGame::Toplefia_Farm(ConsoleWindow window, int windowWidth, 
 ConsoleWindow SYDEMapGame::WestSYDE_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -3336,11 +3336,11 @@ ConsoleWindow SYDEMapGame::WestSYDE_Wharf(ConsoleWindow window, int windowWidth,
 ConsoleWindow SYDEMapGame::NorthSYDE_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -3376,11 +3376,11 @@ ConsoleWindow SYDEMapGame::NorthSYDE_Wharf(ConsoleWindow window, int windowWidth
 ConsoleWindow SYDEMapGame::Denton_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -3416,11 +3416,11 @@ ConsoleWindow SYDEMapGame::Denton_Wharf(ConsoleWindow window, int windowWidth, i
 ConsoleWindow SYDEMapGame::Cyprux_Wharf(ConsoleWindow window, int windowWidth, int windowHeight)
 {
 	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_StructOptions.getSelected().m_Label == "0")
 		{
@@ -3470,7 +3470,7 @@ ConsoleWindow SYDEMapGame::Weapons_More(ConsoleWindow window, int windowWidth, i
 	window.setTextAtPoint(Vector2(0, 1), _STATE, BLACK_WHITE_BG);
 	window = _WeaponsMoreOptions.draw_menu(window);
 	window = m_PLACEHOLDER.draw_asset(window, Vector2(20, 2));
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_WeaponsMoreOptions.nextSelect();
 	}
@@ -3511,11 +3511,11 @@ ConsoleWindow SYDEMapGame::Enemy_Header(ConsoleWindow window, int windowWidth, i
 	if (_FightOptions.getActive() && !UI_STATE_EVENT)
 	{
 		window = _FightOptions.draw_menu(window);
-		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+		if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 		{
 			_FightOptions.nextSelect();
 		}
-		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+		if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 		{
 			if (_FightOptions.getSelected().m_Label == "0")
 			{
@@ -3559,11 +3559,11 @@ ConsoleWindow SYDEMapGame::DragonKeepBoss_Header(ConsoleWindow window, int windo
 	if (_FightOptions.getActive())
 	{
 		window = _FightOptions.draw_menu(window);
-		if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+		if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 		{
 			_FightOptions.nextSelect();
 		}
-		if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+		if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 		{
 			if (_FightOptions.getSelected().m_Label == "0")
 			{
@@ -3611,11 +3611,11 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 	{
 		return;
 	}
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_MoveOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_MoveOptions.getSelected().m_Label == "0")
 		{
@@ -3698,7 +3698,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 		window.setTextAtPoint(Vector2(0, 19), "'" + getSTRUCT_STATE(camera_Pos, _list_structures_dragon_keep) + "' Press Space To Enter", BLACK_WHITE_BG);
 	}
 
-	if (SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN))
 	{
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		if (tempChar == StructureChar)
@@ -3706,12 +3706,12 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 			_STATE = getSTRUCT_STATE(_list_structures_dragon_keep ,camera_Pos);
 		}
 	}
-	if (SYDEKeyCode::get('T')._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key('T')._CompareState(KEYDOWN))
 	{
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		_PlayerPage();
 	}
-	if (SYDEKeyCode::get('S')._CompareState(KEY))
+	if (SYDEKeyCode::get_key('S')._CompareState(KEY))
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 11)));
 		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
@@ -3733,7 +3733,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 			camera_Pos.addY(1);
 		}
 	}
-	if (SYDEKeyCode::get('D')._CompareState(KEY))
+	if (SYDEKeyCode::get_key('D')._CompareState(KEY))
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(22, 10)));
 		//CASES FOR MOVEMENT NOT ALLOWED
@@ -3755,7 +3755,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 			camera_Pos.addX(2);
 		}
 	}
-	if (SYDEKeyCode::get('W')._CompareState(KEY))
+	if (SYDEKeyCode::get_key('W')._CompareState(KEY))
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 9)));
 		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
@@ -3777,7 +3777,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 			camera_Pos.addY(-1);
 		}
 	}
-	if (SYDEKeyCode::get('A')._CompareState(KEY))
+	if (SYDEKeyCode::get_key('A')._CompareState(KEY))
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(18, 10)));
 		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
@@ -3866,11 +3866,11 @@ ConsoleWindow SYDEMapGame::Text_Adventure_Dungeon(ConsoleWindow window, int wind
 			_TextAdvOptions[2].m_Label = "";
 		}
 	}
-	if (SYDEKeyCode::get(VK_TAB)._CompareState(KEYDOWN))
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_TextAdvOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
 	{
 		if (_TextAdvOptions.getSelected().m_Label == "OpenDoor_Cell")
 		{

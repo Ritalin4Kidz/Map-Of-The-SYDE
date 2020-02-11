@@ -107,6 +107,18 @@ int main(int argc, char* argv[])
 	SYDEMapGame m_MapSYDE;
 	DebugW m_DEBUGGER;
 
+	//KEYS
+	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('A'));
+	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('W'));
+	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('S'));
+	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('D'));
+	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey(VK_TAB));
+	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey(VK_SHIFT));
+	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey(VK_SPACE));
+	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('T'));
+	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey(VK_BACK));
+	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('I'));
+
 	if (MOTSDefaults::DEV_ON_)
 	{
 		SYDEGamePlay::activate_bySplashscreen(astVars.get_electronic_chime_file_path(), start, hOut, window, windowWidth, windowHeight, artVars);
@@ -117,10 +129,10 @@ int main(int argc, char* argv[])
 	}
 	while (true)
 	{
-		window = SYDEGamePlay::play_game(&m_MapSYDE, start, hOut, window, windowWidth, windowHeight, deltaTime);
+		window = SYDEGamePlay::play(&m_MapSYDE, start, hOut, window, windowWidth, windowHeight, deltaTime);
 		if (MOTSDefaults::DEV_ON_)
 		{
-			if ((SYDEKeyCode::get(VK_SHIFT)._CompareState(KEYDOWN)))
+			if ((SYDEKeyCode::get_key(VK_SHIFT)._CompareState(KEYDOWN)))
 			{
 				_Debug_Window = !_Debug_Window;
 			}

@@ -28,7 +28,7 @@ ConsoleWindow DebugW::window_draw_game(ConsoleWindow window, int windowWidth, in
 	{
 		window.setTextAtPoint(Vector2(0, 19 - i), debugger.getDebugString(i), BRIGHTGREEN);
 	}
-	if ((SYDEKeyCode::get(VK_BACK)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_BACK)._CompareState(KEYDOWN)))
 	{
 		string cmd;
 		cin.clear();
