@@ -62,6 +62,11 @@ ConsoleWindow DebugW::window_draw_game(ConsoleWindow window, int windowWidth, in
 			MOTSDefaults::_CMD = "savegame";
 			MOTSDefaults::HandleCMD = true;
 		}
+		if (cmd.compare("logclear") == 0)
+		{
+			MOTSDefaults::_CMD = "logclear";
+			MOTSDefaults::HandleCMD = true;
+		}
 	}
 	return window;
 }
