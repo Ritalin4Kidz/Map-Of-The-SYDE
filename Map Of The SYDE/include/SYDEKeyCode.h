@@ -6,7 +6,9 @@ class SYDEKeyCode {
 public:
 	static std::string KeysDown();
 	static std::vector<SYDEKey> KeyCodes;
+	static std::vector<SYDEKey> KeyCodes_Optimized;
 	static SYDEKey get(char KeyCode);
+	static SYDEKey get_key(char KeyCode);
 	static SYDEKey A; //0
 	static SYDEKey B; //1
 	static SYDEKey C; //2

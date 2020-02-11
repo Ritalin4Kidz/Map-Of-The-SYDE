@@ -26,6 +26,7 @@ public:
 	static void hidden_splashsceen_001(LPCWSTR chimePath, COORD start, const HANDLE hOut, ConsoleWindow& window, int windowWidth, int windowHeight, AssetsClass astVars);
 	static void reset_void(COORD start, const HANDLE hOut, ConsoleWindow& window, int windowWidth, int windowHeight);
 	static ConsoleWindow play_game(SYDEWindowGame* SYDE_GAME, COORD start, const HANDLE hOut, ConsoleWindow window, int windowWidth, int windowHeight, SYDETIME& deltaTime);
+	static ConsoleWindow play(SYDEWindowGame* SYDE_GAME, COORD start, const HANDLE hOut, ConsoleWindow window, int windowWidth, int windowHeight, SYDETIME& deltaTime);
 
 	static void exit() {
 		GdiplusShutdown(gdiplusToken);
