@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Quest.h"
 #include "TxtAdvVars.h"
+#include "DefaultHouse.h"
 #include "json.hpp"
 using json = nlohmann::json;
 
@@ -29,6 +30,7 @@ public:
 	void setWarp(string a_STATE, CustomAsset _Level, Vector2 pos) { _STATEWarp = a_STATE; _STATE = "Warp"; m_DunegonWarp.setFrame(0); _levelWarp = _Level; _WarpPOS = pos; }
 	ConsoleWindow Animation_UI_EVENT(ConsoleWindow window, CustomAnimationAsset& _anim);
 	void setAnimation_UI_EVENT(CustomAnimationAsset _Anim, string _Header) { m_MoveAnimation = _Anim; m_MoveAnimation.setFrame(0); UI_STATE_EVENT = true; _AnimHeader = _Header; }
+	void goToDefault(string house, CustomAnimationAsset npc, vector<string> phrases) { m_NPC = npc; _DefaultHouseName = house; _DEFAULTPHRASES = phrases; }
 
 	//MAIN
 	ConsoleWindow Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -72,6 +74,9 @@ public:
 	ConsoleWindow SwanLake_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow NorthSwanLake_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Dragon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
+
+	//Default
+	ConsoleWindow Default_House(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//Almon Island
 	ConsoleWindow Almon_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -120,6 +125,8 @@ public:
 	int getWFA_LVL(Vector2 point);
 	int getWFA_RUN(Vector2 point);
 	string getSTRUCT_STATE(Vector2 point);
+	string getSTRUCT_STATE(Vector2 point, bool display);
+	DefaultHouse getHouse_FromPos(Vector2 point);
 	string getSTRUCT_STATE(vector<Structure> _list, Vector2 point);
 	string getTown(Vector2 point);
 
@@ -257,6 +264,12 @@ private:
 
 	//NPC
 	CustomAnimationAsset m_PLACEHOLDER;
+
+	//DEFAULTS
+	vector<DefaultHouse> Houses = vector<DefaultHouse>();
+	string _DefaultHouseName = "";
+	vector<string> _DEFAULTPHRASES = vector<string>();
+	CustomAnimationAsset m_NPC;
 
 	//ETC
 	vector<_Town_Square> vecTowns;

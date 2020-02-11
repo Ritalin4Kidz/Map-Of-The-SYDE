@@ -23,7 +23,10 @@ public:
 	virtual ~Structure() {}
 
 	Vector2 getPoint() { return m_Point; }
+	void setPoint(Vector2 point) { m_Point = point; }
 	string getStructArg() { return m_STRUCT_ARG; }
+	void setStructArg(string STRUCT_ARG) { m_STRUCT_ARG = STRUCT_ARG; }
+	string m_TAG;
 
 private:
 	string m_STRUCT_ARG = "";

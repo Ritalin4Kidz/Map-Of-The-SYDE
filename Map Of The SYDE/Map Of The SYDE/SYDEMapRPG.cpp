@@ -569,6 +569,81 @@ SYDEMapGame::SYDEMapGame()
 	_LevelAsset = CustomAsset(2048, 768, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Level_SYDE.bmp", 1024, 768));
 	_DragonKeepAsset = CustomAsset(200, 100, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Swan Lake Dungeon.bmp", 100, 100));
 
+#pragma region Animations
+
+
+	//ENEMY ANIMATIONS
+	m_ORC.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\UIAnimations\\TestEnemy.bmp", astVars, 100, 30, 10, 10, 0, 27));
+	m_ORC.setLooping(true);
+
+	m_PIG.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\pig.bmp", astVars, 120, 10, 10, 10, 0, 12));
+	m_PIG.setLooping(true);
+
+	m_WOLF.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\Wolf.bmp", astVars, 50, 40, 10, 10, 0, 16));
+	m_WOLF.setLooping(true);
+
+	m_CRAB.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\CrabAnimation.bmp", astVars, 40, 30, 10, 10, 0, 11));
+	m_CRAB.setLooping(true);
+
+	m_BLOOD_GHOST.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\BloodGhost.bmp", astVars, 50, 110, 10, 10, 0, 55));
+	m_BLOOD_GHOST.setLooping(true);
+
+	m_FLAME_SKULL.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\FlamingSkull.bmp", astVars, 40, 70, 10, 10, 0, 27));
+	m_FLAME_SKULL.setLooping(true);
+
+	m_Moves = vector<CustomAnimationAsset>{
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SwordAnimation.bmp", astVars, 100, 100, 20, 20, 0, 25),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\CrabAttack.bmp", astVars, 100, 100, 20, 20, 0, 25),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SwarmAttack.bmp", astVars, 100, 240, 20, 20, 0, 57),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\BiteAttack.bmp", astVars, 100, 60, 20, 20, 0, 15),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\WaveAttack.bmp", astVars, 60, 140, 20, 20, 0, 20), //4
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\GrassAttack.bmp", astVars, 100, 100, 20, 20, 0, 25), //5
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\Fireball.bmp", astVars, 100, 160, 20, 20, 0, 39), //6
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\MoneySpell.bmp", astVars, 100, 160, 20, 20, 0, 39), //7
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\WaterAttack.bmp", astVars, 100, 140, 20, 20, 0, 34), //8
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\BoneAttack.bmp", astVars, 80, 160, 20, 20, 0, 32), //9
+	};
+
+	m_MoveAnimation = m_Moves[0];
+	m_MoveAnimation.setLooping(false);
+
+	//FISHIES
+	m_Fishies = vector<CustomAnimationAsset>{
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\BlueFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\RedFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\YellowFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\GreenFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\PurpleFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\GhostFish.bmp", astVars, 40, 100, 10, 10, 0, 39)
+	};
+	m_FISH = m_Fishies[0];
+	m_FISH.setLooping(true);
+	//CUTSCENES
+	m_SAIL.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\SailingAnimation.bmp", astVars, 160, 20, 20, 20, 0, 8));
+	m_SAIL.setLooping(true);
+
+	m_NIGHT_TO_DAY.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\NightToDay.bmp", astVars, 80, 200, 20, 20, 0, 38));
+	m_NIGHT_TO_DAY.setLooping(false);
+
+	m_DunegonWarp.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\DungeonWarp_001.bmp", astVars, 200, 100, 20, 20, 0, 45));
+	m_DunegonWarp.setLooping(false);
+
+	//NPC
+	m_PLACEHOLDER.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Bitmaps\\NPC_Placeholder.bmp", astVars, 10, 10, 10, 10, 0, 1));
+	m_PLACEHOLDER.setLooping(true);
+
+	m_NPC.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Bitmaps\\NPC_Placeholder.bmp", astVars, 10, 10, 10, 10, 0, 1));
+	m_NPC.setLooping(true);
+
+	m_RED_DRAGON.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\DragonAnimation.bmp", astVars, 150, 30, 15, 10, 0, 30));
+	m_RED_DRAGON.setLooping(true);
+
+	m_SMOKING_CRAB.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\CrabAnimationSmoking.bmp", astVars, 40, 130, 10, 10, 0, 51));
+	m_SMOKING_CRAB.setLooping(true);
+
+
+#pragma endregion
+
 	//camera_Pos = Vector2(1280, 676);
 #pragma region TownDeclaration
 
@@ -844,6 +919,23 @@ SYDEMapGame::SYDEMapGame()
 #pragma endregion
 #pragma region Buildings
 
+	//Houses.push_back
+	for (int ii = 191; ii < 195; ii++)
+	{
+		for (int i = 290; i < 298; i++)
+		{
+			Houses.push_back(DefaultHouse("Mike", m_NPC, "Default House", Vector2(i,ii)));
+			Houses[Houses.size() - 1].setPhrases(vector<string>{
+				"What Are You Doing In My House?"
+			});
+		}
+	}
+	//Default Homes
+	for (int i = 0; i < Houses.size(); i++)
+	{
+		AddAttachmentStructure(Houses[i]._Struct.getPoint(),Houses[i].getHouseOwner() + "'s House", 64);
+		_list_structures[_list_structures.size() - 1].m_TAG = Houses[i]._Struct.m_TAG;
+	}
 	// BEACHED ****Hole
 	for (int ii = 224; ii < 230; ii++)
 	{
@@ -1151,77 +1243,7 @@ SYDEMapGame::SYDEMapGame()
 		_TextAdvOptions[i].setHighLight(RED);
 	}
 #pragma endregion
-#pragma region Animations
 
-
-	//ENEMY ANIMATIONS
-	m_ORC.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\UIAnimations\\TestEnemy.bmp", astVars, 100, 30, 10, 10, 0, 27));
-	m_ORC.setLooping(true);
-
-	m_PIG.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\pig.bmp", astVars, 120, 10, 10, 10, 0, 12));
-	m_PIG.setLooping(true);
-
-	m_WOLF.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\Wolf.bmp", astVars, 50, 40, 10, 10, 0, 16));
-	m_WOLF.setLooping(true);
-
-	m_CRAB.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\CrabAnimation.bmp", astVars, 40, 30, 10, 10, 0, 11));
-	m_CRAB.setLooping(true);
-
-	m_BLOOD_GHOST.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\BloodGhost.bmp", astVars, 50, 110, 10, 10, 0, 55));
-	m_BLOOD_GHOST.setLooping(true);
-
-	m_FLAME_SKULL.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\FlamingSkull.bmp", astVars, 40, 70, 10, 10, 0, 27));
-	m_FLAME_SKULL.setLooping(true);
-
-	m_Moves = vector<CustomAnimationAsset>{
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SwordAnimation.bmp", astVars, 100, 100, 20, 20, 0, 25),
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\CrabAttack.bmp", astVars, 100, 100, 20, 20, 0, 25),
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SwarmAttack.bmp", astVars, 100, 240, 20, 20, 0, 57),
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\BiteAttack.bmp", astVars, 100, 60, 20, 20, 0, 15),
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\WaveAttack.bmp", astVars, 60, 140, 20, 20, 0, 20), //4
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\GrassAttack.bmp", astVars, 100, 100, 20, 20, 0, 25), //5
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\Fireball.bmp", astVars, 100, 160, 20, 20, 0, 39), //6
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\MoneySpell.bmp", astVars, 100, 160, 20, 20, 0, 39), //7
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\WaterAttack.bmp", astVars, 100, 140, 20, 20, 0, 34), //8
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\BoneAttack.bmp", astVars, 80, 160, 20, 20, 0, 32), //9
-	};
-
-	m_MoveAnimation = m_Moves[0];
-	m_MoveAnimation.setLooping(false);
-
-	//FISHIES
-	m_Fishies = vector<CustomAnimationAsset>{
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\BlueFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\RedFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\YellowFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\GreenFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\PurpleFish.bmp", astVars, 40, 100, 10, 10, 0, 39),
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\GhostFish.bmp", astVars, 40, 100, 10, 10, 0, 39)
-	};
-	m_FISH = m_Fishies[0];
-	m_FISH.setLooping(true);
-	//CUTSCENES
-	m_SAIL.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\SailingAnimation.bmp", astVars, 160, 20, 20, 20, 0, 8));
-	m_SAIL.setLooping(true);
-
-	m_NIGHT_TO_DAY.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\NightToDay.bmp", astVars, 80, 200, 20, 20, 0, 38));
-	m_NIGHT_TO_DAY.setLooping(false);
-
-	m_DunegonWarp.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\Cutscenes\\DungeonWarp_001.bmp", astVars, 200, 100, 20, 20, 0, 45));
-	m_DunegonWarp.setLooping(false);
-
-	//NPC
-	m_PLACEHOLDER.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Bitmaps\\NPC_Placeholder.bmp", astVars, 10, 10, 10, 10, 0, 1));
-	m_PLACEHOLDER.setLooping(true);
-
-	m_RED_DRAGON.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\DragonAnimation.bmp", astVars, 150, 30, 15, 10, 0, 30));
-	m_RED_DRAGON.setLooping(true);
-
-	m_SMOKING_CRAB.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\CrabAnimationSmoking.bmp", astVars, 40, 130, 10, 10, 0, 51));
-	m_SMOKING_CRAB.setLooping(true);
-
-
-#pragma endregion
 	loadDefaults();
 }
 
@@ -1418,6 +1440,13 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			_StructOptions[0].setText("Speak");
 			_StructOptions[1].setText("--");
 			AssignState(std::bind(&SYDEMapGame::Toplefia_TownHall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "Default House")
+		{
+			_StructOptions[0].setText("Speak");
+			_StructOptions[1].setText("--");
+			goToDefault(getHouse_FromPos(camera_Pos).getHouseOwner() + "'s House", getHouse_FromPos(camera_Pos).getNPC(),getHouse_FromPos(camera_Pos).getPhrases());
+			AssignState(std::bind(&SYDEMapGame::Default_House, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Toplefia Farm")
 		{
@@ -1690,7 +1719,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 	char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 	if (tempChar == StructureChar)
 	{
-		window.setTextAtPoint(Vector2(0, 19), "'" + getSTRUCT_STATE(camera_Pos) + "' Press Space To Enter", BLACK_WHITE_BG);
+		window.setTextAtPoint(Vector2(0, 19), "'" + getSTRUCT_STATE(camera_Pos, true) + "' Press Space To Enter", BLACK_WHITE_BG);
 	}
 
 	if (SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN))
@@ -2453,6 +2482,36 @@ ConsoleWindow SYDEMapGame::Smoking_Crab_Fight(ConsoleWindow window, int windowWi
 #pragma endregion
 
 #pragma region BuildingsFunc
+
+ConsoleWindow SYDEMapGame::Default_House(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _DefaultHouseName, m_NPC);
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{			
+			_FWindow.AddFString(getRandomFromList(_DEFAULTPHRASES));
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+			_FWindow.AddFString("");
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	return window;
+}
 
 ConsoleWindow SYDEMapGame::Jonestown_Hall(ConsoleWindow window, int windowWidth, int windowHeight)
 {
@@ -4038,10 +4097,36 @@ string SYDEMapGame::getSTRUCT_STATE(Vector2 point)
 	{
 		if (_list_structures[i].getPoint() == point)
 		{
+			if (_list_structures[i].m_TAG != "") { return _list_structures[i].m_TAG; }
 			return _list_structures[i].getStructArg();
 		}
 	}
 	return "MainMap";
+}
+
+string SYDEMapGame::getSTRUCT_STATE(Vector2 point, bool display)
+{
+	for (int i = 0; i < _list_structures.size(); i++)
+	{
+		if (_list_structures[i].getPoint() == point)
+		{
+			if (_list_structures[i].m_TAG != "" && !display) { return _list_structures[i].m_TAG; }
+			return _list_structures[i].getStructArg();
+		}
+	}
+	return "MainMap";
+}
+
+DefaultHouse SYDEMapGame::getHouse_FromPos(Vector2 point)
+{
+	for (int i = 0; i < Houses.size(); i++)
+	{
+		if (Houses[i]._Struct.getPoint() == point)
+		{
+			return Houses[i];
+		}
+	}
+	return DefaultHouse();
 }
 
 string SYDEMapGame::getSTRUCT_STATE(vector<Structure> _list, Vector2 point)
@@ -4050,6 +4135,7 @@ string SYDEMapGame::getSTRUCT_STATE(vector<Structure> _list, Vector2 point)
 	{
 		if (_list[i].getPoint() == point)
 		{
+			if (_list_structures[i].m_TAG != "") { return _list_structures[i].m_TAG; }
 			return _list[i].getStructArg();
 		}
 	}
