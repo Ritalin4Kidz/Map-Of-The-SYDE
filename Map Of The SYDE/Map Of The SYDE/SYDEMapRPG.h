@@ -28,7 +28,7 @@ public:
 	ConsoleWindow Warp(ConsoleWindow window, int windowWidth, int windowHeight);
 	void setWarp(string a_STATE, CustomAsset _Level, Vector2 pos) { _STATEWarp = a_STATE; _STATE = "Warp"; m_DunegonWarp.setFrame(0); _levelWarp = _Level; _WarpPOS = pos; }
 	ConsoleWindow Animation_UI_EVENT(ConsoleWindow window, CustomAnimationAsset& _anim);
-	void setAnimation_UI_EVENT(CustomAnimationAsset _Anim) { m_MoveAnimation = _Anim; m_MoveAnimation.setFrame(0); UI_STATE_EVENT = true; }
+	void setAnimation_UI_EVENT(CustomAnimationAsset _Anim, string _Header) { m_MoveAnimation = _Anim; m_MoveAnimation.setFrame(0); UI_STATE_EVENT = true; _AnimHeader = _Header; }
 
 	//MAIN
 	ConsoleWindow Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -187,6 +187,7 @@ private:
 	Vector2 _WarpPOS = Vector2(0);
 
 	bool UI_STATE_EVENT = false;
+	string _AnimHeader = "";
 #pragma endregion
 
 	CustomAsset m_bg;
@@ -329,7 +330,7 @@ private:
 	//STANDARD BUILDING
 	SYDEMenu _StructOptions;
 	SYDEMenu _StructTestOptions;
-
+	
 	//Special Buildings
 	SYDEMenu _WeaponsMoreOptions;
 

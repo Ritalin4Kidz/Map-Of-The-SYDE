@@ -1182,6 +1182,8 @@ SYDEMapGame::SYDEMapGame()
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\GrassAttack.bmp", astVars, 100, 100, 20, 20, 0, 25), //5
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\Fireball.bmp", astVars, 100, 160, 20, 20, 0, 39), //6
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\MoneySpell.bmp", astVars, 100, 160, 20, 20, 0, 39), //7
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\WaterAttack.bmp", astVars, 100, 140, 20, 20, 0, 34), //8
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\BoneAttack.bmp", astVars, 80, 160, 20, 20, 0, 32), //9
 	};
 
 	m_MoveAnimation = m_Moves[0];
@@ -1659,6 +1661,7 @@ ConsoleWindow SYDEMapGame::Warp(ConsoleWindow window, int windowWidth, int windo
 ConsoleWindow SYDEMapGame::Animation_UI_EVENT(ConsoleWindow window, CustomAnimationAsset & _anim)
 {
 	window = _anim.draw_asset(window, Vector2(0));
+	window.setTextAtPoint(Vector2(0,1), _AnimHeader, BLACK_BRIGHTWHITE_BG);
 	if (_anim.getFrame() == _anim.getFrameSize() - 1)
 	{
 		UI_STATE_EVENT = false;
@@ -2121,8 +2124,9 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 	{
 		int dmgAppliedOrc = enemy_Damage * 2;
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
-		_FWindow.AddFString("Orc Used Club");
+		_FWindow.AddFString("Orc Used Bone Club");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+		setAnimation_UI_EVENT(m_Moves[9], "Orc Used Bone Club");
 		enemy_attack = false;
 	}
 	for (int i = 0; i < 8; i++)
@@ -2250,7 +2254,7 @@ ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Wolf Used Bite");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
-		setAnimation_UI_EVENT(m_Moves[3]);
+		setAnimation_UI_EVENT(m_Moves[3], "Wolf Used Bite");
 		enemy_attack = false;
 	}
 	for (int i = 0; i < 8; i++)
@@ -2342,7 +2346,7 @@ ConsoleWindow SYDEMapGame::Crab_Fight(ConsoleWindow window, int windowWidth, int
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Crab Used Claw Attack");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
-		setAnimation_UI_EVENT(m_Moves[1]);
+		setAnimation_UI_EVENT(m_Moves[1], "Crab Used Claw Attack");
 		enemy_attack = false;
 
 	}
@@ -2385,7 +2389,7 @@ ConsoleWindow SYDEMapGame::Fish_Fight(ConsoleWindow window, int windowWidth, int
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Fish Used Swarm");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
-		setAnimation_UI_EVENT(m_Moves[2]);
+		setAnimation_UI_EVENT(m_Moves[2], "Fish Used Swarm");
 		enemy_attack = false;
 
 	}
@@ -3621,7 +3625,7 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 			_FWindow.AddFString("Player Used Sword");
 			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
 			enemy_attack = true;
-			setAnimation_UI_EVENT(m_Moves[0]); // SWORD ANIMATION
+			setAnimation_UI_EVENT(m_Moves[0], "Player Used Sword Attack"); // SWORD ANIMATION
 		}
 		else if (_MoveOptions.getSelected().m_Label == "1")
 		{
@@ -3630,7 +3634,7 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 			_FWindow.AddFString("Player Used Fire");
 			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
 			enemy_attack = true;
-			setAnimation_UI_EVENT(m_Moves[6]); // FIRE ANIMATION
+			setAnimation_UI_EVENT(m_Moves[6],"Player Casts Fire Spell"); // FIRE ANIMATION
 		}
 		else if (_MoveOptions.getSelected().m_Label == "2")
 		{
@@ -3639,7 +3643,7 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 			_FWindow.AddFString("Player Used Water");
 			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
 			enemy_attack = true;
-			setAnimation_UI_EVENT(m_Moves[4]); // WATER ANIMATION
+			setAnimation_UI_EVENT(m_Moves[4], "Player Casts Water Spell"); // WATER ANIMATION
 		}
 		else if (_MoveOptions.getSelected().m_Label == "3")
 		{
@@ -3648,7 +3652,7 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 			_FWindow.AddFString("Player Used Grass");
 			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
 			enemy_attack = true;
-			setAnimation_UI_EVENT(m_Moves[5]); // GRASS ANIMATION
+			setAnimation_UI_EVENT(m_Moves[5], "Player Casts Grass Spell"); // GRASS ANIMATION
 		}
 		else if (_MoveOptions.getSelected().m_Label == "4")
 		{
@@ -3661,7 +3665,7 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 			_FWindow.AddFString("Player Gained $" + to_string(coinsGained));
 			player.addMoney(coinsGained);
 			enemy_attack = true;
-			setAnimation_UI_EVENT(m_Moves[7]); // MONEY ANIMATION
+			setAnimation_UI_EVENT(m_Moves[7], "Player Casts Money Spell"); // MONEY ANIMATION
 		}
 		else if (_MoveOptions.getSelected().m_Label == "5")
 		{

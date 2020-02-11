@@ -131,9 +131,14 @@ int main(int argc, char* argv[])
 			if (MOTSDefaults::HandleCMD)
 			{
 				MOTSDefaults::HandleCMD = false;
+				MOTSDefaults::DebugLogs.push_back("CMD: " + MOTSDefaults::_CMD);
 				if (MOTSDefaults::_CMD.compare("savegame") == 0)
 				{
 					m_MapSYDE.saveGame();
+				}
+				if (MOTSDefaults::_CMD.compare("logclear") == 0)
+				{
+					MOTSDefaults::DebugLogs.clear();
 				}
 			}
 		}
