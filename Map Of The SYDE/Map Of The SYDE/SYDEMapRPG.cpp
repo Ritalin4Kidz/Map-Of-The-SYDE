@@ -592,7 +592,7 @@ SYDEMapGame::SYDEMapGame()
 	m_FLAME_SKULL.setLooping(true);
 
 	m_Moves = vector<CustomAnimationAsset>{
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SwordAnimation.bmp", astVars, 100, 100, 20, 20, 0, 25),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SwordAnimation.bmp", astVars, 100, 100, 20, 20, 0, 25), //0
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\CrabAttack.bmp", astVars, 100, 100, 20, 20, 0, 25),
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SwarmAttack.bmp", astVars, 100, 240, 20, 20, 0, 57),
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\BiteAttack.bmp", astVars, 100, 60, 20, 20, 0, 15),
@@ -602,6 +602,7 @@ SYDEMapGame::SYDEMapGame()
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\MoneySpell.bmp", astVars, 100, 160, 20, 20, 0, 39), //7
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\WaterAttack.bmp", astVars, 100, 140, 20, 20, 0, 34), //8
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\BoneAttack.bmp", astVars, 80, 160, 20, 20, 0, 32), //9
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\MudThrow.bmp", astVars, 200, 80, 20, 20, 0, 37), //10
 	};
 
 	m_MoveAnimation = m_Moves[0];
@@ -632,7 +633,7 @@ SYDEMapGame::SYDEMapGame()
 	m_PLACEHOLDER.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Bitmaps\\NPC_Placeholder.bmp", astVars, 10, 10, 10, 10, 0, 1));
 	m_PLACEHOLDER.setLooping(true);
 
-	m_NPC.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Bitmaps\\NPC_Placeholder.bmp", astVars, 10, 10, 10, 10, 0, 1));
+	m_NPC = m_PLACEHOLDER;
 	m_NPC.setLooping(true);
 
 	m_RED_DRAGON.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\DragonAnimation.bmp", astVars, 150, 30, 15, 10, 0, 30));
@@ -641,7 +642,14 @@ SYDEMapGame::SYDEMapGame()
 	m_SMOKING_CRAB.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\EnemAnimations\\CrabAnimationSmoking.bmp", astVars, 40, 130, 10, 10, 0, 51));
 	m_SMOKING_CRAB.setLooping(true);
 
-
+	m_NPCs = vector<CustomAnimationAsset>{
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Bitmaps\\NPC_Placeholder.bmp", astVars, 10, 10, 10, 10, 0, 1),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\NPCAnimations\\TheRetroist.bmp", astVars, 100, 50, 10, 10, 0, 15),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\NPCAnimations\\ScaredMan.bmp", astVars, 10, 10, 10, 10, 0, 1)
+	};
+	for (int j = 0; j < m_NPCs.size(); j++) {
+		m_NPCs[j].setLooping(true);
+	}
 #pragma endregion
 
 	//camera_Pos = Vector2(1280, 676);
@@ -924,7 +932,7 @@ SYDEMapGame::SYDEMapGame()
 	{
 		for (int i = 290; i < 298; i++)
 		{
-			Houses.push_back(DefaultHouse("Mike", m_NPC, "Default House", Vector2(i,ii)));
+			Houses.push_back(DefaultHouse("Mike", m_NPCs[0], "Default House", Vector2(i,ii)));
 			Houses[Houses.size() - 1].setPhrases(vector<string>{
 				"What Are You Doing In My House?"
 			});
@@ -1752,7 +1760,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		int random_variable = std::rand() % 33 + 1;
 		if (tempChar == WildFightChar)
 		{
-			if (random_variable == 15)
+			if (random_variable == 15 && _STATE == "MainMap")
 			{
 				// SET ENEMY AND LEVEL
 				_FightReturnSTATE = _STATE;
@@ -1780,7 +1788,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		int random_variable = std::rand() % 33 + 1;
 		if (tempChar == WildFightChar)
 		{
-			if (random_variable == 26)
+			if (random_variable == 26 && _STATE == "MainMap")
 			{
 				// SET ENEMY AND LEVEL
 				_FightReturnSTATE = _STATE;
@@ -1806,7 +1814,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		int random_variable = std::rand() % 33 + 1;
 		if (tempChar == WildFightChar)
 		{
-			if (random_variable == 7)
+			if (random_variable == 7 && _STATE == "MainMap")
 			{
 				// SET ENEMY AND LEVEL
 				_FightReturnSTATE = _STATE;
@@ -1833,7 +1841,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		int random_variable = std::rand() % 33 + 1;
 		if (tempChar == WildFightChar)
 		{
-			if (random_variable == 30)
+			if (random_variable == 30 && _STATE == "MainMap")
 			{
 				// SET ENEMY AND LEVEL
 				_FightReturnSTATE = _STATE;
@@ -2198,6 +2206,7 @@ ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int 
 		_FWindow.AddFString("Pig Used Mud Throw");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
 		enemy_attack = false;
+		setAnimation_UI_EVENT(m_Moves[10], "Pig Used Mud Throw");
 	}
 	for (int i = 0; i < 8; i++)
 	{
@@ -2578,7 +2587,7 @@ ConsoleWindow SYDEMapGame::Jonestown_Hall(ConsoleWindow window, int windowWidth,
 
 ConsoleWindow SYDEMapGame::Jiman_House(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_NPCs[2]);
 	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
@@ -2655,7 +2664,7 @@ ConsoleWindow SYDEMapGame::Jiman_House(ConsoleWindow window, int windowWidth, in
 
 ConsoleWindow SYDEMapGame::Retroist(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_NPCs[1]);
 	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
@@ -3779,7 +3788,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 		// ADD RANDOM CHANCE
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		int random_variable = std::rand() % 33 + 1;
-		if (random_variable == 15)
+		if (random_variable == 15 && _STATE == "Dragon Keep Dungeon")
 		{
 			_FightReturnSTATE = _STATE;
 			_STATE = getRandomFromList(DRAGON_KEEP_WILD);
@@ -3801,7 +3810,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 		// ADD RANDOM CHANCE
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		int random_variable = std::rand() % 33 + 1;
-		if (random_variable == 26)
+		if (random_variable == 26 && _STATE == "Dragon Keep Dungeon")
 		{
 			// SET ENEMY AND LEVEL
 			_FightReturnSTATE = _STATE;
@@ -3822,7 +3831,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 		// ADD RANDOM CHANCE
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		int random_variable = std::rand() % 33 + 1;	
-		if (random_variable == 7)
+		if (random_variable == 7 && _STATE == "Dragon Keep Dungeon")
 		{
 			// SET ENEMY AND LEVEL
 			_FightReturnSTATE = _STATE;
@@ -3845,7 +3854,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 		// ADD RANDOM CHANCE
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		int random_variable = std::rand() % 33 + 1;
-		if (random_variable == 30)
+		if (random_variable == 30 && _STATE == "Dragon Keep Dungeon")
 		{
 			// SET ENEMY AND LEVEL
 			_FightReturnSTATE = _STATE;

@@ -269,6 +269,7 @@ private:
 	vector<DefaultHouse> Houses = vector<DefaultHouse>();
 	string _DefaultHouseName = "";
 	vector<string> _DEFAULTPHRASES = vector<string>();
+	vector<CustomAnimationAsset> m_NPCs;
 	CustomAnimationAsset m_NPC;
 
 	//ETC
