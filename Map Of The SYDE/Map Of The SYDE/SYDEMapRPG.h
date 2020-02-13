@@ -92,6 +92,7 @@ public:
 
 	//Island Centre
 	ConsoleWindow Island_Fitters(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Your_House(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//TOPLEFIA PLACE
 	ConsoleWindow Toplefia_Wharf(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -363,7 +364,17 @@ private:
 			"HOUSE SAVIOUR",
 			"",
 			"Jiman wants you to get rid of the",
-			"'monsters' surrounding his house"}, "Beached_Pigs_Quest", 5)
+			"'monsters' surrounding his house"}, "Beached_Pigs_Quest", 5),
+		__Quest(vector<string> {
+			"HOME IS WHERE THE HEART IS",
+			"",
+			"I've rented you out a place in",
+			"the Island Centre. The world is",
+			"Depending on you to complete",
+			"this mission, even if it doesn't",
+			"seem like it",
+			" ",
+			"- Anonymous"}, "Find_Home_Quest")
 	};
 
 	vector<WeaponStore> _WeaponStores = vector<WeaponStore>{ 

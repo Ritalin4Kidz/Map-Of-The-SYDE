@@ -475,6 +475,9 @@ void SYDEMapGame::loadDefaults()
 		questVec[i].setAmtDone(0);
 		questVec[i].setFinished(false);				
 	}
+
+	questVec[2].setGiven(true); //HOME IS WHERE THE HEART IS
+
 	for (int i = 0; i < _WeaponStores.size(); i++)
 	{
 		_WeaponStores[i].setSwordBght(0);
@@ -603,6 +606,7 @@ SYDEMapGame::SYDEMapGame()
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\WaterAttack.bmp", astVars, 100, 140, 20, 20, 0, 34), //8
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\BoneAttack.bmp", astVars, 80, 160, 20, 20, 0, 32), //9
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\MudThrow.bmp", astVars, 200, 80, 20, 20, 0, 37), //10
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\PigRollAround.bmp", astVars, 120, 160, 20, 20, 0, 48), //11
 	};
 
 	m_MoveAnimation = m_Moves[0];
@@ -938,6 +942,28 @@ SYDEMapGame::SYDEMapGame()
 			});
 		}
 	}
+
+	for (int ii = 191; ii < 195; ii++)
+	{
+		for (int i = 300; i < 308; i++)
+		{
+			Houses.push_back(DefaultHouse("Harold", m_NPCs[0], "Default House", Vector2(i, ii)));
+			Houses[Houses.size() - 1].setPhrases(vector<string>{
+				"What Are You Doing In My House?"
+			});
+		}
+	}
+
+	for (int ii = 191; ii < 195; ii++)
+	{
+		for (int i = 310; i < 318; i++)
+		{
+			Houses.push_back(DefaultHouse("Jackson", m_NPCs[0], "Default House", Vector2(i, ii)));
+			Houses[Houses.size() - 1].setPhrases(vector<string>{
+				"What Are You Doing In My House?"
+			});
+		}
+	}
 	//Default Homes
 	for (int i = 0; i < Houses.size(); i++)
 	{
@@ -968,6 +994,14 @@ SYDEMapGame::SYDEMapGame()
 		for (int i = 790; i < 816; i++)
 		{
 			AddAttachmentStructure(Vector2(i, ii), "Island Fitters", 112);
+		}
+	}
+
+	for (int ii = 410; ii < 417; ii++)
+	{
+		for (int i = 876; i < 890; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "Your House", 64);
 		}
 	}
 
@@ -1461,6 +1495,26 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			_StructOptions[0].setText("Speak");
 			_StructOptions[1].setText("Rest");
 			AssignState(std::bind(&SYDEMapGame::Toplefia_Farm, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "Your House")
+		{
+			if (!getByTag("Find_Home_Quest").getFinished())
+			{
+				setByTag("Find_Home_Quest", true, false);
+				setByTag("Find_Home_Quest", 1);
+				_FWindow.AddFString("*A Note Was Found*");
+				_FWindow.AddFString("*'Dear ***, you'll need this");
+				_FWindow.AddFString("if you want to make an income.");
+				_FWindow.AddFString("No one knows of this mission");
+				_FWindow.AddFString("but a select few. So I doubt");
+				_FWindow.AddFString("you'll get much free help");
+				_FWindow.AddFString("- anonymous");
+				_FWindow.AddFString("*Money Spell Unlocked*");	
+				player.setMoneySpellUnlocked(true);
+			}
+			_StructOptions[0].setText("Save Game");
+			_StructOptions[1].setText("Rest");
+			AssignState(std::bind(&SYDEMapGame::Your_House, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Island Fitters")
 		{
@@ -2251,6 +2305,7 @@ ConsoleWindow SYDEMapGame::HarmlessPig_Fight(ConsoleWindow window, int windowWid
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Pig Used Roll Around");
 		_FWindow.AddFString("It Didn't Do A Thing");
+		setAnimation_UI_EVENT(m_Moves[11], "Pig Rolled Around");
 		enemy_attack = false;
 	}
 	for (int i = 0; i < 8; i++)
@@ -2647,6 +2702,41 @@ ConsoleWindow SYDEMapGame::Jiman_House(ConsoleWindow window, int windowWidth, in
 				setByTag("Beached_Pigs_Quest", true, false);
 				player.setSwordDmg(player.getSwordDmg() + 1);
 			}
+		}
+		else if (_StructOptions.getSelected().m_Label == "2")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+			_FWindow.clear();
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Your_House(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_StructOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_StructOptions.getSelected().m_Label == "0")
+		{
+			saveGame();
+			_FWindow.AddFString("Game Saved!");
+
+		}
+		else if (_StructOptions.getSelected().m_Label == "1")
+		{
+			//REST
+			player.setHealth(player.getMaxHealth());
+			sleepAt(_STATE);
 		}
 		else if (_StructOptions.getSelected().m_Label == "2")
 		{
