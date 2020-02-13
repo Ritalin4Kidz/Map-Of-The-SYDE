@@ -560,6 +560,16 @@ void SYDEMapGame::setByTag(string tag, int amtDone)
 		}
 	}
 }
+bool SYDEMapGame::checkQuests()
+{
+	for (int i = 0; i < questVec.size(); i++) {
+		if (!questVec[i].getFinished())
+		{
+			return false;
+		}
+	}
+	return true;
+}
 #pragma endregion
 SYDEMapGame::SYDEMapGame()
 {
@@ -572,6 +582,11 @@ SYDEMapGame::SYDEMapGame()
 	_LevelAsset = CustomAsset(2048, 768, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Level_SYDE.bmp", 1024, 768));
 	_DragonKeepAsset = CustomAsset(200, 100, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Swan Lake Dungeon.bmp", 100, 100));
 
+	m_Trophies = vector<CustomAsset>{
+		CustomAsset(20, 10, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Objects\\TrophyBeatGame.bmp", 10, 10)),
+		CustomAsset(20, 10, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Objects\\TrophyBeatQuests.bmp", 10, 10)),
+	};
+	m_PlayerHouse_BG = CustomAsset(42, 20, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Backgrounds\\Bedroom.bmp", 21, 20)),
 #pragma region Animations
 
 
@@ -1514,6 +1529,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			}
 			_StructOptions[0].setText("Save Game");
 			_StructOptions[1].setText("Rest");
+			allQuestsDone = checkQuests();
 			AssignState(std::bind(&SYDEMapGame::Your_House, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Island Fitters")
@@ -2719,7 +2735,17 @@ ConsoleWindow SYDEMapGame::Jiman_House(ConsoleWindow window, int windowWidth, in
 
 ConsoleWindow SYDEMapGame::Your_House(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	//window = Wharf_Header(window, windowWidth, windowHeight, _STATE, m_PLACEHOLDER);
+	window = m_PlayerHouse_BG.draw_asset(window, Vector2(0,0));
+	if (getByTag("Jonestown_Main_Quest").getFinished())
+	{
+		window = m_Trophies[0].draw_asset(window, Vector2(12, 5));
+	}
+	if (allQuestsDone)
+	{
+		window = m_Trophies[1].draw_asset(window, Vector2(24, 5));
+	}
+	window = _StructOptions.draw_menu(window);
 	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
 		_StructOptions.nextSelect();
@@ -2747,7 +2773,7 @@ ConsoleWindow SYDEMapGame::Your_House(ConsoleWindow window, int windowWidth, int
 	}
 	for (int i = 0; i < 8; i++)
 	{
-		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+		window.setTextAtPoint(Vector2(10, 5 + i), _FWindow.getFString(i), BRIGHTWHITE);
 	}
 	return window;
 }

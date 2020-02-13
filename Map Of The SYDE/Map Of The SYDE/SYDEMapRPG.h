@@ -396,4 +396,10 @@ private:
 	string _AdvRoom_ = "Room1";
 	FightWindow _TextWindow;
 	TxtAdvVars _TXT_VARS = TxtAdvVars();
+
+	//TROPHIES
+	vector<CustomAsset> m_Trophies;
+	CustomAsset m_PlayerHouse_BG;
+	bool allQuestsDone = false;
+	bool checkQuests();
  };
