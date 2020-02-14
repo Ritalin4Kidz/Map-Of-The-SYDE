@@ -12,6 +12,7 @@
 #include "TxtAdvVars.h"
 #include "DefaultHouse.h"
 #include "json.hpp"
+#include "Pong.h"
 using json = nlohmann::json;
 
 class SYDEMapGame : public SYDEWindowGame {
@@ -31,6 +32,10 @@ public:
 	ConsoleWindow Animation_UI_EVENT(ConsoleWindow window, CustomAnimationAsset& _anim);
 	void setAnimation_UI_EVENT(CustomAnimationAsset _Anim, string _Header) { m_MoveAnimation = _Anim; m_MoveAnimation.setFrame(0); UI_STATE_EVENT = true; _AnimHeader = _Header; }
 	void goToDefault(string house, CustomAnimationAsset npc, vector<string> phrases) { m_NPC = npc; _DefaultHouseName = house; _DEFAULTPHRASES = phrases; }
+
+	//ARCADE STUFF
+
+	ConsoleWindow playPong(ConsoleWindow window, int windowWidth, int windowHeight) { if ((SYDEKeyCode::get_key(VK_BACK)._CompareState(KEYDOWN))) { _STATE = "CRT Arcade"; } return pongGame.draw_game(window, windowWidth, windowHeight); }
 
 	//MAIN
 	ConsoleWindow Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -86,6 +91,7 @@ public:
 
 	//CRT ISLAND
 	ConsoleWindow Retroist(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow CRT_Arcade(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//Arcoomer
 	ConsoleWindow Weapons_More(ConsoleWindow window, int windowWidth, int windowHeight);
@@ -371,7 +377,7 @@ private:
 			"I've rented you out a place in",
 			"the Island Centre. The world is",
 			"Depending on you to complete",
-			"this mission, even if it doesn't",
+			"your mission, even if it doesn't",
 			"seem like it",
 			" ",
 			"- Anonymous"}, "Find_Home_Quest")
@@ -402,4 +408,9 @@ private:
 	CustomAsset m_PlayerHouse_BG;
 	bool allQuestsDone = false;
 	bool checkQuests();
+
+
+	//CRT ARCADE
+	SYDEMenu _ArcadeOptions;
+	Pong pongGame;
  };

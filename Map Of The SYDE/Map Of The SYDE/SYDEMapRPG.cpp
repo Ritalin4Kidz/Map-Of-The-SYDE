@@ -1037,6 +1037,13 @@ SYDEMapGame::SYDEMapGame()
 			AddAttachmentStructure(Vector2(i, ii), "The Retroist", 64);
 		}
 	}
+	for (int ii = 404; ii < 418; ii++)
+	{
+		for (int i = 1758; i < 1800; i++)
+		{
+			AddAttachmentStructure(Vector2(i, ii), "CRT Arcade", 80);
+		}
+	}
 	// STRUCTURES && WILD FIGHT AREAS INSIDE GRID B:1 - Toplefia Place
 
 	for (int ii = 199; ii < 206; ii++)
@@ -1213,6 +1220,12 @@ SYDEMapGame::SYDEMapGame()
 	_FightOptions.setActive(true);
 	_FightOptions.setPos(Vector2(1, 2));
 
+
+	for (int i = 0; i < _FightOptions.getSize(); i++)
+	{
+		_FightOptions[i].setHighLight(RED);
+	}
+
 	_WeaponsMoreOptions = SYDEMenu(vector<SYDEButton> {
 			SYDEButton("", Vector2(1, 2), Vector2(20, 1), BLACK, true),
 			SYDEButton("", Vector2(1, 3), Vector2(20, 1), BLACK, true),
@@ -1230,10 +1243,22 @@ SYDEMapGame::SYDEMapGame()
 	_WeaponsMoreOptions.setActive(true);
 	_WeaponsMoreOptions.setPos(Vector2(1, 2));
 
-	for (int i = 0; i < _FightOptions.getSize(); i++)
+	_ArcadeOptions = SYDEMenu(vector<SYDEButton> {
+			SYDEButton("Pong", Vector2(1, 2), Vector2(20, 1), WHITE, true),
+			SYDEButton("???", Vector2(1, 3), Vector2(20, 1), WHITE, true),
+			SYDEButton("???", Vector2(1, 4), Vector2(20, 1), WHITE, true),
+			SYDEButton("???", Vector2(1, 5), Vector2(20, 1), WHITE, true),
+			SYDEButton("Leave Arcade", Vector2(1, 6), Vector2(20, 1), WHITE, true)
+	});
+
+	for (int i = 0; i < _ArcadeOptions.getSize(); i++)
 	{
-		_FightOptions[i].setHighLight(RED);
+		_ArcadeOptions[i].m_Label = to_string(i);
+		_ArcadeOptions[i].setHighLight(RED);
 	}
+
+	_ArcadeOptions.setActive(true);
+	_ArcadeOptions.setPos(Vector2(1, 2));
 
 	m_MainMenu_BG.setAsset(AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\UIAnimations\\MainMenuAnim.bmp", astVars, 100, 180, 20, 20, 0, 45));
 	m_MainMenu_BG.setLooping(true);
@@ -1559,6 +1584,12 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			_StructOptions[1].setText("--");
 			AssignState(std::bind(&SYDEMapGame::Jonestown_Hall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+
+		else if (_STATE == "CRT Arcade")
+		{
+			AssignState(std::bind(&SYDEMapGame::CRT_Arcade, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+
 #pragma endregion
 #pragma region Wharfs
 
@@ -1711,10 +1742,18 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		{
 			AssignState(std::bind(&SYDEMapGame::Player_Customization, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+#pragma region Arcade Games
+		else if (_STATE == "PONG") 
+		{
+			pongGame = Pong();
+			AssignState(std::bind(&SYDEMapGame::playPong, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+#pragma endregion
 		else {
 			//FAILSAFE
 			AssignState(std::bind(&SYDEMapGame::Main_Menu, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+
 	}
 	window = DoState(window,windowWidth,windowHeight);
 
@@ -2813,6 +2852,29 @@ ConsoleWindow SYDEMapGame::Retroist(ConsoleWindow window, int windowWidth, int w
 	for (int i = 0; i < 8; i++)
 	{
 		window.setTextAtPoint(Vector2(10, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::CRT_Arcade(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = m_bg.draw_asset(window, Vector2(0, 0));
+	window = _ArcadeOptions.draw_menu(window);
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_ArcadeOptions.nextSelect();
+	}
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_ArcadeOptions.getSelected().m_Label == "0")
+		{
+			_STATE = "PONG";
+		}
+		else if (_ArcadeOptions.getSelected().m_Label == "4")
+		{
+			// LEAVE BUILDING
+			_STATE = "MainMap";
+		}
 	}
 	return window;
 }

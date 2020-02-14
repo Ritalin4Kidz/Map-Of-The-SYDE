@@ -162,6 +162,7 @@
     <ClInclude Include="MOTSDefaults.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Pong.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="Structures.h" />
     <ClInclude Include="SYDEMapRPG.h" />
@@ -179,6 +180,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Pong.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="Structures.cpp" />
     <ClCompile Include="SYDEMapRPG.cpp" />
