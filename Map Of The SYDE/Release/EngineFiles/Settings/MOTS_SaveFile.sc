@@ -1,1 +1,0 @@
-{"PlayerColour":0,"PlayerHP":100,"PlayerHPMax":100,"PlayerIcon":"()","PlayerLVL":1,"PlayerMoney":0,"PlayerXP":0,"PlayerXPNxt":1000,"PosX":334.0,"PosY":175.0,"Quests":{"0":{"AmtDone":0,"Finished":false,"Given":false},"1":{"AmtDone":0,"Finished":false,"Given":false}},"fireDmg":5,"fireUnlock":false,"grassDmg":5,"grassUnlock":false,"swordDmg":5,"waterDmg":5,"waterUnlock":false}
