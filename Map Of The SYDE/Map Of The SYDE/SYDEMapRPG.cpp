@@ -622,6 +622,9 @@ SYDEMapGame::SYDEMapGame()
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\BoneAttack.bmp", astVars, 80, 160, 20, 20, 0, 32), //9
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\MudThrow.bmp", astVars, 200, 80, 20, 20, 0, 37), //10
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\PigRollAround.bmp", astVars, 120, 160, 20, 20, 0, 48), //11
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\FireBreathe.bmp", astVars, 100, 80, 20, 20, 0, 19), //12
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SmokeCloud.bmp", astVars, 200, 80, 20, 20, 0, 37), //13
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\Explosion.bmp", astVars, 110, 140, 22, 20, 0, 33), //14
 	};
 
 	m_MoveAnimation = m_Moves[0];
@@ -2450,8 +2453,9 @@ ConsoleWindow SYDEMapGame::RED_DRAGON_Fight(ConsoleWindow window, int windowWidt
 	{
 		int dmgAppliedOrc = enemy_Damage * 4.5f;
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
-		_FWindow.AddFString("Dragon Used Bite");
+		_FWindow.AddFString("Dragon Used FIRE");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+		setAnimation_UI_EVENT(m_Moves[12], "DRAGON BURNT THE AREA");
 		enemy_attack = false;
 	}
 	for (int i = 0; i < 8; i++)
@@ -2581,6 +2585,7 @@ ConsoleWindow SYDEMapGame::Smoking_Crab_Fight(ConsoleWindow window, int windowWi
 		player.setHealth(player.getHealth() - dmgAppliedOrc);
 		_FWindow.AddFString("Crab Used Smoke");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+		setAnimation_UI_EVENT(m_Moves[13], "Crab Used Smoke Cloud");
 		enemy_attack = false;
 
 	}
