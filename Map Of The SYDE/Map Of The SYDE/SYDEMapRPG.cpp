@@ -1175,6 +1175,7 @@ SYDEMapGame::SYDEMapGame()
 		SYDEButton("", Vector2(0, 1), Vector2(20, 1), WHITE, true),
 		SYDEButton("", Vector2(0, 2), Vector2(20, 1), WHITE, true),
 		SYDEButton("", Vector2(0, 3), Vector2(20, 1), WHITE, true),
+		SYDEButton("", Vector2(0, 4), Vector2(20, 1), WHITE, true)
 	});
 
 	_StructOptions = SYDEMenu(vector<SYDEButton> {
@@ -1268,10 +1269,12 @@ SYDEMapGame::SYDEMapGame()
 	_Options[0].m_Label = "0";
 	_Options[1].m_Label = "1";
 	_Options[2].m_Label = "2";
+	_Options[3].m_Label = "3";
 
 	_Options[0].setText("Continue");
 	_Options[1].setText("New Game");
-	_Options[2].setText("Exit Game");
+	_Options[2].setText("Controls");
+	_Options[3].setText("Exit Game");
 
 	_Options.setActive(true);
 	_Options.setPos(Vector2(0, 0));
@@ -1345,6 +1348,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			//window = Main_Map_Scene(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Main_Map_Scene, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
+
 		}
 #pragma region Cutscenes
 		else if (_STATE == "Sailing")
@@ -1360,16 +1364,29 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			AssignState(std::bind(&SYDEMapGame::Warp, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 #pragma endregion
+#pragma region OptionsEtc
+
 		else if (_STATE == "MainMenu")
 		{
-			//window = Main_Menu(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Main_Menu, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Player_Stats")
 		{
-			//window = Main_Menu(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Player_Stats, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
+		
+		else if (_STATE == "QUEST_PAGE")
+		{
+			AssignState(std::bind(&SYDEMapGame::Quest, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+
+		else if (_STATE == "Controls")
+		{
+			AssignState(std::bind(&SYDEMapGame::Controls, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+
+#pragma endregion
+
 #pragma region FishFight
 		else if (_STATE == "FISH_FIGHT")
 		{
@@ -1506,11 +1523,6 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			AssignState(std::bind(&SYDEMapGame::Wolf_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 #pragma endregion
-		else if (_STATE == "QUEST_PAGE")
-		{
-			//window = Building_Test(window, windowWidth, windowHeight);
-			AssignState(std::bind(&SYDEMapGame::Quest, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-		}
 #pragma region Buildings
 		//BUILDINGS
 		else if (_STATE == "BUILDING_TEST")
@@ -2021,8 +2033,39 @@ ConsoleWindow SYDEMapGame::Main_Menu(ConsoleWindow window, int windowWidth, int 
 		}
 		else if (_Options.getSelected().m_Label == "2")
 		{
+			_STATE = "Controls";
+		}
+		else if (_Options.getSelected().m_Label == "3")
+		{
 			exit(NULL);
 		}
+	}
+	window.setTextAtPoint(Vector2(0, 19), "TAB - CYCLE OPTIONS, SPACE - SELECT           ", BLACK_BRIGHTWHITE_BG);
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Controls(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", BLACK_BRIGHTYELLOW_BG);
+		}
+	}
+	window.setTextAtPoint(Vector2(0, 1), "CONTROLS", BLACK_BRIGHTYELLOW_BG);
+
+	window.setTextAtPoint(Vector2(0, 3), "WASD - MOVE", BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 4), "TAB - OPTION CYCLE", BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 5), "SPACE - SELECT", BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 6), "T - TOGGLE MENU", BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 7), "I - TOGGLE QUESTBOOK", BLACK_BRIGHTYELLOW_BG);
+
+
+	window.setTextAtPoint(Vector2(0, 19), "BACKSPACE - GO TO MAIN MENU", BLACK_BRIGHTYELLOW_BG);
+	if (SYDEKeyCode::get_key(VK_BACK)._CompareState(KEYDOWN))
+	{
+		_STATE = "MainMenu";
 	}
 	return window;
 }

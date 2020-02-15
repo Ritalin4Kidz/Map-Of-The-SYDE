@@ -40,6 +40,7 @@ public:
 	//MAIN
 	ConsoleWindow Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Main_Menu(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Controls(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Quest(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Player_Stats(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Player_Customization(ConsoleWindow window, int windowWidth, int windowHeight);
