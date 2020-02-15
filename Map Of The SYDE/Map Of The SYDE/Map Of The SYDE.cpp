@@ -118,6 +118,7 @@ int main(int argc, char* argv[])
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('T'));
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey(VK_BACK));
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('I'));
+	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('M'));
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('K'));
 
 	if (MOTSDefaults::DEV_ON_)

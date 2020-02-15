@@ -15,6 +15,16 @@
 #include "Pong.h"
 using json = nlohmann::json;
 
+class MapTile {
+public:
+	MapTile() {}
+	MapTile(Vector2 pos, string name) { Pos = pos; TileName = name; }
+	virtual ~MapTile() {}
+
+	Vector2 Pos;
+	string TileName;
+};
+
 class SYDEMapGame : public SYDEWindowGame {
 public:
 	SYDEMapGame();
@@ -42,6 +52,7 @@ public:
 	ConsoleWindow Main_Menu(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Controls(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Quest(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Map(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Player_Stats(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Player_Customization(ConsoleWindow window, int windowWidth, int windowHeight);
 
@@ -414,4 +425,84 @@ private:
 	//CRT ARCADE
 	SYDEMenu _ArcadeOptions;
 	Pong pongGame;
+
+	//MAP
+	CustomAsset blueBg;
+	CustomAsset _Map;
+	CustomAsset _Cursor;
+	vector<MapTile> tiles__ = vector<MapTile>{
+		MapTile(Vector2( 4,2), "Dissonant Waved Ocean"), // THANKS ME TRICKS AND), 
+		MapTile(Vector2(8,2), "Almon Island"), // THANKS ME), 
+		MapTile(Vector2(12,2), "Blankis Island"), // THANKS ME), 
+		MapTile(Vector2(16,2), "Aliran Island"), // SUCK SHIT ALI),
+		MapTile(Vector2(20,2), "Daggo Coast"), // FUCK YOU LEGO YODA), 
+		MapTile(Vector2(24,2), "SYDE Coast"), // THANKS ME), 
+		MapTile(Vector2(28,2), "Taumatawhaka"), // THANKS LEGO YODA (DISCORD)), 
+		MapTile(Vector2(32,2), "Taumata Beach"), // THANKS LEGO YODA (DISCORD)),
+
+		MapTile(Vector2(4, 4), "Toplefia Place"), // THANKS ME), 
+		MapTile(Vector2(8, 4), "North Muric Coast"), // ALI FUCK YOU), 
+		MapTile(Vector2(12,4), "Ballistica"), // THANKS ALI), 
+		MapTile(Vector2(16,4), "Broken Coast West"), // THANKS ME),
+		MapTile(Vector2(20,4), "Broken Coast East"), // THANKS ME), 
+		MapTile(Vector2(24,4), "Repaired Coast"), // THANKS ME), 
+		MapTile(Vector2(28,4), "Western Meow Coast"), // THANKS ASHIE), 
+		MapTile(Vector2(32,4), "Eastern Meow Coast"), // THANKS ASHIE),
+
+		MapTile(Vector2(4, 6), "Northen SYDE Coast"), // THANKS ME), 
+		MapTile(Vector2(8, 6), "Beached Butthole"), // THANKS TRICKS), 
+		MapTile(Vector2(12,6), "Arcoomer"), // THANKS ARCANA), 
+		MapTile(Vector2(16,6), "Djungelskog"), // THANKS JACKSON),
+		MapTile(Vector2(20,6), "Thrustbowl"), // THANKS TRICKS), 
+		MapTile(Vector2(24,6), "Jonestown"), // THANKS LINDSAY), 
+		MapTile(Vector2(28,6), "Swan Lake"), // THANKS PETE), 
+		MapTile(Vector2(32,6), "Meow Coast Beach"), //THANKS ASHIE),
+
+		MapTile(Vector2(4, 8), "Southern SYDE Coast"), // THANKS ME), 
+		MapTile(Vector2(8, 8), "Western Plains"), // THANKS ME), 
+		MapTile(Vector2(12,8), "Rhofields"), // THANKS ME),
+		MapTile(Vector2(16,8), "Loot Lake"), //MORE LEGO YODA),
+		MapTile(Vector2(20,8), "Kiffidle Lakes"), // THANKS ME), 
+		MapTile(Vector2(24,8), "Arc Cove"), // THANKS ME),
+		MapTile(Vector2(28,8), "Faraway"), // THANKS ME), 
+		MapTile(Vector2(32,8), "32x Tile Sea"), // THANKS LEGO YODA (DISCORD)),
+
+		MapTile(Vector2(4, 10), "Baffled Coast"), // THANKS ANDREW),
+		MapTile(Vector2(8, 10), "Zengina"), // THANKS ANDREW), 
+		MapTile(Vector2(12,10), "Capital Town"), // THANKS ME), 
+		MapTile(Vector2(16,10), "Island Centre"), // THANKS ME),
+		MapTile(Vector2(20,10), "New Xylsdia"), // THANKS ME), 
+		MapTile(Vector2(24,10), "Eastern Plains"), // THANKS ME),
+		MapTile(Vector2(28,10), "CRT Coast"), //FUCK YOU LEGO YODA), 
+		MapTile(Vector2(32,10), "CRT Island"), //FUCK YOU LEGO YODA),
+
+		MapTile(Vector2(4, 12), "Windan"), // THANKS ME), 
+		MapTile(Vector2(8, 12), "Lake Entrance"), // THANKS CENTRAL COAST), 
+		MapTile(Vector2(12,12), "Western SYDE River"), // THANKS ME), 
+		MapTile(Vector2(16,12), "Eastern SYDE River"), // THANKS ME),
+		MapTile(Vector2(20,12), "Denton"), // THANKS LUKE),
+		MapTile(Vector2(24,12), "Denton Fields"), // THANKS LUKE), 
+		MapTile(Vector2(28,12), "Jeff Coast"), // THANKS SIMON), 
+		MapTile(Vector2(32,12), "Uncharted Territory"), // THANKS ME),
+
+		MapTile(Vector2(4, 14), "Uncharted Territory"), // THANKS ME),
+		MapTile(Vector2(8, 14), "New SYDE Town"), // THANKS ME), 
+		MapTile(Vector2(12,14), "North Edgecliffe"), // THANKS ME),
+		MapTile(Vector2(16,14), "Last Bay"), // THANKS ME),
+		MapTile(Vector2(20,14), "Old Capital Town"), // THANKS ME), 
+		MapTile(Vector2(24,14), "Cyprux"), // THANKS DOM),
+		MapTile(Vector2(28,14), "Xylsdia Coast"), // FUCK YOU ME), 
+		MapTile(Vector2(32,14), "Useless Sea"), // THANKS ME),
+
+		MapTile(Vector2(4, 16), "Uncharted Territory"), // THANKS ME),
+		MapTile(Vector2(8, 16), "Edgecliffe"), // THANKS ME), 
+		MapTile(Vector2(12,16), "Eastcliffe"), // THANKS ME), 
+		MapTile(Vector2(16,16), "Broken Beach"), // THANKS ME),
+		MapTile(Vector2(20,16), "Southern Coast"), // THANKS ME),
+		MapTile(Vector2(24,16), "Cyprux Beach"), // THANKS DOM), 
+		MapTile(Vector2(28,16), "Haven's Corner"), // THANKS ME), 
+		MapTile(Vector2(32,16), "South East Ocean"), // THANKS ME),
+	};
+	int selectedIndex = 0;
+
  };

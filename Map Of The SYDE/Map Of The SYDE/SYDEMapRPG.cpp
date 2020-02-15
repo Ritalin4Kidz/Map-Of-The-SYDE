@@ -577,6 +577,8 @@ SYDEMapGame::SYDEMapGame()
 	_list_fight_cases = vector<WildFightAttachment>();
 	_list_structures = vector<Structure>();
 	_list_structures_dragon_keep = vector<Structure>();
+#pragma region Bitmaps
+
 	m_bg = CustomAsset(60, 30, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\bg.bmp", 30, 30));
 	m_crab_bg = CustomAsset(46, 23, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\crab_bg.bmp", 23, 23));
 	_LevelAsset = CustomAsset(2048, 768, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Level_SYDE.bmp", 1024, 768));
@@ -586,7 +588,45 @@ SYDEMapGame::SYDEMapGame()
 		CustomAsset(20, 10, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Objects\\TrophyBeatGame.bmp", 10, 10)),
 		CustomAsset(20, 10, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Objects\\TrophyBeatQuests.bmp", 10, 10)),
 	};
-	m_PlayerHouse_BG = CustomAsset(42, 20, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Backgrounds\\Bedroom.bmp", 21, 20)),
+	m_PlayerHouse_BG = CustomAsset(42, 20, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Backgrounds\\Bedroom.bmp", 21, 20));
+
+	blueBg = CustomAsset(44, 20, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Backgrounds\\bluebg.bmp", 22, 20));
+	ColourClass b = BLUE_BLUE_BG;
+	ColourClass g = GREEN_GREEN_BG;
+	ColourClass r = RED_RED_BG;
+	_Map = CustomAsset(32, 16, vector<ColourClass>{
+		
+		b,b,	b,b,    b,b,		b,b,	 b,b,		b,b,		b,b,	 b,b,		b,b,		b,b,		b,b,		b,b,		b,b,		b,b,		b,b,		b,b,
+		b,b,	b,b,    b,b,		g,g,	 g,g,		b,b,		g,g,	 b,b,		b,b,		b,b,		b,b,		b,b,		g,g,		g,g,		b,b,		b,b,
+					    
+		b,b,	b,b,    b,b,		b,b,	 b,b,		g,g,		g,g,	 b,b,		b,b,		g,g,		g,g,		b,b,		b,b,		g,g,		b,b,		b,b,
+		b,b,	g,g,    g,g,		g,g,	 g,g,		g,g,		g,g,	 g,g,		g,g,		g,g,		g,g,		b,b,		b,b,		g,g,		g,g,		b,b,
+					    
+		b,b,	g,g,    g,g,		g,g,	 g,g,		g,g,		g,g,	 g,g,		g,g,		g,g,		g,g,		b,b,		b,b,		g,g,		g,g,		b,b,
+		b,b,	g,g,    g,g,		g,g,	 g,g,		g,g,		g,g,	 g,g,		g,g,		g,g,		g,g,		g,g,		b,b,		g,g,		g,g,		b,b,
+					    
+		b,b,	g,g,    g,g,		g,g,	 g,g,		g,g,		g,g,	 g,g,		g,g,		g,g,		g,g,		g,g,		b,b,		b,b,		b,b,		b,b,
+		b,b,	g,g,    g,g,		g,g,	 g,g,		g,g,		g,g,	 g,g,		g,g,		g,g,		g,g,		g,g,		b,b,		b,b,		b,b,		b,b,
+					    
+		b,b,	g,g,    g,g,		g,g,	 g,g,		g,g,		g,g,	 g,g,		g,g,		g,g,		g,g,		g,g,		g,g,		g,g,		g,g,		b,b,
+		b,b,	g,g,    g,g,		g,g,	 g,g,		g,g,		g,g,	 g,g,		g,g,		g,g,		g,g,		g,g,		g,g,		g,g,		g,g,		b,b,
+					    
+		b,b,	g,g,    g,g,		g,g,	 g,g,		g,g,		g,g,	 g,g,		g,g,		g,g,		g,g,		g,g,		g,g,		b,b,		b,b,		b,b,
+		b,b,	b,b,    b,b,		b,b,	 b,b,		b,b,		b,b,	 b,b,		g,g,		g,g,		g,g,		g,g,		g,g,		b,b,		b,b,		b,b,
+					    
+		g,g,	b,b,    g,g,		g,g,	 g,g,		g,g,		g,g,	 g,g,		b,b,		b,b,		b,b,		g,g,		g,g,		b,b,		b,b,		b,b,
+		g,g,	b,b,    g,g,		g,g,	 g,g,		g,g,		g,g,	 g,g,		g,g,		g,g,		b,b,		b,b,		b,b,		b,b,		b,b,		b,b,
+					    
+		b,b,	b,b,    g,g,		g,g,	 g,g,		g,g,		b,b,	 g,g,		g,g,		g,g,		g,g,		g,g,		g,g,		b,b,		b,b,		b,b,
+		b,b,	b,b,    b,b,		b,b,	 b,b,		b,b,		b,b,	 b,b,		b,b,		b,b,		b,b,		b,b,		b,b,		b,b,		b,b,		b,b
+	});
+
+	_Cursor = CustomAsset(4, 2, vector<ColourClass>{
+		r, r, r, r,
+		r, r, r, r
+	});
+
+#pragma endregion
 #pragma region Animations
 
 
@@ -1379,7 +1419,10 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		{
 			AssignState(std::bind(&SYDEMapGame::Quest, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
-
+		else if (_STATE == "MAP")
+		{
+			AssignState(std::bind(&SYDEMapGame::Map, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
 		else if (_STATE == "Controls")
 		{
 			AssignState(std::bind(&SYDEMapGame::Controls, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
@@ -1873,6 +1916,11 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		//char tempChar = _LevelAsset.getCharAtPoint(camera_Pos);
 		_PlayerPage();
 	}
+	if (SYDEKeyCode::get_key('M')._CompareState(KEYDOWN))
+	{
+		_MenuReturnSTATE = _STATE;
+		_STATE = "MAP";
+	}
 	if (SYDEKeyCode::get_key('S')._CompareState(KEY))
 	{
 		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 11)));
@@ -2110,6 +2158,47 @@ ConsoleWindow SYDEMapGame::Quest(ConsoleWindow window, int windowWidth, int wind
 		window.setTextAtPoint(Vector2(0,  1), "???", BLACK_WHITE_BG);
 	}
 	window.setTextAtPoint(Vector2(0, 19), to_string(questVec[questPage].getAmtDone()) + "/" + to_string(questVec[questPage].getAmtRequired()), BLACK_WHITE_BG);
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Map(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = blueBg.draw_asset(window, Vector2(0));
+	window = _Map.draw_asset(window, Vector2(2, 2));
+	window = _Cursor.draw_asset(window, tiles__[selectedIndex].Pos);
+	if (SYDEKeyCode::get_key('M')._CompareState(KEYDOWN))
+	{
+		_STATE = _MenuReturnSTATE;
+	}
+	else if (SYDEKeyCode::get_key('W')._CompareState(KEYDOWN))
+	{
+		selectedIndex -= 8;
+		if (selectedIndex < 0) {
+			selectedIndex += 64;
+		}
+	}
+	else if (SYDEKeyCode::get_key('A')._CompareState(KEYDOWN))
+	{
+		selectedIndex--;
+		if (selectedIndex < 0) {
+			selectedIndex += 64;
+		}
+	}
+	else if (SYDEKeyCode::get_key('S')._CompareState(KEYDOWN))
+	{
+		selectedIndex -= 8;
+		if (selectedIndex < 0) {
+			selectedIndex += 64;
+		}
+	}
+	else if (SYDEKeyCode::get_key('D')._CompareState(KEYDOWN))
+	{
+		selectedIndex ++;
+		if (selectedIndex >= 64) {
+			selectedIndex -= 64;
+		}
+	}
+	window.setTextAtPoint(Vector2(0, 19), tiles__[selectedIndex].TileName, YELLOW_BLUE_BG);
 	return window;
 }
 
