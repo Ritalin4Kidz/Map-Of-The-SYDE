@@ -428,8 +428,10 @@ private:
 
 	//MAP
 	CustomAsset blueBg;
+	CustomAsset yellowBg;
 	CustomAsset _Map;
 	CustomAsset _Cursor;
+#pragma region Tiles
 	vector<MapTile> tiles__ = vector<MapTile>{
 		MapTile(Vector2( 4,2), "Dissonant Waved Ocean"), // THANKS ME TRICKS AND), 
 		MapTile(Vector2(8,2), "Almon Island"), // THANKS ME), 
@@ -503,6 +505,10 @@ private:
 		MapTile(Vector2(28,16), "Haven's Corner"), // THANKS ME), 
 		MapTile(Vector2(32,16), "South East Ocean"), // THANKS ME),
 	};
+
+	int getIndexOfTown(string name);
+
+#pragma endregion
 	int selectedIndex = 0;
 
  };

@@ -570,6 +570,17 @@ bool SYDEMapGame::checkQuests()
 	}
 	return true;
 }
+int SYDEMapGame::getIndexOfTown(string name)
+{
+	for (int i = 0; i < tiles__.size(); i++)
+	{
+		if (name.compare(tiles__[i].TileName) == 0)
+		{
+			return i;
+		}
+	}
+	return 0;
+}
 #pragma endregion
 SYDEMapGame::SYDEMapGame()
 {
@@ -591,6 +602,7 @@ SYDEMapGame::SYDEMapGame()
 	m_PlayerHouse_BG = CustomAsset(42, 20, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Backgrounds\\Bedroom.bmp", 21, 20));
 
 	blueBg = CustomAsset(44, 20, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Backgrounds\\bluebg.bmp", 22, 20));
+	yellowBg = CustomAsset(44, 20, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Backgrounds\\yellowbg.bmp", 22, 20));
 	ColourClass b = BLUE_BLUE_BG;
 	ColourClass g = GREEN_GREEN_BG;
 	ColourClass r = RED_RED_BG;
@@ -1421,6 +1433,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		}
 		else if (_STATE == "MAP")
 		{
+			selectedIndex = getIndexOfTown(getTown(camera_Pos));
 			AssignState(std::bind(&SYDEMapGame::Map, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Controls")
@@ -2108,6 +2121,7 @@ ConsoleWindow SYDEMapGame::Controls(ConsoleWindow window, int windowWidth, int w
 	window.setTextAtPoint(Vector2(0, 5), "SPACE - SELECT", BLACK_BRIGHTYELLOW_BG);
 	window.setTextAtPoint(Vector2(0, 6), "T - TOGGLE MENU", BLACK_BRIGHTYELLOW_BG);
 	window.setTextAtPoint(Vector2(0, 7), "I - TOGGLE QUESTBOOK", BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 8), "M - TOGGLE MAP", BLACK_BRIGHTYELLOW_BG);
 
 
 	window.setTextAtPoint(Vector2(0, 19), "BACKSPACE - GO TO MAIN MENU", BLACK_BRIGHTYELLOW_BG);
@@ -2163,9 +2177,10 @@ ConsoleWindow SYDEMapGame::Quest(ConsoleWindow window, int windowWidth, int wind
 
 ConsoleWindow SYDEMapGame::Map(ConsoleWindow window, int windowWidth, int windowHeight)
 {
-	window = blueBg.draw_asset(window, Vector2(0));
-	window = _Map.draw_asset(window, Vector2(2, 2));
+	window = yellowBg.draw_asset(window, Vector2(0));
+	window = _Map.draw_asset(window, Vector2(4, 2));
 	window = _Cursor.draw_asset(window, tiles__[selectedIndex].Pos);
+	window.setTextAtPoint(Vector2(0, 1), "MAP OF MAP OF THE SYDE", BLACK_BRIGHTYELLOW_BG);
 	if (SYDEKeyCode::get_key('M')._CompareState(KEYDOWN))
 	{
 		_STATE = _MenuReturnSTATE;
@@ -2186,9 +2201,9 @@ ConsoleWindow SYDEMapGame::Map(ConsoleWindow window, int windowWidth, int window
 	}
 	else if (SYDEKeyCode::get_key('S')._CompareState(KEYDOWN))
 	{
-		selectedIndex -= 8;
-		if (selectedIndex < 0) {
-			selectedIndex += 64;
+		selectedIndex += 8;
+		if (selectedIndex >= 64) {
+			selectedIndex -= 64;
 		}
 	}
 	else if (SYDEKeyCode::get_key('D')._CompareState(KEYDOWN))
@@ -2198,7 +2213,7 @@ ConsoleWindow SYDEMapGame::Map(ConsoleWindow window, int windowWidth, int window
 			selectedIndex -= 64;
 		}
 	}
-	window.setTextAtPoint(Vector2(0, 19), tiles__[selectedIndex].TileName, YELLOW_BLUE_BG);
+	window.setTextAtPoint(Vector2(0, 19), tiles__[selectedIndex].TileName, BLACK_BRIGHTYELLOW_BG);
 	return window;
 }
 
