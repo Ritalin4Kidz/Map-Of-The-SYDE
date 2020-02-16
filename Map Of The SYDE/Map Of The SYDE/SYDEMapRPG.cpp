@@ -1224,7 +1224,7 @@ SYDEMapGame::SYDEMapGame()
 #pragma region Options/SydeMenus
 	//MAIN MENU VARS
 	_Options = SYDEMenu(vector<SYDEButton> {	
-		SYDEButton("", Vector2(0, 1), Vector2(20, 1), WHITE, true),
+		SYDEButton("", Vector2(0, 1), Vector2(30, 1), WHITE, true),
 		SYDEButton("", Vector2(0, 2), Vector2(20, 1), WHITE, true),
 		SYDEButton("", Vector2(0, 3), Vector2(20, 1), WHITE, true),
 		SYDEButton("", Vector2(0, 4), Vector2(20, 1), WHITE, true)
@@ -1328,6 +1328,10 @@ SYDEMapGame::SYDEMapGame()
 	_Options[2].setText("Controls");
 	_Options[3].setText("Exit Game");
 
+	if (!fexists("EngineFiles\\Settings\\MOTS_SaveFile.sc")) {
+		_Options[0].setText("(N/A) No Save File Found");
+	}
+
 	_Options.setActive(true);
 	_Options.setPos(Vector2(0, 0));
 	for (int i = 0; i < _Options.getSize(); i++)
@@ -1420,6 +1424,12 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 
 		else if (_STATE == "MainMenu")
 		{
+			if (!fexists("EngineFiles\\Settings\\MOTS_SaveFile.sc")) {
+				_Options[0].setText("(N/A) No Save File Found");
+			}
+			else {
+				_Options[0].setText("Continue");
+			}
 			AssignState(std::bind(&SYDEMapGame::Main_Menu, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Player_Stats")
@@ -1822,6 +1832,12 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 #pragma endregion
 		else {
 			//FAILSAFE
+			if (!fexists("EngineFiles\\Settings\\MOTS_SaveFile.sc")) {
+				_Options[0].setText("(N/A) No Save File Found");
+			}
+			else {
+				_Options[0].setText("Continue");
+			}
 			AssignState(std::bind(&SYDEMapGame::Main_Menu, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 
@@ -2430,7 +2446,7 @@ ConsoleWindow SYDEMapGame::Orc_Fight(ConsoleWindow window, int windowWidth, int 
 		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
 	}
 	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
-	if (player.getHealth() <= 0)
+	if (player.getHealth() <= 0 && !UI_STATE_EVENT)
 	{
 		_FWindow.clear();
 		player.setHealth(1);
@@ -2472,7 +2488,7 @@ ConsoleWindow SYDEMapGame::Pig_Fight(ConsoleWindow window, int windowWidth, int 
 		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
 	}
 	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
-	if (player.getHealth() <= 0)
+	if (player.getHealth() <= 0 && !UI_STATE_EVENT)
 	{
 		_FWindow.clear();
 		player.setHealth(1);
@@ -2518,7 +2534,7 @@ ConsoleWindow SYDEMapGame::HarmlessPig_Fight(ConsoleWindow window, int windowWid
 		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
 	}
 	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
-	if (player.getHealth() <= 0)
+	if (player.getHealth() <= 0 && !UI_STATE_EVENT)
 	{
 		_FWindow.clear();
 		player.setHealth(1);
@@ -2560,7 +2576,7 @@ ConsoleWindow SYDEMapGame::Wolf_Fight(ConsoleWindow window, int windowWidth, int
 		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
 	}
 	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
-	if (player.getHealth() <= 0)
+	if (player.getHealth() <= 0 && !UI_STATE_EVENT)
 	{
 		_FWindow.clear();
 		player.setHealth(1);
@@ -2610,7 +2626,7 @@ ConsoleWindow SYDEMapGame::RED_DRAGON_Fight(ConsoleWindow window, int windowWidt
 		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
 	}
 	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
-	if (player.getHealth() <= 0)
+	if (player.getHealth() <= 0 && !UI_STATE_EVENT)
 	{
 		_FWindow.clear();
 		player.setHealth(1);
@@ -2741,7 +2757,7 @@ ConsoleWindow SYDEMapGame::Smoking_Crab_Fight(ConsoleWindow window, int windowWi
 		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
 	}
 	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
-	if (player.getHealth() <= 0)
+	if (player.getHealth() <= 0 && !UI_STATE_EVENT)
 	{
 		_FWindow.clear();
 		player.setHealth(1);
