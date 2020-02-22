@@ -1,6 +1,7 @@
 #pragma once
 #include "SYDEstdafx.h"
 #include "MOTSDefaults.h"
+#include "CheatSettings.h"
 #include <functional>
 #include <ctime>
 #include <fstream>

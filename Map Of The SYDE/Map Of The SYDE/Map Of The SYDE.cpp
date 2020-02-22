@@ -9,7 +9,7 @@
 #include <fstream>
 #include <istream>
 #include <sstream>
-
+#include "CheatSettings.h"
 
 using namespace std;
 using namespace Gdiplus;
@@ -129,6 +129,11 @@ int main(int argc, char* argv[])
 	{
 		SYDEGamePlay::opening_splashscreens(astVars.get_electronic_chime_file_path(), start, hOut, window, windowWidth, windowHeight, artVars);
 	}
+
+	//CHEAT CODES
+	CHEATCODES_MOTS::INIT_CHEATS(config.ReturnCheats());
+
+	//MAIN GAMEPLAY LOOP
 	while (true)
 	{
 		window = SYDEGamePlay::play(&m_MapSYDE, start, hOut, window, windowWidth, windowHeight, deltaTime);
@@ -145,7 +150,7 @@ int main(int argc, char* argv[])
 			if (MOTSDefaults::HandleCMD)
 			{
 				MOTSDefaults::HandleCMD = false;
-				MOTSDefaults::DebugLogs.push_back("CMD: " + MOTSDefaults::_CMD);
+				MOTSDefaults::AddLog("CMD: " + MOTSDefaults::_CMD);
 				if (MOTSDefaults::_CMD.compare("savegame") == 0)
 				{
 					m_MapSYDE.saveGame();
@@ -156,11 +161,11 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
-		else if (MOTSDefaults::DebugLogs.size() >= 50)
-		{
-			// DOn't Fuck UP THE RAMMMM
-			MOTSDefaults::DebugLogs.clear();
-		}
+		//else if (MOTSDefaults::DebugLogs.size() >= 50)
+		//{
+		//	// DOn't Fuck UP THE RAMMMM
+		//	MOTSDefaults::DebugLogs.clear();
+		//}
 		if (MOTSDefaults::DEBUG_UI_)
 		{
 			float fps = 1.0f / SYDEDefaults::getDeltaTime();

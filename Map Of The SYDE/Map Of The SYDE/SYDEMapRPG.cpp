@@ -351,13 +351,13 @@ void SYDEMapGame::loadSave()
 		player.setColour(save_file["PlayerColour"]);
 		player.setIcon(save_file["PlayerIcon"]);
 		player.setMoney(save_file["PlayerMoney"]);
-		MOTSDefaults::DebugLogs.push_back("Player Loaded Successfully");
+		MOTSDefaults::AddLog("Player Loaded Successfully");
 	}
 	catch (exception ex)
 	{
 		// DO SOMETHING
-		MOTSDefaults::DebugLogs.push_back("Load Error");
-		MOTSDefaults::DebugLogs.push_back(ex.what());
+		MOTSDefaults::AddLog("Load Error");
+		MOTSDefaults::AddLog(ex.what());
 	}
 	try { //PlayerWeapons
 		player.setSwordDmg(save_file["swordDmg"]);
@@ -369,25 +369,25 @@ void SYDEMapGame::loadSave()
 		player.setGrassDmg(save_file["grassDmg"]);
 		player.setMoneySpellUnlocked(save_file["moneySpellUnlock"]);
 		player.setMoneyDmg(save_file["moneySpellMulti"]);
-		MOTSDefaults::DebugLogs.push_back("Attack Loaded Successfully");
+		MOTSDefaults::AddLog("Attack Loaded Successfully");
 	}
 	catch (exception ex)
 	{
 		// DO SOMETHING
-		MOTSDefaults::DebugLogs.push_back("Load Error");
-		MOTSDefaults::DebugLogs.push_back(ex.what());
+		MOTSDefaults::AddLog("Load Error");
+		MOTSDefaults::AddLog(ex.what());
 	}
 	try { 
 		//POSITION
 		camera_Pos.setX(save_file["PosX"]);
 		camera_Pos.setY(save_file["PosY"]);
-		MOTSDefaults::DebugLogs.push_back("Position Loaded Successfully");
+		MOTSDefaults::AddLog("Position Loaded Successfully");
 	}
 	catch (exception ex)
 	{
 		// DO SOMETHING
-		MOTSDefaults::DebugLogs.push_back("Load Error");
-		MOTSDefaults::DebugLogs.push_back(ex.what());
+		MOTSDefaults::AddLog("Load Error");
+		MOTSDefaults::AddLog(ex.what());
 	}
 	try { //QUESTS
 		for (int i = 0; i < questVec.size(); i++)
@@ -400,17 +400,17 @@ void SYDEMapGame::loadSave()
 			catch (exception exc)
 			{
 				// DO SOMETHING
-				MOTSDefaults::DebugLogs.push_back("Quest " + to_string(i) + " Load Failure");
-				MOTSDefaults::DebugLogs.push_back(exc.what());
+				MOTSDefaults::AddLog("Quest " + to_string(i) + " Load Failure");
+				MOTSDefaults::AddLog(exc.what());
 			}
 		}
-		MOTSDefaults::DebugLogs.push_back("Quests Loaded Successfully");
+		MOTSDefaults::AddLog("Quests Loaded Successfully");
 	}
 	catch (exception ex)
 	{
 		// DO SOMETHING
-		MOTSDefaults::DebugLogs.push_back("Load Error");
-		MOTSDefaults::DebugLogs.push_back(ex.what());
+		MOTSDefaults::AddLog("Load Error");
+		MOTSDefaults::AddLog(ex.what());
 	}
 	try {
 		for (int i = 0; i < _WeaponStores.size(); i++)
@@ -423,24 +423,24 @@ void SYDEMapGame::loadSave()
 			}
 			catch (exception exc)
 			{
-				MOTSDefaults::DebugLogs.push_back("WeaponStore " + to_string(i) + " Load Failure");
-				MOTSDefaults::DebugLogs.push_back(exc.what());
+				MOTSDefaults::AddLog("WeaponStore " + to_string(i) + " Load Failure");
+				MOTSDefaults::AddLog(exc.what());
 			}
 		}
-		MOTSDefaults::DebugLogs.push_back("Weapon Stores Loaded Successfully");
+		MOTSDefaults::AddLog("Weapon Stores Loaded Successfully");
 	}
 	catch (exception ex)
 	{
-		MOTSDefaults::DebugLogs.push_back("Load Error");
-		MOTSDefaults::DebugLogs.push_back(ex.what());
+		MOTSDefaults::AddLog("Load Error");
+		MOTSDefaults::AddLog(ex.what());
 	}
 	try {
 		setState(save_file["STATE_GAME"]);
 	}
 	catch (exception ex)
 	{
-		MOTSDefaults::DebugLogs.push_back("Load Error");
-		MOTSDefaults::DebugLogs.push_back(ex.what());
+		MOTSDefaults::AddLog("Load Error");
+		MOTSDefaults::AddLog(ex.what());
 	}
 }
 
@@ -1397,7 +1397,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 	if (_CurentSTATE.compare(_STATE) != 0)
 	{
 		// SO NOW IT IS THE CURRENT STATE
-		MOTSDefaults::DebugLogs.push_back(_CurentSTATE + "->" + _STATE);
+		MOTSDefaults::AddLog(_CurentSTATE + "->" + _STATE);
 		_CurentSTATE = _STATE;
 		if (_STATE == "MainMap")
 		{
@@ -1906,6 +1906,7 @@ ConsoleWindow SYDEMapGame::Animation_UI_EVENT(ConsoleWindow window, CustomAnimat
 #pragma region MainFunc
 ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth, int windowHeight)
 {
+	Vector2 MovementBuffer(0);
 	window = m_bg.draw_asset(window, Vector2(0, 0));
 	window = _LevelAsset.draw_asset(window, Vector2(camera_Pos.getX()-20, camera_Pos.getY()-10), windowWidth, windowHeight);
 
@@ -1952,7 +1953,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 	}
 	if (SYDEKeyCode::get_key('S')._CompareState(KEY))
 	{
-		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 11)));
+		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20 + MovementBuffer.getX(), 11 + MovementBuffer.getY())));
 		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
 		
 		// CASES FOR WILDFIGHT
@@ -1975,11 +1976,12 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		if (temp.compare("17") != 0 && temp.compare("16") != 0)
 		{
 			camera_Pos.addY(1);
+			MovementBuffer.addY(1);
 		}
 	}
 	if (SYDEKeyCode::get_key('D')._CompareState(KEY))
 	{
-		string temp = std::to_string(window.getTextColourAtPoint(Vector2(22, 10)));
+		string temp = std::to_string(window.getTextColourAtPoint(Vector2(22 + MovementBuffer.getX(), 10 + MovementBuffer.getY())));
 		//CASES FOR MOVEMENT NOT ALLOWED
 		//window.setTextAtPoint(Vector2(0, 1),temp, BLACK_WHITE_BG);
 
@@ -2002,11 +2004,12 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		if (temp.compare("17") != 0 && temp.compare("16") != 0) //Note, make from 16 -31
 		{
 			camera_Pos.addX(2);
+			MovementBuffer.addX(2);
 		}
 	}
 	if (SYDEKeyCode::get_key('W')._CompareState(KEY))
 	{
-		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 9)));
+		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20 + MovementBuffer.getX(), 9 + MovementBuffer.getY())));
 		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
 
 		// CASES FOR WILDFIGHT
@@ -2029,11 +2032,12 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		if (temp.compare("17") != 0 && temp.compare("16") != 0)
 		{
 			camera_Pos.addY(-1);
+			MovementBuffer.addY(-1);
 		}
 	}
 	if (SYDEKeyCode::get_key('A')._CompareState(KEY))
 	{
-		string temp = std::to_string(window.getTextColourAtPoint(Vector2(18, 10)));
+		string temp = std::to_string(window.getTextColourAtPoint(Vector2(18 + MovementBuffer.getX(), 10 + MovementBuffer.getY())));
 		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
 
 		// CASES FOR WILDFIGHT
@@ -2056,6 +2060,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		if (temp.compare("17") != 0 && temp.compare("16") != 0)
 		{
 			camera_Pos.addX(-2);
+			MovementBuffer.addX(-2);
 		}
 	}
 	if (MOTSDefaults::DEBUG_UI_)
@@ -2095,7 +2100,7 @@ ConsoleWindow SYDEMapGame::Main_Menu(ConsoleWindow window, int windowWidth, int 
 			//LOAD SAVE
 			if (!fexists("EngineFiles\\Settings\\MOTS_SaveFile.sc"))
 			{
-				MOTSDefaults::DebugLogs.push_back("Save File Not Found");				
+				MOTSDefaults::AddLog("Save File Not Found");				
 			}
 			else {
 				_STATE = "MainMap";
@@ -2187,7 +2192,14 @@ ConsoleWindow SYDEMapGame::Quest(ConsoleWindow window, int windowWidth, int wind
 	else{
 		window.setTextAtPoint(Vector2(0,  1), "???", BLACK_WHITE_BG);
 	}
-	window.setTextAtPoint(Vector2(0, 19), to_string(questVec[questPage].getAmtDone()) + "/" + to_string(questVec[questPage].getAmtRequired()), BLACK_WHITE_BG);
+	if (questVec[questPage].getFinished())
+	{
+		window.setTextAtPoint(Vector2(0, 19), "---QUEST-FINISHED---", BLACK_WHITE_BG);
+	}
+	else 
+	{
+		window.setTextAtPoint(Vector2(0, 19), to_string(questVec[questPage].getAmtDone()) + "/" + to_string(questVec[questPage].getAmtRequired()), BLACK_WHITE_BG);
+	}
 	return window;
 }
 
@@ -4029,7 +4041,7 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 	{
 		_MoveOptions.nextSelect();
 	}
-	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)) && (!enemy_attack || CHEATCODES_MOTS::SPAMATTACKALLOWED))
 	{
 		if (_MoveOptions.getSelected().m_Label == "0")
 		{
@@ -4094,6 +4106,7 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 #pragma region Dungeons
 ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowWidth, int windowHeight)
 {
+	Vector2 MovementBuffer(0);
 	//NEED DUNGEON IMPLEMENTATION
 	window = m_bg.draw_asset(window, Vector2(0, 0));
 	window = _DragonKeepAsset.draw_asset(window, Vector2(camera_Pos.getX() - 20, camera_Pos.getY() - 10), windowWidth, windowHeight);
@@ -4127,7 +4140,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 	}
 	if (SYDEKeyCode::get_key('S')._CompareState(KEY))
 	{
-		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 11)));
+		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20 + MovementBuffer.getX(), 11 + MovementBuffer.getY())));
 		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
 
 		// CASES FOR WILDFIGHT
@@ -4145,11 +4158,12 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 		if (temp.compare("0") != 0 && temp.compare("1") != 0)
 		{
 			camera_Pos.addY(1);
+			MovementBuffer.addY(1);
 		}
 	}
 	if (SYDEKeyCode::get_key('D')._CompareState(KEY))
 	{
-		string temp = std::to_string(window.getTextColourAtPoint(Vector2(22, 10)));
+		string temp = std::to_string(window.getTextColourAtPoint(Vector2(22 + MovementBuffer.getX(), 10 + MovementBuffer.getY())));
 		//CASES FOR MOVEMENT NOT ALLOWED
 		//window.setTextAtPoint(Vector2(0, 1),temp, BLACK_WHITE_BG);
 		// CASES FOR WILDFIGHT
@@ -4167,11 +4181,12 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 		if (temp.compare("0") != 0 && temp.compare("1") != 0)
 		{
 			camera_Pos.addX(2);
+			MovementBuffer.addX(2);
 		}
 	}
 	if (SYDEKeyCode::get_key('W')._CompareState(KEY))
 	{
-		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20, 9)));
+		string temp = std::to_string(window.getTextColourAtPoint(Vector2(20 + MovementBuffer.getX(), 9 + MovementBuffer.getY())));
 		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
 		// CASES FOR WILDFIGHT
 		// ADD RANDOM CHANCE
@@ -4189,11 +4204,12 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 		if (temp.compare("0") != 0 && temp.compare("1") != 0)
 		{
 			camera_Pos.addY(-1);
+			MovementBuffer.addY(-1);
 		}
 	}
 	if (SYDEKeyCode::get_key('A')._CompareState(KEY))
 	{
-		string temp = std::to_string(window.getTextColourAtPoint(Vector2(18, 10)));
+		string temp = std::to_string(window.getTextColourAtPoint(Vector2(18 + MovementBuffer.getX(), 10 + MovementBuffer.getY())));
 		//window.setTextAtPoint(Vector2(0, 1), temp, BLACK_WHITE_BG);
 
 		// CASES FOR WILDFIGHT
@@ -4212,6 +4228,7 @@ ConsoleWindow SYDEMapGame::Dragon_Keep_Dungeon(ConsoleWindow window, int windowW
 		if (temp.compare("0") != 0 && temp.compare("1") != 0)
 		{
 			camera_Pos.addX(-2);
+			MovementBuffer.addX(-2);
 		}
 	}
 	return window;
@@ -4221,7 +4238,7 @@ ConsoleWindow SYDEMapGame::Text_Adventure_Dungeon(ConsoleWindow window, int wind
 	window = m_bg.draw_asset(window, Vector2(0));
 	if (_CurrentAdvRoom_.compare(_AdvRoom_) != 0)
 	{
-		MOTSDefaults::DebugLogs.push_back("TextAdv" + _CurrentAdvRoom_ + "->" + _AdvRoom_);
+		MOTSDefaults::AddLog("TextAdv" + _CurrentAdvRoom_ + "->" + _AdvRoom_);
 		_CurrentAdvRoom_ = _AdvRoom_;
 		if (_AdvRoom_ == "Start_Room")
 		{

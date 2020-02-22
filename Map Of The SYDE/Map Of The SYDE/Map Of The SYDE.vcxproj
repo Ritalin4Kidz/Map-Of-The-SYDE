@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CheatSettings.h" />
     <ClInclude Include="DebugWindow.h" />
     <ClInclude Include="DefaultHouse.h" />
     <ClInclude Include="MOTSDefaults.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="TxtAdvVars.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CheatSettings.cpp" />
     <ClCompile Include="DebugWindow.cpp" />
     <ClCompile Include="DefaultHouse.cpp" />
     <ClCompile Include="Map Of The SYDE.cpp" />

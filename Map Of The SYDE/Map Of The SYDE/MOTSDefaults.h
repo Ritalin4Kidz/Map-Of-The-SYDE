@@ -28,6 +28,8 @@ public:
 	static bool HandleCMD;
 	static void ColourPalette(HANDLE hOut);
 
+	static void AddLog(string log);
+
 	static ColourValues _BLACK;
 	static ColourValues _BLUE;
 	static ColourValues _GREEN;

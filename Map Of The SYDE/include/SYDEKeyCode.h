@@ -5,6 +5,7 @@
 class SYDEKeyCode {
 public:
 	static std::string KeysDown();
+	static std::string KeysDownSafe();
 	static std::vector<SYDEKey> KeyCodes;
 	static std::vector<SYDEKey> KeyCodes_Optimized;
 	static SYDEKey get(char KeyCode);

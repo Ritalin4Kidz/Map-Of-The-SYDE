@@ -51,3 +51,11 @@ void MOTSDefaults::ColourPalette(HANDLE hOut)
 	pInfo.ColorTable[15] = COLORREF(MOTSDefaults::_BRIGHTWHITE.toRGB());
 	SetConsoleScreenBufferInfoEx(hOut, &pInfo);
 }
+
+void MOTSDefaults::AddLog(string log)
+{
+	if (DEV_ON_)
+	{
+		DebugLogs.push_back(log);
+	}
+}

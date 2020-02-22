@@ -19,8 +19,20 @@ public:
 		GetKeyUp(bool using_GetKeyDown) - check if key is up on frame, set param to true if keyDown is used in same frame
 	*/
 	bool GetKey();
+	///<summary>
+	/// Makes sure that the window is in the foreground before keypresses occur
+	///</summary>
+	bool GetKey_Safe();
 	void GetKeyDown();
+	///<summary>
+	/// Makes sure that the window is in the foreground before keypresses occur
+	///</summary>
+	void GetKeyDown_Safe(HWND hWnd);
 	void GetKeyUp();
+	///<summary>
+	/// Makes sure that the window is in the foreground before keypresses occur
+	///</summary>
+	void GetKeyUp_Safe(HWND hWnd);
 
 	char getKeyCode() { return keyCode; }
 
