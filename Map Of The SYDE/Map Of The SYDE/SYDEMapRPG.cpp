@@ -677,6 +677,10 @@ SYDEMapGame::SYDEMapGame()
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\FireBreathe.bmp", astVars, 100, 80, 20, 20, 0, 19), //12
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SmokeCloud.bmp", astVars, 200, 80, 20, 20, 0, 37), //13
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\Explosion.bmp", astVars, 110, 140, 22, 20, 0, 33), //14
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\SlimeAnimation.bmp", astVars, 200, 360, 20, 20, 0, 180), //15
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\BlueSlime.bmp", astVars, 100, 400, 20, 20, 0, 100), //16
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\LightningSlime.bmp", astVars, 240, 160, 20, 20, 0, 93), //17
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\AttackAnimations\\HealSlime.bmp", astVars, 100, 360, 20, 20, 0, 90) //18
 	};
 
 	m_MoveAnimation = m_Moves[0];
@@ -719,7 +723,8 @@ SYDEMapGame::SYDEMapGame()
 	m_NPCs = vector<CustomAnimationAsset>{
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Bitmaps\\NPC_Placeholder.bmp", astVars, 10, 10, 10, 10, 0, 1),
 		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\NPCAnimations\\TheRetroist.bmp", astVars, 100, 50, 10, 10, 0, 15),
-		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\NPCAnimations\\ScaredMan.bmp", astVars, 10, 10, 10, 10, 0, 1)
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\NPCAnimations\\ScaredMan.bmp", astVars, 10, 10, 10, 10, 0, 1),
+		AnimationSpriteSheets::load_from_animation_sheet(L"EngineFiles\\Animations\\NPCAnimations\\SlimeKeeper.bmp", astVars, 60, 20, 10, 10, 0, 12)
 	};
 	for (int j = 0; j < m_NPCs.size(); j++) {
 		m_NPCs[j].setLooping(true);
@@ -1559,7 +1564,7 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		}
 		else if (_STATE == "SMOKING_CRAB_FIGHT")
 		{
-			enemy_Damage = 35;
+			enemy_Damage = 75;
 			enemy_exp_gained = 50000;
 			enemy_Health = 10120;
 			enemy_lvl = 75;
@@ -1567,6 +1572,16 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 			setUpFight();
 			//window = Orc_Fight(window, windowWidth, windowHeight);
 			AssignState(std::bind(&SYDEMapGame::Smoking_Crab_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "SLIMEKEEPER_FIGHT")
+		{
+			enemy_Damage = 55.7f;
+			enemy_exp_gained = 48500;
+			enemy_Health = 16000;
+			enemy_lvl = 60;
+
+			setUpFight();
+			AssignState(std::bind(&SYDEMapGame::Slimekeeper_Fight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		else if (_STATE == "Harmless Pig")
 		{
@@ -2761,6 +2776,85 @@ ConsoleWindow SYDEMapGame::Smoking_Crab_Fight(ConsoleWindow window, int windowWi
 		_FWindow.AddFString("Crab Used Smoke");
 		_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
 		setAnimation_UI_EVENT(m_Moves[13], "Crab Used Smoke Cloud");
+		enemy_attack = false;
+
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		window.setTextAtPoint(Vector2(20, 12 + i), _FWindow.getFString(i), BRIGHTWHITE);
+	}
+	window.setTextAtPoint(Vector2(0, 19), "Player Health: " + to_string(player.getHealth()), BRIGHTWHITE);
+	if (player.getHealth() <= 0 && !UI_STATE_EVENT)
+	{
+		_FWindow.clear();
+		player.setHealth(1);
+		_STATE = "MainMenu";
+	}
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Slimekeeper_Fight(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	window = Enemy_Header(window, windowWidth, windowHeight, _STATE, m_NPCs[3], enemy_run_chance, enemy_attack, true);
+	if (_MoveOptions.getActive() && _FightOptions.getActive())
+	{
+		_FightOptions.setActive(false); // if both are active, we turn off figt options this fram and allow input next frame
+	}
+	else if (_MoveOptions.getActive())
+	{
+		window = _MoveOptions.draw_menu(window);
+		fightBody(enemy_Health, enemy_attack, 2.5f, 0.2f, 0.05f, 1.5f);
+	}
+
+	if (enemy_Health <= 0)
+	{
+		enemy_dead();
+		enemy_attack = false;
+	}
+	if (enemy_attack && !UI_STATE_EVENT)
+	{
+		int random_var = std::rand() % 100;
+		//SlimeAnimation.bmp",	//15
+		//BlueSlime.bmp",		//16
+		//LightningSlime.bmp",	//17
+		//HealSlime.bmp",		//18
+		if (random_var < 21)
+		{
+			//HEAL SLIME
+			int dmgAppliedOrc = 458;
+			enemy_Health += dmgAppliedOrc;
+			_FWindow.AddFString("Slimekeeper Heals");
+			_FWindow.AddFString("Healed For " + to_string(dmgAppliedOrc));
+			setAnimation_UI_EVENT(m_Moves[18], "Slimekeeper Threw A Heal Slime");
+		}
+		else if(random_var < 51)
+		{
+			//LightningSlime
+			int dmgAppliedOrc = enemy_Damage * 7.75f;
+			player.setHealth(player.getHealth() - dmgAppliedOrc);
+			_FWindow.AddFString("Slime Thrown");
+			_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+			setAnimation_UI_EVENT(m_Moves[17], "Slimekeeper Threw A Lightning Slime");
+		}
+		else if (random_var < 91)
+		{
+			//BlueSlime.bmp
+			int dmgAppliedOrc = enemy_Damage * 5.5f;
+			player.setHealth(player.getHealth() - dmgAppliedOrc);
+			_FWindow.AddFString("Slime Thrown");
+			_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+			setAnimation_UI_EVENT(m_Moves[16], "Slimekeeper Threw A Water Slime");
+
+		}
+		else if (random_var < 100)
+		{
+			//Green Slime.bmp
+			int dmgAppliedOrc = enemy_Damage * 1.5f;
+			player.setHealth(player.getHealth() - dmgAppliedOrc);
+			_FWindow.AddFString("Slime Thrown");
+			_FWindow.AddFString("Hit For " + to_string(dmgAppliedOrc));
+			setAnimation_UI_EVENT(m_Moves[15], "Slimekeeper Threw A Green Slime");
+		}
 		enemy_attack = false;
 
 	}

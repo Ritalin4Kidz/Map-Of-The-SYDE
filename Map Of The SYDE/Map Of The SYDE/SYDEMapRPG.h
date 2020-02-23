@@ -69,6 +69,7 @@ public:
 	ConsoleWindow Crab_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Fish_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Smoking_Crab_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Slimekeeper_Fight(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//Jonestown//Repaired Coast
 	ConsoleWindow Jonestown_Hall(ConsoleWindow window, int windowWidth, int windowHeight);
