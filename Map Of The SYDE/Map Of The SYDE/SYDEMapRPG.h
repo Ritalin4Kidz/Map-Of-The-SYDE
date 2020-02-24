@@ -518,7 +518,7 @@ private:
 
 
 #pragma region Items
-	void potionFunc();
-	eItem potion = eItem(std::bind(&SYDEMapGame::potionFunc,this), "Potion");
+	void potionFunc(eItem & item);
+	eItem potion = eItem(std::bind(&SYDEMapGame::potionFunc,this, std::placeholders::_1), "Medicine", CustomAsset(20, 10, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\Objects\\PlaceholderObj.bmp", 10, 10)),"Medicine for healing all wounds");
 #pragma endregion
  };

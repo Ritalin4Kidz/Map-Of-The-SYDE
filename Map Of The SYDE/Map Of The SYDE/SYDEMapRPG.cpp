@@ -450,6 +450,7 @@ void SYDEMapGame::loadDefaults()
 	//DEV
 	if (MOTSDefaults::DEV_ON_)
 	{
+		player._Inventory.addInv(potion);
 		camera_Pos = Vector2(2030, 750);
 	}
 	player.setLvl(1);
@@ -588,8 +589,6 @@ SYDEMapGame::SYDEMapGame()
 	_list_fight_cases = vector<WildFightAttachment>();
 	_list_structures = vector<Structure>();
 	_list_structures_dragon_keep = vector<Structure>();
-
-	player._Inventory.addInv(potion);
 
 #pragma region Bitmaps
 
@@ -2404,7 +2403,12 @@ ConsoleWindow SYDEMapGame::Player_Inventory(ConsoleWindow window, int windowWidt
 	{
 		if (_InventoryMenu.getSelected().m_Text != "--")
 		{
-			player._Inventory._playerInventory[_InventoryMenu.getSelectedNumber()].useItem();
+			player._Inventory._playerInventory[_InventoryMenu.getSelectedNumber()].useItem(player._Inventory._playerInventory[_InventoryMenu.getSelectedNumber()]);
+			//IF USE WAS SUCCESSFUL
+			if (player._Inventory._playerInventory[_InventoryMenu.getSelectedNumber()].ItemUsed)
+			{
+				player._Inventory._playerInventory.erase(player._Inventory._playerInventory.begin() + _InventoryMenu.getSelectedNumber());
+			}
 		}
 	}
 	window.setTextAtPoint(Vector2(15, 1), "GAME PAUSED", BLACK_BRIGHTYELLOW_BG);
@@ -2416,6 +2420,15 @@ ConsoleWindow SYDEMapGame::Player_Inventory(ConsoleWindow window, int windowWidt
 	for (int j = player._Inventory._playerInventory.size(); j < 10; j++)
 	{
 		_InventoryMenu[j].setText("--");
+	}
+	if (_InventoryMenu.getSelectedNumber() < player._Inventory._playerInventory.size())
+	{
+		for (int l = 0; l < windowWidth; l++)
+		{
+				window.setTextAtPoint(Vector2(l, 19), " ", BLACK_WHITE_BG);
+		}
+		window.setTextAtPoint(Vector2(0, 19), player._Inventory._playerInventory[_InventoryMenu.getSelectedNumber()]._desc, BLACK_WHITE_BG);
+		window = player._Inventory._playerInventory[_InventoryMenu.getSelectedNumber()]._imgObj.draw_asset(window, Vector2(20, 1));
 	}
 	window = _InventoryMenu.draw_menu(window);
 	return window;
@@ -4740,8 +4753,15 @@ string SYDEMapGame::getRandomFromList(vector<string> _list)
 #pragma endregion
 
 #pragma region ITEMFUNC
-void SYDEMapGame::potionFunc()
+void SYDEMapGame::potionFunc(eItem & item_)
 {
-	player.setHealth(player.getMaxHealth());
+	if (player.getHealth() == player.getMaxHealth())
+	{
+
+	}
+	else {
+		player.setHealth(player.getMaxHealth());
+		item_.ItemUsed = true;
+	}
 }
 #pragma endregion
