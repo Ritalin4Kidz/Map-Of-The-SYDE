@@ -72,6 +72,8 @@ int main(int argc, char* argv[])
 {
 	MOTSDefaults::ColourPalette(hOut);
 	volumeControl(1);
+	//CHEAT CODES
+	CHEATCODES_MOTS::INIT_CHEATS(config.ReturnCheats());
 	std::srand(std::time(nullptr));
 	LPCWSTR title = L"Map Of The SYDE";
 	SYDECredits::_GAMETITLE = "Map Of The SYDE";
@@ -129,9 +131,6 @@ int main(int argc, char* argv[])
 	{
 		SYDEGamePlay::opening_splashscreens(astVars.get_electronic_chime_file_path(), start, hOut, window, windowWidth, windowHeight, artVars);
 	}
-
-	//CHEAT CODES
-	CHEATCODES_MOTS::INIT_CHEATS(config.ReturnCheats());
 
 	//MAIN GAMEPLAY LOOP
 	while (true)

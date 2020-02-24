@@ -1,1 +1,1 @@
-"Map Of The SYDE.exe" --debug_ui
+"Map Of The SYDE.exe" --debug_ui --dev_mode

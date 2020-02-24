@@ -588,6 +588,7 @@ SYDEMapGame::SYDEMapGame()
 	_list_fight_cases = vector<WildFightAttachment>();
 	_list_structures = vector<Structure>();
 	_list_structures_dragon_keep = vector<Structure>();
+
 #pragma region Bitmaps
 
 	m_bg = CustomAsset(60, 30, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\bg.bmp", 30, 30));
@@ -1394,6 +1395,17 @@ SYDEMapGame::SYDEMapGame()
 #pragma endregion
 
 	loadDefaults();
+
+#pragma region CHEAT_EXTRAS
+	if (CHEATCODES_MOTS::SPECIAL_ICONS)
+	{
+		vecIcons.push_back("OwO");
+		vecIcons.push_back("UwU");
+		vecIcons.push_back("NULL");
+		vecIcons.push_back("404");
+		vecIcons.push_back("this text is too long for anyone to actually read but it's important for it to be here");
+	}
+#pragma endregion
 }
 
 ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidth, int windowHeight)
@@ -1988,7 +2000,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		}
 		
 		// CASES FOR MOVEMENT NOT ALLOWED
-		if (temp.compare("17") != 0 && temp.compare("16") != 0)
+		if ((temp.compare("17") != 0 && temp.compare("16") != 0) || CHEATCODES_MOTS::NOCLIP)
 		{
 			camera_Pos.addY(1);
 			MovementBuffer.addY(1);
@@ -2016,7 +2028,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 			}
 		}
 
-		if (temp.compare("17") != 0 && temp.compare("16") != 0) //Note, make from 16 -31
+		if ((temp.compare("17") != 0 && temp.compare("16") != 0) || CHEATCODES_MOTS::NOCLIP) //Note, make from 16 -31
 		{
 			camera_Pos.addX(2);
 			MovementBuffer.addX(2);
@@ -2044,7 +2056,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		}
 
 		//CASES FOR MOVEMENT NOT ALLOWED
-		if (temp.compare("17") != 0 && temp.compare("16") != 0)
+		if ((temp.compare("17") != 0 && temp.compare("16") != 0) || CHEATCODES_MOTS::NOCLIP)
 		{
 			camera_Pos.addY(-1);
 			MovementBuffer.addY(-1);
@@ -2072,7 +2084,7 @@ ConsoleWindow SYDEMapGame::Main_Map_Scene(ConsoleWindow window, int windowWidth,
 		}
 
 		//CASES FOR MOVEMENT NOT ALLOWED
-		if (temp.compare("17") != 0 && temp.compare("16") != 0)
+		if ((temp.compare("17") != 0 && temp.compare("16") != 0) || CHEATCODES_MOTS::NOCLIP)
 		{
 			camera_Pos.addX(-2);
 			MovementBuffer.addX(-2);
