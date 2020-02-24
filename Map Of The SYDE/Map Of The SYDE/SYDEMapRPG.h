@@ -55,6 +55,7 @@ public:
 	ConsoleWindow Quest(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Map(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Player_Stats(ConsoleWindow window, int windowWidth, int windowHeight);
+	ConsoleWindow Player_Inventory(ConsoleWindow window, int windowWidth, int windowHeight);
 	ConsoleWindow Player_Customization(ConsoleWindow window, int windowWidth, int windowHeight);
 
 	//TEST
@@ -365,9 +366,11 @@ private:
 	//STANDARD BUILDING
 	SYDEMenu _StructOptions;
 	SYDEMenu _StructTestOptions;
-	
 	//Special Buildings
 	SYDEMenu _WeaponsMoreOptions;
+
+	//INV
+	SYDEMenu _InventoryMenu;
 
 	// SAVED VARIABLES (e.g. quest booleans)
 	vector<__Quest> questVec = vector<__Quest>
@@ -513,4 +516,9 @@ private:
 #pragma endregion
 	int selectedIndex = 0;
 
+
+#pragma region Items
+	void potionFunc();
+	eItem potion = eItem(std::bind(&SYDEMapGame::potionFunc,this), "Potion");
+#pragma endregion
  };

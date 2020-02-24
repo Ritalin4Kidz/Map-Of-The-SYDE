@@ -160,6 +160,8 @@
     <ClInclude Include="CheatSettings.h" />
     <ClInclude Include="DebugWindow.h" />
     <ClInclude Include="DefaultHouse.h" />
+    <ClInclude Include="eItem.h" />
+    <ClInclude Include="Inventory.h" />
     <ClInclude Include="MOTSDefaults.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
@@ -173,6 +175,7 @@
     <ClCompile Include="CheatSettings.cpp" />
     <ClCompile Include="DebugWindow.cpp" />
     <ClCompile Include="DefaultHouse.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Map Of The SYDE.cpp" />
     <ClCompile Include="MOTSDefaults.cpp" />
     <ClCompile Include="pch.cpp">

@@ -589,6 +589,8 @@ SYDEMapGame::SYDEMapGame()
 	_list_structures = vector<Structure>();
 	_list_structures_dragon_keep = vector<Structure>();
 
+	player._Inventory.addInv(potion);
+
 #pragma region Bitmaps
 
 	m_bg = CustomAsset(60, 30, astVars.get_bmp_as_direct_colour_class_array(L"EngineFiles\\Bitmaps\\bg.bmp", 30, 30));
@@ -1236,6 +1238,27 @@ SYDEMapGame::SYDEMapGame()
 		SYDEButton("", Vector2(0, 4), Vector2(20, 1), WHITE, true)
 	});
 
+	_InventoryMenu = SYDEMenu(vector<SYDEButton> {
+			SYDEButton("--", Vector2(1, 3), Vector2(30, 1),  BLACK, true),
+			SYDEButton("--", Vector2(1, 4), Vector2(30, 1),  BLACK, true),
+			SYDEButton("--", Vector2(1, 5), Vector2(30, 1),  BLACK, true),
+			SYDEButton("--", Vector2(1, 6), Vector2(30, 1),  BLACK, true),
+			SYDEButton("--", Vector2(1, 7), Vector2(30, 1),  BLACK, true),
+			SYDEButton("--", Vector2(1, 8), Vector2(30, 1),  BLACK, true),
+			SYDEButton("--", Vector2(1, 9), Vector2(30, 1),  BLACK, true),
+			SYDEButton("--", Vector2(1, 10), Vector2(30, 1), BLACK, true),
+			SYDEButton("--", Vector2(1, 11), Vector2(30, 1), BLACK, true),
+			SYDEButton("--", Vector2(1, 12), Vector2(30, 1), BLACK, true)
+	});
+
+	_InventoryMenu.setActive(true);
+	_InventoryMenu.setPos(Vector2(1, 3));
+
+	for (int i = 0; i < _InventoryMenu.getSize(); i++)
+	{
+		_InventoryMenu[i].setHighLight(RED);
+	}
+
 	_StructOptions = SYDEMenu(vector<SYDEButton> {
 		SYDEButton("--", Vector2(1, 2), Vector2(20, 1), WHITE, true),
 			SYDEButton("--", Vector2(1, 3), Vector2(20, 1), WHITE, true),
@@ -1452,6 +1475,10 @@ ConsoleWindow SYDEMapGame::window_draw_game(ConsoleWindow window, int windowWidt
 		else if (_STATE == "Player_Stats")
 		{
 			AssignState(std::bind(&SYDEMapGame::Player_Stats, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		}
+		else if (_STATE == "Player_Inventory")
+		{
+			AssignState(std::bind(&SYDEMapGame::Player_Inventory, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 		
 		else if (_STATE == "QUEST_PAGE")
@@ -2285,7 +2312,10 @@ ConsoleWindow SYDEMapGame::Player_Stats(ConsoleWindow window, int windowWidth, i
 	{
 		_STATE = _MenuReturnSTATE;
 	}
-
+	if (SYDEKeyCode::get_key('D')._CompareState(KEYDOWN))
+	{
+		_STATE = "Player_Inventory";
+	}
 	window = _MenuOptions.draw_menu(window);
 	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
 	{
@@ -2346,6 +2376,48 @@ ConsoleWindow SYDEMapGame::Player_Stats(ConsoleWindow window, int windowWidth, i
 	}
 	window.setTextAtPoint(Vector2(0, 18), "XP: " + to_string(player.getXP()), BLACK_BRIGHTYELLOW_BG);
 	window.setTextAtPoint(Vector2(0, 19), "XP To Next Level: " + to_string(player.getXPNxtLvl() - player.getXP()), BLACK_BRIGHTYELLOW_BG);
+	return window;
+}
+
+ConsoleWindow SYDEMapGame::Player_Inventory(ConsoleWindow window, int windowWidth, int windowHeight)
+{
+	for (int l = 0; l < windowWidth; l++)
+	{
+		for (int m = 0; m < windowHeight; m++)
+		{
+			window.setTextAtPoint(Vector2(l, m), " ", BLACK_BRIGHTYELLOW_BG);
+		}
+	}
+	if (SYDEKeyCode::get_key('T')._CompareState(KEYDOWN))
+	{
+		_STATE = _MenuReturnSTATE;
+	}
+	if (SYDEKeyCode::get_key('A')._CompareState(KEYDOWN))
+	{
+		_STATE = "Player_Stats";
+	}
+	if (SYDEKeyCode::get_key(VK_TAB)._CompareState(KEYDOWN))
+	{
+		_InventoryMenu.nextSelect();
+	}
+	if ((SYDEKeyCode::get_key(VK_SPACE)._CompareState(KEYDOWN)))
+	{
+		if (_InventoryMenu.getSelected().m_Text != "--")
+		{
+			player._Inventory._playerInventory[_InventoryMenu.getSelectedNumber()].useItem();
+		}
+	}
+	window.setTextAtPoint(Vector2(15, 1), "GAME PAUSED", BLACK_BRIGHTYELLOW_BG);
+	window.setTextAtPoint(Vector2(0, 2), "Player Inventory", BLACK_BRIGHTYELLOW_BG);
+	for (int j = 0; j < 10 && j < player._Inventory._playerInventory.size(); j++)
+	{
+		_InventoryMenu[j].setText(player._Inventory._playerInventory[j]._Name);
+	}
+	for (int j = player._Inventory._playerInventory.size(); j < 10; j++)
+	{
+		_InventoryMenu[j].setText("--");
+	}
+	window = _InventoryMenu.draw_menu(window);
 	return window;
 }
 
@@ -4664,5 +4736,12 @@ string SYDEMapGame::getRandomFromList(vector<string> _list)
 {
 	int random_var = std::rand() %  _list.size();
 	return _list[random_var];
+}
+#pragma endregion
+
+#pragma region ITEMFUNC
+void SYDEMapGame::potionFunc()
+{
+	player.setHealth(player.getMaxHealth());
 }
 #pragma endregion

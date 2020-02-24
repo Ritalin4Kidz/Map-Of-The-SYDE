@@ -1,9 +1,12 @@
 #pragma once
 #include "SYDEstdafx.h"
+#include "Inventory.h"
 class MOTS_Player {
 public:
 	MOTS_Player() {}
 	virtual ~MOTS_Player() {}
+
+	Inventory _Inventory = Inventory();
 
 	void setHealth(int newHP) { play_health = newHP; }
 	int getHealth() { return play_health; }
