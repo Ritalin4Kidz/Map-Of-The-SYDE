@@ -250,6 +250,13 @@ private:
 	int enemy_run_chance = 100;
 	bool enemy_attack = false;
 
+	//FIGHT TEMP VARS
+	float attack_bonus = 1;
+	bool money_spell_blocked = false;
+	bool fire_spell_blocked = false;
+	bool water_spell_blocked = false;
+	bool grass_spell_blocked = false;
+
 	//MENUS
 	SYDEMenu _Options;
 	SYDEMenu _FightOptions;

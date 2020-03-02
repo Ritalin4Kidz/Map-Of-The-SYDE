@@ -91,6 +91,12 @@ void SYDEMapGame::setUpFight()
 	}
 	_FightOptions.setActive(true);
 	enemy_attack = false;
+
+	attack_bonus = 1;
+	money_spell_blocked = false;
+	fire_spell_blocked = false;
+	water_spell_blocked = false;
+	grass_spell_blocked = false;
 }
 
 void SYDEMapGame::setUpWeaponShop(WeaponStore _store)
@@ -4237,41 +4243,41 @@ void SYDEMapGame::fightBody(int & enemy_hp, bool & enemy_attack, float swordMult
 		if (_MoveOptions.getSelected().m_Label == "0")
 		{
 			//FIGHT SEQUENCE SWORD
-			int dmgApplied = player.getSwordDmg() * swordMulti * player.getLvl();
+			int dmgApplied = player.getSwordDmg() * swordMulti * player.getLvl() * attack_bonus;
 			enemy_hp -= dmgApplied;
 			_FWindow.AddFString("Player Used Sword");
 			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
 			enemy_attack = true;
 			setAnimation_UI_EVENT(m_Moves[0], "Player Used Sword Attack"); // SWORD ANIMATION
 		}
-		else if (_MoveOptions.getSelected().m_Label == "1")
+		else if (_MoveOptions.getSelected().m_Label == "1" && !fire_spell_blocked)
 		{
-			int dmgApplied = player.getFireDmg() * fireMulti * player.getLvl();
+			int dmgApplied = player.getFireDmg() * fireMulti * player.getLvl() * attack_bonus;
 			enemy_hp -= dmgApplied;
 			_FWindow.AddFString("Player Used Fire");
 			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
 			enemy_attack = true;
 			setAnimation_UI_EVENT(m_Moves[6],"Player Casts Fire Spell"); // FIRE ANIMATION
 		}
-		else if (_MoveOptions.getSelected().m_Label == "2")
+		else if (_MoveOptions.getSelected().m_Label == "2" && !water_spell_blocked)
 		{
-			int dmgApplied = player.getWaterDmg() * waterMulti * player.getLvl();
+			int dmgApplied = player.getWaterDmg() * waterMulti * player.getLvl() * attack_bonus;
 			enemy_hp -= dmgApplied;
 			_FWindow.AddFString("Player Used Water");
 			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
 			enemy_attack = true;
 			setAnimation_UI_EVENT(m_Moves[4], "Player Casts Water Spell"); // WATER ANIMATION
 		}
-		else if (_MoveOptions.getSelected().m_Label == "3")
+		else if (_MoveOptions.getSelected().m_Label == "3" && !grass_spell_blocked)
 		{
-			int dmgApplied = player.getGrassDmg() * grassMulti * player.getLvl();
+			int dmgApplied = player.getGrassDmg() * grassMulti * player.getLvl() * attack_bonus;
 			enemy_hp -= dmgApplied;
 			_FWindow.AddFString("Player Used Grass");
 			_FWindow.AddFString("Hit For " + to_string(dmgApplied));
 			enemy_attack = true;
 			setAnimation_UI_EVENT(m_Moves[5], "Player Casts Grass Spell"); // GRASS ANIMATION
 		}
-		else if (_MoveOptions.getSelected().m_Label == "4")
+		else if (_MoveOptions.getSelected().m_Label == "4" && !money_spell_blocked)
 		{
 			int cMax = player.getMoneyDmg() * enemy_lvl;
 			if (cMax  <= 0) { cMax = 1; }
