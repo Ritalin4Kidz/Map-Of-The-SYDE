@@ -10,6 +10,7 @@
 #include <istream>
 #include <sstream>
 #include "CheatSettings.h"
+#include "D20Minigame.h"
 
 using namespace std;
 using namespace Gdiplus;
@@ -107,6 +108,7 @@ int main(int argc, char* argv[])
 	}
 
 	SYDEMapGame m_MapSYDE;
+	D20Minigame d20;
 	DebugW m_DEBUGGER;
 
 	//KEYS
@@ -135,7 +137,8 @@ int main(int argc, char* argv[])
 	//MAIN GAMEPLAY LOOP
 	while (true)
 	{
-		window = SYDEGamePlay::play(&m_MapSYDE, start, hOut, window, windowWidth, windowHeight, deltaTime);
+		window = SYDEGamePlay::play(&d20, start, hOut, window, windowWidth, windowHeight, deltaTime);
+		//window = SYDEGamePlay::play(&m_MapSYDE, start, hOut, window, windowWidth, windowHeight, deltaTime);
 		if (MOTSDefaults::DEV_ON_)
 		{
 			if ((SYDEKeyCode::get_key(VK_SHIFT)._CompareState(KEYDOWN)))
