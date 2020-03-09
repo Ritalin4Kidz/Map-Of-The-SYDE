@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
 	}
 
 	SYDEMapGame m_MapSYDE;
-	TetriSYDE d20;
+	D20Minigame d20;
 	DebugW m_DEBUGGER;
 
 	//KEYS
@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('W'));
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('S'));
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('D'));
-	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('R')); //TETRIS
+	//SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('R')); //TETRIS
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey(VK_TAB));
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey(VK_SHIFT));
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey(VK_SPACE));
