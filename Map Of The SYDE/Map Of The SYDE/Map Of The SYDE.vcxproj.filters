@@ -57,6 +57,9 @@
     <ClInclude Include="D20Minigame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TetriSYDE.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -96,6 +99,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D20Minigame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TetriSYDE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

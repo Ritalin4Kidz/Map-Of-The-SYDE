@@ -11,6 +11,7 @@
 #include <sstream>
 #include "CheatSettings.h"
 #include "D20Minigame.h"
+#include "TetriSYDE.h"
 
 using namespace std;
 using namespace Gdiplus;
@@ -108,7 +109,7 @@ int main(int argc, char* argv[])
 	}
 
 	SYDEMapGame m_MapSYDE;
-	D20Minigame d20;
+	TetriSYDE d20;
 	DebugW m_DEBUGGER;
 
 	//KEYS
@@ -116,6 +117,7 @@ int main(int argc, char* argv[])
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('W'));
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('S'));
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('D'));
+	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey('R')); //TETRIS
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey(VK_TAB));
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey(VK_SHIFT));
 	SYDEKeyCode::KeyCodes_Optimized.push_back(SYDEKey(VK_SPACE));

@@ -162,6 +162,7 @@
     <ClInclude Include="DebugWindow.h" />
     <ClInclude Include="DefaultHouse.h" />
     <ClInclude Include="eItem.h" />
+    <ClInclude Include="TetriSYDE.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="MOTSDefaults.h" />
     <ClInclude Include="pch.h" />
@@ -191,6 +192,7 @@
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="Structures.cpp" />
     <ClCompile Include="SYDEMapRPG.cpp" />
+    <ClCompile Include="TetriSYDE.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
